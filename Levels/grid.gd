@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 
 @export var grid_size := Vector2i(6, 4)

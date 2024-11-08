@@ -16,5 +16,5 @@ offset_bottom = 360.0
 texture = SubResource("PlaceholderTexture2D_lhpta")
 
 [node name="Grid" type="Node2D" parent="."]
-position = Vector2(0, 96)
+position = Vector2(16, 96)
 script = ExtResource("2_w7osn")
