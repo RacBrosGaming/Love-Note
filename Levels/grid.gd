@@ -49,7 +49,17 @@ func _draw() -> void:
 		var default_font_size := ThemeDB.fallback_font_size
 		for i in grid_data.grid_size.x:
 			for j in grid_data.grid_size.y:
-				draw_string(default_font, grid_to_pixel(i, j), str(i) + ", " + str(j), HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
+				var cell_position := grid_to_pixel(i, j)
+				var next_cell_position := grid_to_pixel(i + 1, j + 1)
+				var tile_position := cell_position - (grid_data.grid_spacing / 2)
+				var tile_size := next_cell_position - cell_position
+				draw_rect(Rect2(tile_position, tile_size), Color.GREEN, false, 2.0)
+				#draw_rect(Rect2(cell_position, tile_size), Color.LIGHT_GREEN, false, 2.0)
+				
+				var column_row_string := str(i) + ", " + str(j)
+				var string_size := default_font.get_string_size(column_row_string)
+				var string_offset := Vector2(cell_position.x - (string_size.x / 2), cell_position.y + (string_size.y / 4))
+				draw_string(default_font, string_offset, column_row_string, HORIZONTAL_ALIGNMENT_CENTER, -1, default_font_size)
 
 func grid_to_pixel(column: int, row: int) -> Vector2i:
 	var x := grid_data.grid_offset.x + grid_data.grid_spacing.x * column
