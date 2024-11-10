@@ -10,7 +10,6 @@ var directions := {
 	"up": Vector2i.UP,
 }
 var selected_desk: Desk
-var next_desk: Desk
 var last_position: Vector2
 var nearby_desks: Dictionary#[String, Vector2i]
 var moving := false
@@ -31,12 +30,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed(direction):
 			if nearby_desks.has(direction):
 				var desk: Desk = nearby_desks[direction]
-				if is_instance_valid(desk):
-					if is_instance_valid(selected_desk):
-						selected_desk.super_highlight(false)
-					next_desk = desk
-					next_desk.super_highlight(true)
-					selected_desk = next_desk
+				select_desk(desk)
 	if event.is_action_pressed("select"):
 		move()
 
@@ -63,10 +57,13 @@ func move() -> void:
 func check_neaby_desks() -> void:
 	reset_nearby_desks()
 	for direction: String in directions.keys():
-		var desk := get_nearby_desk(directions[direction])
+		var direction_vector: Vector2i = directions[direction]
+		var desk := get_nearby_desk(direction_vector)
 		if is_instance_valid(desk):
 			nearby_desks[direction] = desk
-			desk.highlight(true)
+			desk.desk_selected.connect(_on_desk_selected)
+			desk.desk_hovered.connect(_on_desk_hovered)
+			desk.active = true
 
 func get_nearby_desk(direction: Vector2i) -> Desk:
 	var desk: Desk
@@ -78,7 +75,23 @@ func get_nearby_desk(direction: Vector2i) -> Desk:
 
 func reset_nearby_desks() -> void:
 	for desk: Desk in nearby_desks.values():
-		desk.highlight(false)
+		desk.active = false
+		desk.desk_selected.disconnect(_on_desk_selected)
+		desk.desk_hovered.disconnect(_on_desk_hovered)
 		desk.super_highlight(false)
 	nearby_desks.clear()
 	selected_desk = null
+
+func select_desk(desk: Desk) -> void:
+	if is_instance_valid(desk):
+		if is_instance_valid(selected_desk):
+			selected_desk.super_highlight(false)
+		selected_desk = desk
+		selected_desk.super_highlight(true)
+
+func _on_desk_hovered(desk: Desk) -> void:
+	select_desk(desk)
+
+func _on_desk_selected(desk: Desk) -> void:
+	select_desk(desk)
+	move()
