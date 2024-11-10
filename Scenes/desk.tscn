@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnhrpo8g4oeh1"]
+
+[ext_resource type="Script" path="res://Scenes/desk.gd" id="1_1pnw8"]
+[ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="1_ht8tx"]
+[ext_resource type="Texture2D" uid="uid://dv3jd0yxwm63m" path="res://icon.svg" id="2_m1p4d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qoy8t"]
+resource_local_to_scene = true
+shader = ExtResource("1_ht8tx")
+shader_parameter/enabled = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 5.0
+shader_parameter/pattern = 2
+shader_parameter/inside = true
+shader_parameter/add_margins = false
+shader_parameter/number_of_images = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_88se1"]
+size = Vector2(64, 32)
+
+[node name="Desk" type="Area2D"]
+script = ExtResource("1_1pnw8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_qoy8t")
+scale = Vector2(0.5, 0.25)
+texture = ExtResource("2_m1p4d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_88se1")
