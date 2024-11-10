@@ -1,15 +1,13 @@
 @tool
 extends Node2D
 
-@export var grid_size := Vector2i(6, 4)
-@export var grid_spacing := Vector2i(96, 64)
-@export var grid_offset :=  Vector2i(64, 32)
+@export var grid_data: GridData
 
 const DESK_SCENE := preload("res://Scenes/desk.tscn")
 const NOTE_SCENE = preload("res://Scenes/note.tscn")
 
-var desks := []
-var note: Node2D
+var desks: Array[Array] = []
+var note: Note
 var note_position: Vector2i
 
 # Called when the node enters the scene tree for the first time.
@@ -18,17 +16,17 @@ func _ready() -> void:
 	spawn_desks()
 	spawn_note()
 
-func setup_grid() -> Array:
-	var array := [];
-	for i in grid_size.x:
+func setup_grid() -> Array[Array]:
+	var array: Array[Array] = [];
+	for i in grid_data.grid_size.x:
 		array.append([])
-		for j in grid_size.y:
+		for j in grid_data.grid_size.y:
 			array[i].append(null)
 	return array
 
 func spawn_desks() -> void:
-	for i in grid_size.x:
-		for j in grid_size.y:
+	for i in grid_data.grid_size.x:
+		for j in grid_data.grid_size.y:
 			#var rand: int = randi_range(0, 0)
 			#var desk = possible_desks[rand].instance()
 			var desk := DESK_SCENE.instantiate() as Node2D
@@ -37,12 +35,12 @@ func spawn_desks() -> void:
 			desks[i][j] = desk;
 
 func spawn_note() -> void:
-	note = NOTE_SCENE.instantiate()
-	add_child(note)
-	var column := randi_range(0, grid_size.x - 1)
-	var row := randi_range(0, grid_size.y - 1)
+	var column := randi_range(0, grid_data.grid_size.x - 1)
+	var row := randi_range(0, grid_data.grid_size.y - 1)
 	note_position = Vector2i(column, row)
-	note.position = grid_to_pixel(column, row)
+	note = NOTE_SCENE.instantiate()
+	note.with_data(grid_to_pixel(column, row), grid_data)
+	add_child(note)
 
 #func _draw() -> void:
 	#var default_font := ThemeDB.fallback_font
@@ -52,10 +50,10 @@ func spawn_note() -> void:
 			#draw_string(default_font, grid_to_pixel(i, j), str(i) + ", " + str(j), HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
 
 func grid_to_pixel(column: int, row: int) -> Vector2i:
-	var x := grid_offset.x + grid_spacing.x * column
-	var y := grid_offset.y + grid_spacing.y * row
+	var x := grid_data.grid_offset.x + grid_data.grid_spacing.x * column
+	var y := grid_data.grid_offset.y + grid_data.grid_spacing.y * row
 	return Vector2i(x, y)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass

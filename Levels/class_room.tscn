@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=5 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="Script" path="res://Levels/grid.gd" id="2_w7osn"]
+[ext_resource type="Resource" uid="uid://djkfb1tnkc8wv" path="res://Resources/grid_data.tres" id="3_n7on6"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lhpta"]
 size = Vector2(640, 360)
@@ -18,3 +19,4 @@ texture = SubResource("PlaceholderTexture2D_lhpta")
 [node name="Grid" type="Node2D" parent="."]
 position = Vector2(16, 96)
 script = ExtResource("2_w7osn")
+grid_data = ExtResource("3_n7on6")

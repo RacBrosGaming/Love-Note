@@ -14,8 +14,8 @@ func _on_desk_selected(extra_args: Array) -> void:
 	var column: int = extra_args[0]
 	var row: int = extra_args[1]
 	note_position = grid.grid_to_pixel(column, row)
+	grid.note.position = note_position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if note_position:
-		grid.note.position = grid.note.position.lerp(note_position, delta * 4)
+func _process(_delta: float) -> void:
+	pass
