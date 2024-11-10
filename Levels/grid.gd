@@ -12,9 +12,10 @@ var note_position: Vector2i
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	desks = setup_grid()
-	spawn_desks()
-	spawn_note()
+	if not Engine.is_editor_hint():
+		desks = setup_grid()
+		spawn_desks()
+		spawn_note()
 
 func setup_grid() -> Array[Array]:
 	var array: Array[Array] = [];
@@ -38,16 +39,17 @@ func spawn_note() -> void:
 	var column := randi_range(0, grid_data.grid_size.x - 1)
 	var row := randi_range(0, grid_data.grid_size.y - 1)
 	note_position = Vector2i(column, row)
-	note = NOTE_SCENE.instantiate()
+	note = NOTE_SCENE.instantiate() as Note
 	note.with_data(grid_to_pixel(column, row), grid_data)
 	add_child(note)
 
-#func _draw() -> void:
-	#var default_font := ThemeDB.fallback_font
-	#var default_font_size := ThemeDB.fallback_font_size
-	#for i in grid_size.x:
-		#for j in grid_size.y:
-			#draw_string(default_font, grid_to_pixel(i, j), str(i) + ", " + str(j), HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
+func _draw() -> void:
+	if Engine.is_editor_hint():
+		var default_font := ThemeDB.fallback_font
+		var default_font_size := ThemeDB.fallback_font_size
+		for i in grid_data.grid_size.x:
+			for j in grid_data.grid_size.y:
+				draw_string(default_font, grid_to_pixel(i, j), str(i) + ", " + str(j), HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
 
 func grid_to_pixel(column: int, row: int) -> Vector2i:
 	var x := grid_data.grid_offset.x + grid_data.grid_spacing.x * column
@@ -56,4 +58,5 @@ func grid_to_pixel(column: int, row: int) -> Vector2i:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	if Engine.is_editor_hint():
+		queue_redraw()
