@@ -78,16 +78,16 @@ func reset_nearby_desks() -> void:
 		desk.active = false
 		desk.desk_selected.disconnect(_on_desk_selected)
 		desk.desk_hovered.disconnect(_on_desk_hovered)
-		desk.super_highlight(false)
+		desk.hovered = false
 	nearby_desks.clear()
 	selected_desk = null
 
 func select_desk(desk: Desk) -> void:
 	if is_instance_valid(desk):
 		if is_instance_valid(selected_desk):
-			selected_desk.super_highlight(false)
+			selected_desk.hovered = false
 		selected_desk = desk
-		selected_desk.super_highlight(true)
+		selected_desk.hovered = true
 
 func _on_desk_hovered(desk: Desk) -> void:
 	select_desk(desk)

@@ -8,11 +8,16 @@ signal desk_hovered(desk: Desk)
 @onready var shader: ShaderMaterial = sprite_2d.material
 
 var active: bool: set = set_active
+var hovered: bool: set = set_hover
 var pending_hover := false
 
 func set_active(value: bool) -> void:
 	active = value
 	highlight(active)
+
+func set_hover(value: bool) -> void:
+	hovered = value
+	super_highlight(hovered)
 
 func _ready() -> void:
 	input_event.connect(_on_input_event)
