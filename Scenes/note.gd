@@ -29,7 +29,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	for direction: String in directions.keys():
-		if event.is_action_pressed(direction):
+		if !moving && event.is_action_pressed(direction):
 			var direction_vector: Vector2i = directions[direction]
 			if nearby_desks.has(direction_vector):
 				current_direction = direction_vector
@@ -94,8 +94,8 @@ func reset_nearby_desks() -> void:
 	hovered_desk = null
 
 func hover_desk(desk: Desk) -> void:
-	current_direction = find_nearby_desk(desk)
 	if is_instance_valid(desk):
+		current_direction = find_nearby_desk(desk)
 		if is_instance_valid(hovered_desk):
 			hovered_desk.hovered = false
 		if is_instance_valid(current_desk):
@@ -108,7 +108,8 @@ func find_nearby_desk(desk: Desk) -> Vector2i:
 	return found_desk
 
 func _on_desk_hovered(desk: Desk) -> void:
-	hover_desk(desk)
+	if !moving:
+		hover_desk(desk)
 
 func _on_desk_selected(desk: Desk) -> void:
 	hover_desk(desk)

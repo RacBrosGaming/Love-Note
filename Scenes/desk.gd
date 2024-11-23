@@ -6,6 +6,7 @@ signal desk_hovered(desk: Desk)
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var shader: ShaderMaterial = sprite_2d.material
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @export var empty_desk: Array[Texture2D] = []
 @export var kids: Array[Texture2D] = []
@@ -38,6 +39,10 @@ func set_hover(value: bool) -> void:
 
 func set_direction(value: Vector2i) -> void:
 	direction = value
+	if direction == Vector2i.ZERO:
+		play_idle()
+	else:
+		animation_player.stop()
 	sprite_2d.frame = KID_DIRECTION[direction]
 
 func _ready() -> void:
@@ -49,6 +54,7 @@ func _ready() -> void:
 	input_event.connect(_on_input_event)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	play_idle()
 
 func _process(_delta: float) -> void:
 	if pending_hover && active:
@@ -65,6 +71,9 @@ func _on_mouse_exited() -> void:
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if (event is InputEventMouseButton || event is InputEventScreenTouch) && event.is_released():
 		desk_selected.emit(self)
+
+func play_idle() -> void:
+	animation_player.play("idle", -1, randf_range(0.5, 1.5))
 
 func highlight(enabled: bool) -> void:
 	shader.set_shader_parameter("enabled", enabled)

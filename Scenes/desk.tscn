@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnhrpo8g4oeh1"]
+[gd_scene load_steps=11 format=3 uid="uid://dnhrpo8g4oeh1"]
 
 [ext_resource type="Script" path="res://Scenes/desk.gd" id="1_1pnw8"]
 [ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="1_ht8tx"]
@@ -20,6 +20,45 @@ shader_parameter/number_of_images = Vector2(1, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_88se1"]
 size = Vector2(64, 64)
 
+[sub_resource type="Animation" id="Animation_u2rxg"]
+resource_name = "idle"
+length = 0.66
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_lp3xw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fxf82"]
+_data = {
+"RESET": SubResource("Animation_lp3xw"),
+"idle": SubResource("Animation_u2rxg")
+}
+
 [node name="Desk" type="Area2D"]
 script = ExtResource("1_1pnw8")
 empty_desk = Array[Texture2D]([ExtResource("3_os8td"), ExtResource("3_8dr8v")])
@@ -27,7 +66,13 @@ kids = Array[Texture2D]([ExtResource("4_aw57x")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_qoy8t")
-texture = ExtResource("3_os8td")
+texture = ExtResource("4_aw57x")
+hframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_88se1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fxf82")
+}
