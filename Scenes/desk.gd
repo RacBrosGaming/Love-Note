@@ -16,6 +16,7 @@ const KID_LEFT_FRAME := 3
 const KID_RIGHT_FRAME := 4
 const KID_UP_FRAME := 5
 const KID_DOWN_FRAME := 6
+const KID_FRAMES := 7
 const KID_DIRECTION := {
 	Vector2i.ZERO: KID_IDLE_FRAME,
 	Vector2i.LEFT: KID_LEFT_FRAME,
@@ -47,8 +48,8 @@ func set_direction(value: Vector2i) -> void:
 
 func _ready() -> void:
 	if !kids.is_empty():
-		sprite_2d.texture = kids[0]
-		sprite_2d.hframes = 7
+		sprite_2d.texture = kids[randi_range(0, kids.size() - 1)]
+		sprite_2d.hframes = KID_FRAMES
 	#if !empty_desk.is_empty():
 		#sprite_2d.texture = empty_desk[randi_range(0, empty_desk.size() - 1)]
 	input_event.connect(_on_input_event)
