@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 class_name Note
 
 var starting_position: Vector2
@@ -23,7 +23,6 @@ func with_data(p_starting_position: Vector2, p_grid_data: GridData) -> Note:
 	grid_data = p_grid_data
 	return self
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	position = starting_position
 
@@ -38,17 +37,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		move()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-
 func _physics_process(_delta: float) -> void:
 	if !moving && !last_position.is_equal_approx(position):
 		ray_cast_2d.enabled = true
 		check_neaby_desks()
 		current_desk = get_nearby_desk(Vector2i.ZERO)
 		current_direction = Vector2i.ZERO
-		current_desk.direction = current_direction
+		if is_instance_valid(current_desk):
+			current_desk.direction = current_direction
 		last_position = position
 		ray_cast_2d.enabled = false
 

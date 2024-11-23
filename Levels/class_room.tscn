@@ -1,11 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=8 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="Script" path="res://Levels/grid.gd" id="2_w7osn"]
 [ext_resource type="Resource" uid="uid://djkfb1tnkc8wv" path="res://Resources/grid_data.tres" id="3_n7on6"]
+[ext_resource type="PackedScene" uid="uid://uyj6biijy682" path="res://Scenes/teacher.tscn" id="4_mgn65"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lhpta"]
 size = Vector2(640, 360)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u4oht"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_c25yy"]
+normal = Vector2(-1, 0)
+distance = -640.0
 
 [node name="ClassRoom" type="Node2D"]
 script = ExtResource("1_o8rf2")
@@ -20,3 +28,14 @@ texture = SubResource("PlaceholderTexture2D_lhpta")
 position = Vector2(16, 96)
 script = ExtResource("2_w7osn")
 grid_data = ExtResource("3_n7on6")
+
+[node name="Teacher" parent="." instance=ExtResource("4_mgn65")]
+position = Vector2(128, 64)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_u4oht")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_c25yy")
