@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_4drhi")
-grid_size = Vector2i(6, 4)
-grid_spacing = Vector2i(96, 64)
-grid_offset = Vector2i(64, 32)
+grid_size = Vector2i(6, 3)
+grid_spacing = Vector2i(96, 80)
+grid_offset = Vector2i(64, 64)

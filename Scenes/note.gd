@@ -9,9 +9,11 @@ var directions := {
 	"left": Vector2i.LEFT,
 	"up": Vector2i.UP,
 }
-var selected_desk: Desk
+var current_direction := Vector2i.ZERO
+var current_desk: Desk
+var hovered_desk: Desk
 var last_position: Vector2
-var nearby_desks: Dictionary#[String, Vector2i]
+var nearby_desks: Dictionary#[Vector2i, Desk]
 var moving := false
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
@@ -28,9 +30,11 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	for direction: String in directions.keys():
 		if event.is_action_pressed(direction):
-			if nearby_desks.has(direction):
-				var desk: Desk = nearby_desks[direction]
-				select_desk(desk)
+			var direction_vector: Vector2i = directions[direction]
+			if nearby_desks.has(direction_vector):
+				current_direction = direction_vector
+				var desk: Desk = nearby_desks[direction_vector]
+				hover_desk(desk)
 	if event.is_action_pressed("select"):
 		move()
 
@@ -42,16 +46,20 @@ func _physics_process(_delta: float) -> void:
 	if !moving && !last_position.is_equal_approx(position):
 		ray_cast_2d.enabled = true
 		check_neaby_desks()
+		current_desk = get_nearby_desk(Vector2i.ZERO)
+		current_direction = Vector2i.ZERO
+		current_desk.direction = current_direction
 		last_position = position
 		ray_cast_2d.enabled = false
 
 func move() -> void:
-	if !moving && is_instance_valid(selected_desk):
+	if !moving && is_instance_valid(hovered_desk):
 		var tween := create_tween()
-		tween.tween_property(self, "position", selected_desk.position, 1)
+		tween.tween_property(self, "position", hovered_desk.position, 1)
 		moving = true
-		reset_nearby_desks()
+		current_desk = hovered_desk
 		await tween.finished
+		reset_nearby_desks()
 		moving = false
 
 func check_neaby_desks() -> void:
@@ -60,14 +68,16 @@ func check_neaby_desks() -> void:
 		var direction_vector: Vector2i = directions[direction]
 		var desk := get_nearby_desk(direction_vector)
 		if is_instance_valid(desk):
-			nearby_desks[direction] = desk
+			nearby_desks[direction_vector] = desk
 			desk.desk_selected.connect(_on_desk_selected)
 			desk.desk_hovered.connect(_on_desk_hovered)
 			desk.active = true
+			desk.direction = -direction_vector
 
 func get_nearby_desk(direction: Vector2i) -> Desk:
 	var desk: Desk
 	ray_cast_2d.target_position = direction * grid_data.grid_spacing
+	ray_cast_2d.hit_from_inside = direction == Vector2i.ZERO
 	ray_cast_2d.force_raycast_update()
 	if ray_cast_2d.is_colliding():
 		desk = ray_cast_2d.get_collider() as Desk
@@ -79,19 +89,27 @@ func reset_nearby_desks() -> void:
 		desk.desk_selected.disconnect(_on_desk_selected)
 		desk.desk_hovered.disconnect(_on_desk_hovered)
 		desk.hovered = false
+		desk.direction = Vector2i.ZERO
 	nearby_desks.clear()
-	selected_desk = null
+	hovered_desk = null
 
-func select_desk(desk: Desk) -> void:
+func hover_desk(desk: Desk) -> void:
+	current_direction = find_nearby_desk(desk)
 	if is_instance_valid(desk):
-		if is_instance_valid(selected_desk):
-			selected_desk.hovered = false
-		selected_desk = desk
-		selected_desk.hovered = true
+		if is_instance_valid(hovered_desk):
+			hovered_desk.hovered = false
+		if is_instance_valid(current_desk):
+			current_desk.direction = current_direction
+		hovered_desk = desk
+		hovered_desk.hovered = true
+
+func find_nearby_desk(desk: Desk) -> Vector2i:
+	var found_desk: Vector2i = nearby_desks.find_key(desk)
+	return found_desk
 
 func _on_desk_hovered(desk: Desk) -> void:
-	select_desk(desk)
+	hover_desk(desk)
 
 func _on_desk_selected(desk: Desk) -> void:
-	select_desk(desk)
+	hover_desk(desk)
 	move()

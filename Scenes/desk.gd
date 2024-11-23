@@ -7,8 +7,25 @@ signal desk_hovered(desk: Desk)
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var shader: ShaderMaterial = sprite_2d.material
 
+@export var empty_desk: Array[Texture2D] = []
+@export var kids: Array[Texture2D] = []
+
+const KID_IDLE_FRAME := 0
+const KID_LEFT_FRAME := 3
+const KID_RIGHT_FRAME := 4
+const KID_UP_FRAME := 5
+const KID_DOWN_FRAME := 6
+const KID_DIRECTION := {
+	Vector2i.ZERO: KID_IDLE_FRAME,
+	Vector2i.LEFT: KID_LEFT_FRAME,
+	Vector2i.RIGHT: KID_RIGHT_FRAME,
+	Vector2i.UP: KID_UP_FRAME,
+	Vector2i.DOWN: KID_DOWN_FRAME,
+}
+
 var active: bool: set = set_active
 var hovered: bool: set = set_hover
+var direction: Vector2i: set = set_direction
 var pending_hover := false
 
 func set_active(value: bool) -> void:
@@ -19,7 +36,16 @@ func set_hover(value: bool) -> void:
 	hovered = value
 	super_highlight(hovered)
 
+func set_direction(value: Vector2i) -> void:
+	direction = value
+	sprite_2d.frame = KID_DIRECTION[direction]
+
 func _ready() -> void:
+	if !kids.is_empty():
+		sprite_2d.texture = kids[0]
+		sprite_2d.hframes = 7
+	#if !empty_desk.is_empty():
+		#sprite_2d.texture = empty_desk[randi_range(0, empty_desk.size() - 1)]
 	input_event.connect(_on_input_event)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)

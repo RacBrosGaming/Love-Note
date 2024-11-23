@@ -1,30 +1,33 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnhrpo8g4oeh1"]
+[gd_scene load_steps=8 format=3 uid="uid://dnhrpo8g4oeh1"]
 
 [ext_resource type="Script" path="res://Scenes/desk.gd" id="1_1pnw8"]
 [ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="1_ht8tx"]
-[ext_resource type="Texture2D" uid="uid://dv3jd0yxwm63m" path="res://icon.svg" id="2_m1p4d"]
+[ext_resource type="Texture2D" uid="uid://dhiij4f5op4ku" path="res://Assets/Desk/desk_dirty.png" id="3_8dr8v"]
+[ext_resource type="Texture2D" uid="uid://bcq554fvqjas7" path="res://Assets/Desk/desk_clean.png" id="3_os8td"]
+[ext_resource type="Texture2D" uid="uid://ijkj7k61imw7" path="res://Assets/Desk/spritesheet_kid_1.png" id="4_aw57x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qoy8t"]
 resource_local_to_scene = true
 shader = ExtResource("1_ht8tx")
 shader_parameter/enabled = false
 shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 5.0
-shader_parameter/pattern = 2
-shader_parameter/inside = true
+shader_parameter/width = 2.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
 shader_parameter/add_margins = false
 shader_parameter/number_of_images = Vector2(1, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_88se1"]
-size = Vector2(64, 32)
+size = Vector2(64, 64)
 
 [node name="Desk" type="Area2D"]
 script = ExtResource("1_1pnw8")
+empty_desk = Array[Texture2D]([ExtResource("3_os8td"), ExtResource("3_8dr8v")])
+kids = Array[Texture2D]([ExtResource("4_aw57x")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_qoy8t")
-scale = Vector2(0.5, 0.25)
-texture = ExtResource("2_m1p4d")
+texture = ExtResource("3_os8td")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_88se1")
