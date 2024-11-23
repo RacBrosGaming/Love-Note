@@ -12,7 +12,7 @@ var directions := {
 var current_direction := Vector2i.ZERO
 var current_desk: Desk
 var hovered_desk: Desk
-var last_position: Vector2
+var last_position := Vector2(-1, -1)
 var nearby_desks: Dictionary#[Vector2i, Desk]
 var moving := false
 

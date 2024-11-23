@@ -8,7 +8,6 @@ const NOTE_SCENE = preload("res://Scenes/note.tscn")
 
 var desks: Array[Array] = []
 var note: Note
-var note_position: Vector2i
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -38,7 +37,6 @@ func spawn_desks() -> void:
 func spawn_note() -> void:
 	var column := randi_range(0, grid_data.grid_size.x - 1)
 	var row := randi_range(0, grid_data.grid_size.y - 1)
-	note_position = Vector2i(column, row)
 	note = NOTE_SCENE.instantiate() as Note
 	note.with_data(grid_to_pixel(column, row), grid_data)
 	add_child(note)
@@ -62,8 +60,8 @@ func _draw() -> void:
 				draw_string(default_font, string_offset, column_row_string, HORIZONTAL_ALIGNMENT_CENTER, -1, default_font_size)
 
 func grid_to_pixel(column: int, row: int) -> Vector2i:
-	var x := grid_data.grid_offset.x + grid_data.grid_spacing.x * column
-	var y := grid_data.grid_offset.y + grid_data.grid_spacing.y * row
+	var x := grid_data.grid_spacing.x * column
+	var y := grid_data.grid_spacing.y * row
 	return Vector2i(x, y)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

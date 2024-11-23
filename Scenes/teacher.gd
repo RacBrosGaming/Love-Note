@@ -1,4 +1,7 @@
 extends CharacterBody2D
+class_name Teacher
+
+signal note_found(note: Note)
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var eyes: Area2D = $Eyes
@@ -29,7 +32,10 @@ func _physics_process(delta: float) -> void:
 			direction = -direction
 		if look_for_note && is_instance_valid(note) && !note.global_position.is_equal_approx(last_note_position):
 			last_note_position = note.global_position
-			print(note_visible(note.global_position))
+			var found_note := note_visible(note.global_position)
+			if found_note:
+				note_found.emit(note)
+				look_for_note = false
 	var from := rotation
 	var to := 0.0
 	var weight := turn_smoothing * delta
@@ -54,12 +60,12 @@ func clockwise_lerp_angle(from: float, to: float, weight: float) -> float:
 	return from + distance * weight
 
 func note_visible(target_position: Vector2) -> bool:
-	var note: Note
+	var collider: Note
 	ray_cast_2d.target_position = target_position - ray_cast_2d.global_position
 	ray_cast_2d.force_raycast_update()
 	if ray_cast_2d.is_colliding():
-		note = ray_cast_2d.get_collider() as Note
-	return is_instance_valid(note)
+		collider = ray_cast_2d.get_collider() as Note
+	return is_instance_valid(collider)
 
 func _on_eyes_area_entered(area: Area2D) -> void:
 	if area is Note:
