@@ -1,27 +1,60 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=14 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="PackedScene" uid="uid://bycek0e5qii0i" path="res://Scenes/grid.tscn" id="2_ctuag"]
+[ext_resource type="Texture2D" uid="uid://dj5rhw8umcn2e" path="res://Assets/Classroom/classroom.png" id="2_s2hma"]
+[ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="3_picyj"]
 [ext_resource type="PackedScene" uid="uid://uyj6biijy682" path="res://Scenes/teacher.tscn" id="4_mgn65"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lhpta"]
-size = Vector2(640, 360)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qu55"]
+atlas = ExtResource("3_picyj")
+region = Rect2(0, 0, 192, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2j2n"]
+atlas = ExtResource("3_picyj")
+region = Rect2(192, 0, 192, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18tvv"]
+atlas = ExtResource("3_picyj")
+region = Rect2(384, 0, 192, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yfxkw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qu55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2j2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18tvv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f041m"]
+size = Vector2(192, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tmaer"]
+size = Vector2(120, 36)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u4oht"]
 normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_c25yy"]
 normal = Vector2(-1, 0)
-distance = -640.0
 
 [node name="ClassRoom" type="Node2D"]
 script = ExtResource("1_o8rf2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color(0.313726, 1, 1, 1)
+z_index = -10
 offset_right = 640.0
 offset_bottom = 360.0
-texture = SubResource("PlaceholderTexture2D_lhpta")
+texture = ExtResource("2_s2hma")
 
 [node name="GridPosition" type="Marker2D" parent="."]
 position = Vector2(80, 152)
@@ -30,12 +63,31 @@ gizmo_extents = 32.0
 [node name="Grid" parent="GridPosition" instance=ExtResource("2_ctuag")]
 
 [node name="Teacher" parent="." instance=ExtResource("4_mgn65")]
-position = Vector2(128, 64)
+position = Vector2(248, 80)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(128, 80)
+sprite_frames = SubResource("SpriteFrames_yfxkw")
+autoplay = "default"
+frame_progress = 0.278477
+
+[node name="StaticBody2D" type="StaticBody2D" parent="AnimatedSprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/StaticBody2D"]
+position = Vector2(0, 22)
+shape = SubResource("RectangleShape2D_f041m")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AnimatedSprite2D/StaticBody2D"]
+position = Vector2(-36, -6)
+shape = SubResource("RectangleShape2D_tmaer")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(72, 0)
 shape = SubResource("WorldBoundaryShape2D_u4oht")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(568, 0)
 shape = SubResource("WorldBoundaryShape2D_c25yy")
