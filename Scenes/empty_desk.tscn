@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5fhemrtt1epj"]
+
+[ext_resource type="Script" path="res://Scenes/empty_desk.gd" id="1_l6nre"]
+[ext_resource type="Texture2D" uid="uid://bcq554fvqjas7" path="res://Assets/Desk/desk_clean.png" id="2_mofe2"]
+[ext_resource type="Texture2D" uid="uid://dhiij4f5op4ku" path="res://Assets/Desk/desk_dirty.png" id="3_mmit6"]
+
+[node name="EmptyDesk" type="Node2D"]
+script = ExtResource("1_l6nre")
+desks = Array[Texture2D]([ExtResource("2_mofe2"), ExtResource("3_mmit6")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_mmit6")

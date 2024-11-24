@@ -8,7 +8,6 @@ signal desk_hovered(desk: Desk)
 @onready var shader: ShaderMaterial = sprite_2d.material
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-@export var empty_desk: Array[Texture2D] = []
 @export var kids: Array[Texture2D] = []
 
 const KID_IDLE_FRAME := 0
@@ -50,8 +49,6 @@ func _ready() -> void:
 	if !kids.is_empty():
 		sprite_2d.texture = kids[randi_range(0, kids.size() - 1)]
 		sprite_2d.hframes = KID_FRAMES
-	#if !empty_desk.is_empty():
-		#sprite_2d.texture = empty_desk[randi_range(0, empty_desk.size() - 1)]
 	input_event.connect(_on_input_event)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
