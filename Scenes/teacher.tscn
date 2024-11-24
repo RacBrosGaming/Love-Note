@@ -1,29 +1,154 @@
-[gd_scene load_steps=4 format=3 uid="uid://uyj6biijy682"]
+[gd_scene load_steps=18 format=3 uid="uid://uyj6biijy682"]
 
-[ext_resource type="Texture2D" uid="uid://dv3jd0yxwm63m" path="res://icon.svg" id="1_06p43"]
 [ext_resource type="Script" path="res://Scenes/teacher.gd" id="1_hblwe"]
+[ext_resource type="Texture2D" uid="uid://b07uuea0a43no" path="res://Assets/Teacher/spritesheet_teacher.png" id="2_rfhby"]
+[ext_resource type="Texture2D" uid="uid://i7a0c351ceth" path="res://Assets/Teacher/vision_cone.png" id="3_a5bu7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_c2hms"]
-radius = 32.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_4t6bf"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lr08"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jms7n"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyy3s"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vbr0v"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6nrvb"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvwgd"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pm3lm"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgyh8"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pimm"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtix3"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwgv2"]
+atlas = ExtResource("2_rfhby")
+region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r6mjn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4t6bf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lr08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jms7n")
+}],
+"loop": false,
+"name": &"discover_letter",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyy3s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vbr0v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6nrvb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvwgd")
+}],
+"loop": true,
+"name": &"look_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pm3lm")
+}],
+"loop": false,
+"name": &"look_right",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgyh8")
+}],
+"loop": false,
+"name": &"look_up",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pimm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gtix3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwgv2")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rmx2n"]
+radius = 12.0
+height = 64.0
 
 [node name="Teacher" type="CharacterBody2D"]
 script = ExtResource("1_hblwe")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_06p43")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_r6mjn")
+animation = &"look_up"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_c2hms")
+shape = SubResource("CapsuleShape2D_rmx2n")
 
 [node name="Eyes" type="Area2D" parent="."]
 collision_layer = 2
 
+[node name="Sprite2D" type="Sprite2D" parent="Eyes"]
+modulate = Color(0.173, 0.173, 0.173, 0.5)
+z_index = -1
+y_sort_enabled = true
+texture = ExtResource("3_a5bu7")
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Eyes"]
-polygon = PackedVector2Array(0, 0, -168, 192, -128, 224, -64, 248, 0, 256, 64, 248, 128, 224, 168, 192)
+polygon = PackedVector2Array(0, 0, -184, 232, -112, 280, 0, 296, 112, 280, 184, 232)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(0, 256)
 collision_mask = 5
 collide_with_areas = true
 collide_with_bodies = false
@@ -32,4 +157,7 @@ collide_with_bodies = false
 one_shot = true
 
 [node name="TurnAroundTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LookTimer" type="Timer" parent="."]
 one_shot = true

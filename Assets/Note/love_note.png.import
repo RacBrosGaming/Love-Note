@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq6j164bctrp4"
-path="res://.godot/imported/spritesheet_kid_1.png-80e2fb3d94ca9139119b01824db67d5e.ctex"
+uid="uid://25qig024ciab"
+path="res://.godot/imported/love_note.png-2b1c5f18fdffedbc0ce8d56bfb5f3c44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Desk/spritesheet_kid_1.png"
-dest_files=["res://.godot/imported/spritesheet_kid_1.png-80e2fb3d94ca9139119b01824db67d5e.ctex"]
+source_file="res://Assets/Note/love_note.png"
+dest_files=["res://.godot/imported/love_note.png-2b1c5f18fdffedbc0ce8d56bfb5f3c44.ctex"]
 
 [params]
 

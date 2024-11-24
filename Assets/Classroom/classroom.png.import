@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfotxdv5dmlom"
-path="res://.godot/imported/spritesheet_kid_2.png-a497921222ad2757f87f49fd0de21c49.ctex"
+uid="uid://dj5rhw8umcn2e"
+path="res://.godot/imported/classroom.png-1f1b342008abcd2e556397938efb9dc6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Desk/spritesheet_kid_2.png"
-dest_files=["res://.godot/imported/spritesheet_kid_2.png-a497921222ad2757f87f49fd0de21c49.ctex"]
+source_file="res://Assets/Classroom/classroom.png"
+dest_files=["res://.godot/imported/classroom.png-1f1b342008abcd2e556397938efb9dc6.ctex"]
 
 [params]
 
