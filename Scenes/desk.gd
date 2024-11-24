@@ -12,11 +12,11 @@ signal desk_hovered(desk: Desk)
 @export var kids: Array[Texture2D] = []
 
 const KID_IDLE_FRAME := 0
-const KID_LEFT_FRAME := 3
-const KID_RIGHT_FRAME := 4
-const KID_UP_FRAME := 5
-const KID_DOWN_FRAME := 6
-const KID_FRAMES := 7
+const KID_LEFT_FRAME := 2
+const KID_RIGHT_FRAME := 3
+const KID_UP_FRAME := 4
+const KID_DOWN_FRAME := 5
+const KID_FRAMES := 6
 const KID_DIRECTION := {
 	Vector2i.ZERO: KID_IDLE_FRAME,
 	Vector2i.LEFT: KID_LEFT_FRAME,
