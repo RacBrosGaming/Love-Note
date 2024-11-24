@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnhrpo8g4oeh1"]
+[gd_scene load_steps=10 format=3 uid="uid://dnhrpo8g4oeh1"]
 
 [ext_resource type="Script" path="res://Scenes/desk.gd" id="1_1pnw8"]
 [ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="1_ht8tx"]
+[ext_resource type="Texture2D" uid="uid://dnl3cwlonbsb6" path="res://Assets/Desk/spritesheet_goal.png" id="3_quhxt"]
 [ext_resource type="Texture2D" uid="uid://bq6j164bctrp4" path="res://Assets/Desk/spritesheet_kid_1.png" id="4_v2hdf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qoy8t"]
@@ -64,6 +65,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("1_1pnw8")
 kids = Array[Texture2D]([ExtResource("4_v2hdf")])
+goal_sprite = ExtResource("3_quhxt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_qoy8t")

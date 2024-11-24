@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://bycek0e5qii0i"]
+[gd_scene load_steps=10 format=4 uid="uid://bycek0e5qii0i"]
 
 [ext_resource type="Script" path="res://Scenes/grid.gd" id="1_6gtw2"]
 [ext_resource type="PackedScene" uid="uid://dnhrpo8g4oeh1" path="res://Scenes/desk.tscn" id="3_3gis4"]
 [ext_resource type="Texture2D" uid="uid://dv3jd0yxwm63m" path="res://icon.svg" id="3_c30uk"]
 [ext_resource type="PackedScene" uid="uid://b5fhemrtt1epj" path="res://Scenes/empty_desk.tscn" id="4_50dm2"]
+[ext_resource type="Script" path="res://Scenes/tile_map_layer_scene.gd" id="5_6t6h3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yry3m"]
 texture = ExtResource("3_c30uk")
@@ -32,3 +33,4 @@ tile_set = SubResource("TileSet_7bo57")
 [node name="Desks" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAQAAAAIAAAAAAAAAAgABAAAAAAAAAAAAAQABAAEAAAAAAAAAAQABAAIAAAAAAAAAAQACAAAAAAAAAAAAAQACAAEAAAAAAAAAAQACAAIAAAAAAAAAAQADAAAAAAAAAAAAAQADAAEAAAAAAAAAAQADAAIAAAAAAAAAAQAEAAAAAAAAAAAAAgAEAAEAAAAAAAAAAgAEAAIAAAAAAAAAAgAFAAAAAAAAAAAAAQAFAAEAAAAAAAAAAgAFAAIAAAAAAAAAAgA=")
 tile_set = SubResource("TileSet_8vxve")
+script = ExtResource("5_6t6h3")

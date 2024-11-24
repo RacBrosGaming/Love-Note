@@ -9,7 +9,7 @@ const TILE_SET_SOURCE_ID = 0
 const DESK_SCENE := 1 #TileSet ID
 const EMPTY_DESK_SCENE = 2 #TileSet ID
 
-@onready var desks: TileMapLayer = $Desks
+@onready var desks: TileMapLayerScene = $Desks
 @onready var a_star_debug: TileMapLayer = $AStarDebug
 
 var a_star_grid: AStarGrid2D
@@ -26,6 +26,11 @@ func _ready() -> void:
 		while find_path().is_empty():
 			print("callled")
 			reroll_empty_desks()
+
+func _process(delta: float) -> void:
+	var desk := desks.get_cell_scene(end_position) as Desk
+	if is_instance_valid(desk):
+		desk.goal = true
 
 func setup_grids() -> void:
 	desks.clear()

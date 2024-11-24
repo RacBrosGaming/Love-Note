@@ -9,6 +9,7 @@ signal desk_hovered(desk: Desk)
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @export var kids: Array[Texture2D] = []
+@export var goal_sprite: Texture2D
 
 const KID_IDLE_FRAME := 0
 const KID_LEFT_FRAME := 2
@@ -28,6 +29,7 @@ var active: bool: set = set_active
 var hovered: bool: set = set_hover
 var direction: Vector2i: set = set_direction
 var pending_hover := false
+var goal: bool: set = set_goal
 
 func set_active(value: bool) -> void:
 	active = value
@@ -36,6 +38,11 @@ func set_active(value: bool) -> void:
 func set_hover(value: bool) -> void:
 	hovered = value
 	super_highlight(hovered)
+
+func set_goal(value: bool) -> void:
+	goal = value
+	if goal && goal_sprite:
+		sprite_2d.texture = goal_sprite
 
 func set_direction(value: Vector2i) -> void:
 	direction = value
