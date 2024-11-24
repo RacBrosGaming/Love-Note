@@ -63,10 +63,10 @@ func spawn_note() -> void:
 
 func spawn_note_destination() -> void:
 	end_position = desk_count - Vector2i(1, 1)
-	note = NOTE_SCENE.instantiate() as Note
-	note.with_data(desks.map_to_local(end_position), desk_size)
+	#note = NOTE_SCENE.instantiate() as Note
+	#note.with_data(desks.map_to_local(end_position), desk_size)
 	add_desk_to_grid(DESK_SCENE, end_position)
-	add_child(note)
+	#add_child(note)
 
 func reroll_empty_desks() -> void:
 	var empty_cells: Array[Vector2i]

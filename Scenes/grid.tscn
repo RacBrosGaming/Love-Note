@@ -26,6 +26,7 @@ sources/0 = SubResource("TileSetScenesCollectionSource_nips6")
 script = ExtResource("1_6gtw2")
 
 [node name="AStarDebug" type="TileMapLayer" parent="."]
+visible = false
 tile_set = SubResource("TileSet_7bo57")
 
 [node name="Desks" type="TileMapLayer" parent="."]

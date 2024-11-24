@@ -129,6 +129,9 @@ height = 64.0
 script = ExtResource("1_hblwe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -4
+z_as_relative = false
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_r6mjn")
 animation = &"look_up"
 autoplay = "idle"
@@ -137,15 +140,15 @@ autoplay = "idle"
 shape = SubResource("CapsuleShape2D_rmx2n")
 
 [node name="Eyes" type="Area2D" parent="."]
+z_index = -5
 collision_layer = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Eyes"]
 modulate = Color(0.173, 0.173, 0.173, 0.5)
-z_index = -1
-y_sort_enabled = true
 texture = ExtResource("3_a5bu7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Eyes"]
+visible = false
 polygon = PackedVector2Array(0, 0, -184, 232, -112, 280, 0, 296, 112, 280, 184, 232)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="PackedScene" uid="uid://bycek0e5qii0i" path="res://Scenes/grid.tscn" id="2_ctuag"]
-[ext_resource type="Texture2D" uid="uid://dj5rhw8umcn2e" path="res://Assets/Classroom/classroom.png" id="2_s2hma"]
+[ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="2_s2hma"]
 [ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="3_picyj"]
 [ext_resource type="PackedScene" uid="uid://uyj6biijy682" path="res://Scenes/teacher.tscn" id="4_mgn65"]
 
@@ -36,7 +36,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f041m"]
-size = Vector2(192, 54)
+size = Vector2(192, 32)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u4oht"]
 normal = Vector2(1, 0)
@@ -60,11 +60,10 @@ gizmo_extents = 32.0
 [node name="Grid" parent="GridPosition" instance=ExtResource("2_ctuag")]
 
 [node name="Teacher" parent="." instance=ExtResource("4_mgn65")]
-position = Vector2(248, 80)
+position = Vector2(184, 56)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-position = Vector2(112, 152)
+position = Vector2(136, 88)
 sprite_frames = SubResource("SpriteFrames_yfxkw")
 autoplay = "default"
 frame_progress = 0.278477
@@ -72,7 +71,7 @@ frame_progress = 0.278477
 [node name="StaticBody2D" type="StaticBody2D" parent="AnimatedSprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/StaticBody2D"]
-position = Vector2(0, 5)
+position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_f041m")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
