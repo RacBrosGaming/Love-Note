@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://uyj6biijy682"]
 
-[ext_resource type="Script" path="res://Scenes/teacher.gd" id="1_hblwe"]
+[ext_resource type="Script" path="res://NPCs/teacher.gd" id="1_hblwe"]
 [ext_resource type="Texture2D" uid="uid://b07uuea0a43no" path="res://Assets/Teacher/spritesheet_teacher.png" id="2_rfhby"]
 [ext_resource type="Texture2D" uid="uid://i7a0c351ceth" path="res://Assets/Teacher/vision_cone.png" id="3_a5bu7"]
 
