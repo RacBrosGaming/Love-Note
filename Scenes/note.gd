@@ -2,7 +2,7 @@ extends Area2D
 class_name Note
 
 var starting_position: Vector2
-var grid_data: GridData
+var desk_size: Vector2i
 var directions := {
 	"right": Vector2i.RIGHT,
 	"down": Vector2i.DOWN,
@@ -18,9 +18,9 @@ var moving := false
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
-func with_data(p_starting_position: Vector2, p_grid_data: GridData) -> Note:
+func with_data(p_starting_position: Vector2, p_desk_size: Vector2i) -> Note:
 	starting_position = p_starting_position
-	grid_data = p_grid_data
+	desk_size = p_desk_size
 	return self
 
 func _ready() -> void:
@@ -38,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		move()
 
 func _physics_process(_delta: float) -> void:
-	if !moving && !last_position.is_equal_approx(position):
+	if (!moving && !last_position.is_equal_approx(position)) || nearby_desks.is_empty():
 		ray_cast_2d.enabled = true
 		check_neaby_desks()
 		current_desk = get_nearby_desk(Vector2i.ZERO)
@@ -51,7 +51,7 @@ func _physics_process(_delta: float) -> void:
 func move() -> void:
 	if !moving && is_instance_valid(hovered_desk):
 		var tween := create_tween()
-		tween.tween_property(self, "position", hovered_desk.position, 1)
+		tween.tween_property(self, "global_position", hovered_desk.global_position, 1)
 		moving = true
 		current_desk = hovered_desk
 		await tween.finished
@@ -72,7 +72,7 @@ func check_neaby_desks() -> void:
 
 func get_nearby_desk(direction: Vector2i) -> Desk:
 	var desk: Desk
-	ray_cast_2d.target_position = direction * grid_data.grid_spacing
+	ray_cast_2d.target_position = direction * desk_size
 	ray_cast_2d.hit_from_inside = direction == Vector2i.ZERO
 	ray_cast_2d.force_raycast_update()
 	if ray_cast_2d.is_colliding():

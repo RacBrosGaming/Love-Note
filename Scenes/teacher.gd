@@ -127,7 +127,6 @@ func _on_turn_around_timer_timeout() -> void:
 	if randi_range(0, 1) == 0:
 		direction = -direction
 	lerp_direction = direction
-	print(lerp_direction)
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite_2d.animation == "look_up":

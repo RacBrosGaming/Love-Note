@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=13 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="PackedScene" uid="uid://bycek0e5qii0i" path="res://Scenes/grid.tscn" id="2_ctuag"]
@@ -36,10 +36,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f041m"]
-size = Vector2(192, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tmaer"]
-size = Vector2(120, 36)
+size = Vector2(192, 54)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u4oht"]
 normal = Vector2(1, 0)
@@ -57,7 +54,7 @@ offset_bottom = 360.0
 texture = ExtResource("2_s2hma")
 
 [node name="GridPosition" type="Marker2D" parent="."]
-position = Vector2(80, 152)
+position = Vector2(40, 120)
 gizmo_extents = 32.0
 
 [node name="Grid" parent="GridPosition" instance=ExtResource("2_ctuag")]
@@ -67,7 +64,7 @@ position = Vector2(248, 80)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
-position = Vector2(128, 80)
+position = Vector2(112, 152)
 sprite_frames = SubResource("SpriteFrames_yfxkw")
 autoplay = "default"
 frame_progress = 0.278477
@@ -75,12 +72,8 @@ frame_progress = 0.278477
 [node name="StaticBody2D" type="StaticBody2D" parent="AnimatedSprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/StaticBody2D"]
-position = Vector2(0, 22)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_f041m")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="AnimatedSprite2D/StaticBody2D"]
-position = Vector2(-36, -6)
-shape = SubResource("RectangleShape2D_tmaer")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

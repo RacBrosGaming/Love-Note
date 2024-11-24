@@ -1,106 +1,93 @@
 @tool
 extends Node2D
 
-@export var grid_data: GridData
+@export var desk_count := Vector2i(6, 3)
+@export var desk_size := Vector2i(96, 80)
 
-const DESK_SCENE := preload("res://Scenes/desk.tscn")
 const NOTE_SCENE = preload("res://Scenes/note.tscn")
-const EMPTY_DESK = preload("res://Scenes/empty_desk.tscn")
+const TILE_SET_SOURCE_ID = 0
+const DESK_SCENE := 1 #TileSet ID
+const EMPTY_DESK_SCENE = 2 #TileSet ID
 
+@onready var desks: TileMapLayer = $Desks
 @onready var a_star_debug: TileMapLayer = $AStarDebug
 
 var a_star_grid: AStarGrid2D
-var desks: Array[Array] = []
 var note: Note
 var start_position: Vector2i
 var end_position: Vector2i
 
-#manhattan
-#diagnal never
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	setup_grids()
+	spawn_desks()
 	if not Engine.is_editor_hint():
-		setup_astar_grid()
-		desks = setup_grid()
-		spawn_desks()
 		spawn_note()
-		end_position = grid_data.grid_size - Vector2i(1, 1)
-		find_path()
+		spawn_note_destination()
+		while find_path().is_empty():
+			print("callled")
+			reroll_empty_desks()
 
-func setup_astar_grid() -> void:
+func setup_grids() -> void:
+	desks.clear()
+	desks.tile_set.tile_size = desk_size
+	a_star_debug.clear()
+	a_star_debug.tile_set.tile_size = desk_size
 	a_star_grid = AStarGrid2D.new()
-	a_star_grid.size = grid_data.grid_size * grid_data.grid_spacing
-	a_star_grid.cell_size = grid_data.grid_spacing
+	a_star_grid.region = Rect2i(Vector2i.ZERO, desk_count)
+	a_star_grid.cell_size = desks.tile_set.tile_size
 	a_star_grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
 	a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
 	a_star_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	a_star_grid.jumping_enabled = false
 	a_star_grid.update()
 
-func find_path() -> void:
+func find_path() -> Array[Vector2i]:
 	var path := a_star_grid.get_id_path(start_position, end_position)
 	for cell in path:
-		a_star_debug.set_cell(cell, 1, Vector2.ZERO)
-
-func setup_grid() -> Array[Array]:
-	var array: Array[Array] = [];
-	for i in grid_data.grid_size.x:
-		array.append([])
-		for j in grid_data.grid_size.y:
-			array[i].append(null)
-	return array
+		a_star_debug.set_cell(cell, TILE_SET_SOURCE_ID, Vector2.ZERO)
+	return path
 
 func spawn_desks() -> void:
-	for i in grid_data.grid_size.x:
-		for j in grid_data.grid_size.y:
-			var rand: int = randi_range(0, 10)
-			#var desk = possible_desks[rand].instance()
-			var desk: Node2D
-			if rand > 0:
-				desk = DESK_SCENE.instantiate()
-			else:
-				desk = EMPTY_DESK.instantiate()
-			add_desk_to_grid(desk, Vector2i(i, j), rand <= 0)
-
-func add_desk_to_grid(desk_scene: Node2D, desk_position: Vector2i, solid: bool) -> void:
-	add_child(desk_scene)
-	desk_scene.position = grid_to_pixel(desk_position.x, desk_position.y)
-	desks[desk_position.x][desk_position.y] = desk_scene
-	a_star_grid.set_point_solid(desk_position, solid)
+	for i in desk_count.x:
+		for j in desk_count.y:
+			add_desk_to_grid(get_random_desk(), Vector2i(i, j))
 
 func spawn_note() -> void:
-	var column := randi_range(0, grid_data.grid_size.x - 1)
-	var row := randi_range(0, grid_data.grid_size.y - 1)
+	var column := randi_range(0, desk_count.x - 1)
+	var row := randi_range(0, desk_count.y - 1)
 	note = NOTE_SCENE.instantiate() as Note
-	note.with_data(grid_to_pixel(column, row), grid_data)
+	note.with_data(desks.map_to_local(Vector2i(column, row)), desk_size)
 	start_position = Vector2i(column, row)
+	add_desk_to_grid(DESK_SCENE, start_position)
 	add_child(note)
 
-func _draw() -> void:
-	if Engine.is_editor_hint():
-		var default_font := ThemeDB.fallback_font
-		var default_font_size := ThemeDB.fallback_font_size
-		for i in grid_data.grid_size.x:
-			for j in grid_data.grid_size.y:
-				var cell_position := grid_to_pixel(i, j)
-				var next_cell_position := grid_to_pixel(i + 1, j + 1)
-				var tile_position := cell_position - (grid_data.grid_spacing / 2)
-				var tile_size := next_cell_position - cell_position
-				draw_rect(Rect2(tile_position, tile_size), Color.GREEN, false, 2.0)
-				#draw_rect(Rect2(cell_position, tile_size), Color.LIGHT_GREEN, false, 2.0)
-				
-				var column_row_string := str(i) + ", " + str(j)
-				var string_size := default_font.get_string_size(column_row_string)
-				var string_offset := Vector2(cell_position.x - (string_size.x / 2), cell_position.y + (string_size.y / 4))
-				draw_string(default_font, string_offset, column_row_string, HORIZONTAL_ALIGNMENT_CENTER, -1, default_font_size)
+func spawn_note_destination() -> void:
+	end_position = desk_count - Vector2i(1, 1)
+	note = NOTE_SCENE.instantiate() as Note
+	note.with_data(desks.map_to_local(end_position), desk_size)
+	add_desk_to_grid(DESK_SCENE, end_position)
+	add_child(note)
 
-func grid_to_pixel(column: int, row: int) -> Vector2i:
-	var x := grid_data.grid_spacing.x * column
-	var y := grid_data.grid_spacing.y * row
-	return Vector2i(x, y)
+func reroll_empty_desks() -> void:
+	var empty_cells: Array[Vector2i]
+	for i in desk_count.x:
+		for j in desk_count.y:
+			var cell := Vector2i(i, j)
+			var tile := desks.get_cell_alternative_tile(cell)
+			if tile > 1:
+				empty_cells.append(cell)
+	for empty_cell in empty_cells:
+		add_desk_to_grid(get_random_desk(), empty_cell)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	if Engine.is_editor_hint():
-		queue_redraw()
+func add_desk_to_grid(desk_scene: int, desk_position: Vector2i) -> void:
+	desks.set_cell(desk_position, TILE_SET_SOURCE_ID, Vector2i.ZERO, desk_scene)
+	a_star_grid.set_point_solid(desk_position, desk_scene != DESK_SCENE)
+
+func get_random_desk() -> int:
+	var rand: int = randi_range(0, 2)
+	var desk: int
+	if rand > 0:
+		desk = DESK_SCENE
+	else:
+		desk = EMPTY_DESK_SCENE
+	return desk
