@@ -5,16 +5,43 @@ extends Node2D
 
 const DESK_SCENE := preload("res://Scenes/desk.tscn")
 const NOTE_SCENE = preload("res://Scenes/note.tscn")
+const EMPTY_DESK = preload("res://Scenes/empty_desk.tscn")
 
+@onready var a_star_debug: TileMapLayer = $AStarDebug
+
+var a_star_grid: AStarGrid2D
 var desks: Array[Array] = []
 var note: Note
+var start_position: Vector2i
+var end_position: Vector2i
+
+#manhattan
+#diagnal never
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not Engine.is_editor_hint():
+		setup_astar_grid()
 		desks = setup_grid()
 		spawn_desks()
 		spawn_note()
+		end_position = grid_data.grid_size - Vector2i(1, 1)
+		find_path()
+
+func setup_astar_grid() -> void:
+	a_star_grid = AStarGrid2D.new()
+	a_star_grid.size = grid_data.grid_size * grid_data.grid_spacing
+	a_star_grid.cell_size = grid_data.grid_spacing
+	a_star_grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	a_star_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	a_star_grid.jumping_enabled = false
+	a_star_grid.update()
+
+func find_path() -> void:
+	var path := a_star_grid.get_id_path(start_position, end_position)
+	for cell in path:
+		a_star_debug.set_cell(cell, 1, Vector2.ZERO)
 
 func setup_grid() -> Array[Array]:
 	var array: Array[Array] = [];
@@ -27,18 +54,27 @@ func setup_grid() -> Array[Array]:
 func spawn_desks() -> void:
 	for i in grid_data.grid_size.x:
 		for j in grid_data.grid_size.y:
-			#var rand: int = randi_range(0, 0)
+			var rand: int = randi_range(0, 10)
 			#var desk = possible_desks[rand].instance()
-			var desk := DESK_SCENE.instantiate() as Node2D
-			add_child(desk)
-			desk.position = grid_to_pixel(i, j)
-			desks[i][j] = desk;
+			var desk: Node2D
+			if rand > 0:
+				desk = DESK_SCENE.instantiate()
+			else:
+				desk = EMPTY_DESK.instantiate()
+			add_desk_to_grid(desk, Vector2i(i, j), rand <= 0)
+
+func add_desk_to_grid(desk_scene: Node2D, desk_position: Vector2i, solid: bool) -> void:
+	add_child(desk_scene)
+	desk_scene.position = grid_to_pixel(desk_position.x, desk_position.y)
+	desks[desk_position.x][desk_position.y] = desk_scene
+	a_star_grid.set_point_solid(desk_position, solid)
 
 func spawn_note() -> void:
 	var column := randi_range(0, grid_data.grid_size.x - 1)
 	var row := randi_range(0, grid_data.grid_size.y - 1)
 	note = NOTE_SCENE.instantiate() as Note
 	note.with_data(grid_to_pixel(column, row), grid_data)
+	start_position = Vector2i(column, row)
 	add_child(note)
 
 func _draw() -> void:
