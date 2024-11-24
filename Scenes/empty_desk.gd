@@ -1,4 +1,5 @@
 extends Node2D
+class_name EmptyDesk
 
 @export var desks: Array[Texture2D] = []
 @onready var sprite_2d: Sprite2D = $Sprite2D
