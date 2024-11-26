@@ -39,6 +39,7 @@ visible = false
 tile_set = SubResource("TileSet_7bo57")
 
 [node name="WalkableGrid" type="TileMapLayer" parent="."]
+visible = false
 position = Vector2(24, 20)
 tile_set = SubResource("TileSet_1geoq")
 

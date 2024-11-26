@@ -11,18 +11,17 @@ const SPEED = 50.0
 var walk_path: Array[Vector2]
 var moving := false
 var target_position := Vector2(-1, -1)
+var current_direction := Vector2.ZERO
 
 func _ready() -> void:
 	walk_timer.timeout.connect(_on_walk_timer_timeout)
 
 func _process(_delta: float) -> void:
 	var direction := global_position.direction_to(target_position)
-	var animation := "walk"
-	if global_position.is_equal_approx(target_position):
-		if !walk_path.is_empty() && walk_path.size() > 1:
-			direction = global_position.direction_to(walk_path[1])
-		animation = "idle"
-	match direction:
+	var animation := "idle"
+	if !global_position.is_equal_approx(target_position) && !target_position.is_equal_approx(Vector2(-1, -1)):
+		animation = "walk"
+	match current_direction:
 		Vector2.LEFT:
 			animated_sprite_2d.play(animation + "_left")
 		Vector2.RIGHT:
@@ -33,27 +32,36 @@ func _process(_delta: float) -> void:
 			animated_sprite_2d.play(animation + "_down")
 
 
-
 func _physics_process(_delta: float) -> void:
 	if walk_path.is_empty():
 		get_random_walk_path()
+		if walk_path.size() > 1:
+			walk_path.pop_front()
+		if !walk_path.is_empty():
+			current_direction = global_position.direction_to(walk_path.front())
 		return
 	
-	#if target_position.is_equal_approx(Vector2(-1, -1)):
-		#return
+	if target_position.is_equal_approx(Vector2(-1, -1)):
+		return
 
 	if moving == false:
-		target_position = walk_path.front()
-		moving = true
+		return
 
 	global_position = global_position.move_toward(target_position, 1)
-	
+
 	if global_position.is_equal_approx(target_position):
 		walk_path.pop_front()
 		if !walk_path.is_empty():
-			target_position = walk_path.front()
+			var new_direction := global_position.direction_to(walk_path.front())
+			if current_direction.is_equal_approx(new_direction):
+				target_position = walk_path.front()
+			else:
+				current_direction = new_direction
+				moving = false
+				walk_timer.start()
 		else:
 			moving = false
+			walk_timer.start()
 
 func get_random_walk_path() -> void:
 	var column := randi_range(0, grid.walking_area.x - 2)
@@ -63,5 +71,6 @@ func get_random_walk_path() -> void:
 	walk_path = path
 
 func _on_walk_timer_timeout() -> void:
-
-	walk_timer.start()
+	if moving == false:
+		target_position = walk_path.front()
+		moving = true
