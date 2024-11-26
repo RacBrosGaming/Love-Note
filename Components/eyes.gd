@@ -44,7 +44,7 @@ func note_visible(note_position: Vector2) -> bool:
 		collider = ray_cast_2d.get_collider() as Note
 	return is_instance_valid(collider)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if look_for_note && is_instance_valid(note):
 		last_note_position = note.global_position
 		found_note = note_visible(note.global_position)
