@@ -21,6 +21,7 @@ var facing_desks := false
 var looking_right := false
 var turn_smoothing := 5.0
 
+
 func _ready() -> void:
 	eyes.area_entered.connect(_on_eyes_area_entered)
 	eyes.area_exited.connect(_on_eyes_area_exited)
