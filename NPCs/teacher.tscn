@@ -126,12 +126,10 @@ radius = 12.0
 height = 64.0
 
 [node name="Teacher" type="CharacterBody2D"]
+y_sort_enabled = true
 script = ExtResource("1_hblwe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = -4
-z_as_relative = false
-y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_r6mjn")
 animation = &"look_up"
 autoplay = "idle"

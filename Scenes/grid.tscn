@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bycek0e5qii0i"]
+[gd_scene load_steps=9 format=3 uid="uid://bycek0e5qii0i"]
 
 [ext_resource type="Script" path="res://Scenes/grid.gd" id="1_6gtw2"]
 [ext_resource type="Texture2D" uid="uid://dv3jd0yxwm63m" path="res://icon.svg" id="3_c30uk"]
@@ -13,16 +13,36 @@ texture_region_size = Vector2i(96, 80)
 tile_size = Vector2i(96, 80)
 sources/0 = SubResource("TileSetAtlasSource_yry3m")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1g1yi"]
+texture = ExtResource("3_c30uk")
+texture_region_size = Vector2i(48, 40)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_1geoq"]
+tile_size = Vector2i(48, 40)
+sources/0 = SubResource("TileSetAtlasSource_1g1yi")
+
 [sub_resource type="TileSet" id="TileSet_8vxve"]
 tile_size = Vector2i(96, 80)
 
 [node name="Grid" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_6gtw2")
 
 [node name="AStarDebug" type="TileMapLayer" parent="."]
 visible = false
 tile_set = SubResource("TileSet_7bo57")
 
+[node name="WalkableGrid" type="TileMapLayer" parent="."]
+position = Vector2(24, 20)
+tile_set = SubResource("TileSet_1geoq")
+
 [node name="Desks" type="TileMapLayer" parent="."]
+y_sort_enabled = true
 tile_set = SubResource("TileSet_8vxve")
 script = ExtResource("5_6t6h3")

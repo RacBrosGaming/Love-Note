@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dhiij4f5op4ku" path="res://Assets/Desk/desk_dirty.png" id="3_mmit6"]
 
 [node name="EmptyDesk" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_l6nre")
 desks = Array[Texture2D]([ExtResource("2_mofe2"), ExtResource("3_mmit6")])
 
