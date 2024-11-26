@@ -111,7 +111,7 @@ func spawn_note() -> void:
 
 func spawn_note_destination() -> void:
 	var furthest_spawn: Vector2i
-	var furthest_distance: int
+	var furthest_distance: float
 	
 	for i in range(0, 10):
 		var column := randi_range(0, desk_count.x - 1)
@@ -137,7 +137,7 @@ func reroll_empty_desks() -> void:
 		add_desk_to_grid(get_random_desk(), empty_cell)
 
 func add_desk_to_grid(desk_scene: PackedScene, desk_position: Vector2i) -> void:
-	var desk := desk_scene.instantiate()
+	var desk := desk_scene.instantiate() as Node2D
 	desks.set_cell_scene(desk_position, desk)
 	a_star_grid.set_point_solid(desk_position, desk_scene != DESK_SCENE)
 	npc_a_star_grid.set_point_solid(desk_position * 2, true)

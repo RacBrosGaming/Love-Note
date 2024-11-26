@@ -19,7 +19,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	pass
 
-func _on_note_found(note: Note) -> void:
+func _on_note_found(_note: Note) -> void:
 	if is_instance_valid(grid_position):
 		var children := grid_position.get_children()
 		for child in children:
