@@ -226,11 +226,6 @@ autoplay = "idle_down"
 frame = 1
 frame_progress = 0.566812
 
-[node name="VisionCone" type="Sprite2D" parent="."]
-modulate = Color(0.173, 0.173, 0.173, 0.5)
-z_index = -1
-texture = ExtResource("5_4s506")
-
 [node name="WalkTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
@@ -240,4 +235,5 @@ autostart = true
 vision_cone_sprite = ExtResource("5_4s506")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Eyes"]
+visible = false
 shape = SubResource("CircleShape2D_y3kv2")
