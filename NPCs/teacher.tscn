@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://NPCs/teacher.gd" id="1_hblwe"]
 [ext_resource type="Texture2D" uid="uid://b07uuea0a43no" path="res://Assets/Teacher/spritesheet_teacher.png" id="2_rfhby"]
-[ext_resource type="Texture2D" uid="uid://i7a0c351ceth" path="res://Assets/Teacher/vision_cone.png" id="3_a5bu7"]
+[ext_resource type="PackedScene" uid="uid://dd5j1mi7xbhwh" path="res://Components/eyes.tscn" id="3_47a0o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4t6bf"]
 atlas = ExtResource("2_rfhby")
@@ -137,22 +137,11 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_rmx2n")
 
-[node name="Eyes" type="Area2D" parent="."]
-z_index = -5
-collision_layer = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="Eyes"]
-modulate = Color(0.173, 0.173, 0.173, 0.5)
-texture = ExtResource("3_a5bu7")
+[node name="Eyes" parent="." instance=ExtResource("3_47a0o")]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Eyes"]
 visible = false
 polygon = PackedVector2Array(0, 0, -184, 232, -112, 280, 0, 296, 112, 280, 184, 232)
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 5
-collide_with_areas = true
-collide_with_bodies = false
 
 [node name="MoveTimer" type="Timer" parent="."]
 one_shot = true

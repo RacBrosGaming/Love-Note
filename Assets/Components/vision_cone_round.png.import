@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://i7a0c351ceth"
-path="res://.godot/imported/vision_cone.png-9bbd2aa3b91b8af8cb414b71842df0a2.ctex"
+uid="uid://du2gy8cwx3he2"
+path="res://.godot/imported/vision_cone_round.png-7bc4ddce13ffe01ab2a5aedd8fe3a1e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Teacher/vision_cone.png"
-dest_files=["res://.godot/imported/vision_cone.png-9bbd2aa3b91b8af8cb414b71842df0a2.ctex"]
+source_file="res://Assets/Components/vision_cone_round.png"
+dest_files=["res://.godot/imported/vision_cone_round.png-7bc4ddce13ffe01ab2a5aedd8fe3a1e1.ctex"]
 
 [params]
 

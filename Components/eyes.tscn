@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dd5j1mi7xbhwh"]
+
+[ext_resource type="Script" path="res://Components/eyes.gd" id="1_u2b64"]
+[ext_resource type="Texture2D" uid="uid://i7a0c351ceth" path="res://Assets/Components/vision_cone.png" id="2_s1lql"]
+
+[node name="Eyes" type="Area2D"]
+z_index = -5
+collision_layer = 2
+monitorable = false
+script = ExtResource("1_u2b64")
+
+[node name="VisionConeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_s1lql")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = false
+collision_mask = 5
+collide_with_areas = true
+collide_with_bodies = false
