@@ -75,11 +75,12 @@ func find_npc_path(start: Vector2, end: Vector2i) -> Array[Vector2]:
 	var global_path: Array[Vector2]
 	var starting_cell := convert_position_to_cell(start)
 	if npc_a_star_grid.is_in_bounds(starting_cell.x, starting_cell.y):
-		var path := npc_a_star_grid.get_id_path(starting_cell, end)
-		for cell in path:
-			walkable_grid.set_cell(cell, 0, Vector2.RIGHT)
-			var global_cell_position := convert_cell_to_position(cell)
-			global_path.append(global_cell_position)
+		if npc_a_star_grid.is_in_bounds(end.x, end.y):
+			var path := npc_a_star_grid.get_id_path(starting_cell, end)
+			for cell in path:
+				walkable_grid.set_cell(cell, 0, Vector2.RIGHT)
+				var global_cell_position := convert_cell_to_position(cell)
+				global_path.append(global_cell_position)
 	else:
 		var top_right := Vector2(npc_a_star_grid.region.size.x - 1, 1)
 		walkable_grid.set_cell(top_right, 0, Vector2.RIGHT)

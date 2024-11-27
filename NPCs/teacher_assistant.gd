@@ -103,7 +103,7 @@ func _on_eyes_note_found(p_note: Note) -> void:
 	var right_path := get_walk_path(right_of_note)
 	var left_size := left_path.size()
 	var right_size := right_path.size()
-	if left_size < right_size:
+	if !left_path.is_empty() && left_size < right_size:
 		walk_path = left_path
 	else:
 		walk_path = right_path
