@@ -1,12 +1,13 @@
 extends CharacterBody2D
 class_name Teacher
 
+signal note_found(note: Note)
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var move_timer: Timer = $MoveTimer
 @onready var turn_around_timer: Timer = $TurnAroundTimer
 @onready var look_timer: Timer = $LookTimer
 @onready var eyes: Eyes = $Eyes
-
 
 var direction := Vector2.RIGHT
 var lerp_direction := direction
@@ -15,7 +16,11 @@ var facing_desks := false
 var looking_right := false
 var turn_smoothing := 5.0
 
-var found_note := false
+var note: Note
+
+var found_note:= false: set = set_found_note
+func set_found_note(value: bool) -> void:
+	found_note = value
 
 func _ready() -> void:
 	move_timer.timeout.connect(_on_move_timer_timeout)
@@ -27,6 +32,8 @@ func _ready() -> void:
 	eyes.note_found.connect(_on_eyes_note_found)
 
 func _process(_delta: float) -> void:
+	if !is_instance_valid(note):
+		found_note = false
 	animated_sprite_2d.flip_h = direction == Vector2.LEFT
 	if found_note:
 		if animated_sprite_2d.animation != "discover_letter":
@@ -100,6 +107,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite_2d.animation == "look_up":
 		animated_sprite_2d.play("idle")
 
-func _on_eyes_note_found(_note: Note) -> void:
+func _on_eyes_note_found(p_note: Note) -> void:
+	note = p_note
+	note_found.emit(note)
 	found_note = true
 	animated_sprite_2d.play("discover_letter")

@@ -1,6 +1,8 @@
 extends Node2D
 class_name TeacherAssistant
 
+signal note_found(note: Note)
+
 const SPEED = 50.0
 
 @export var grid: Grid
@@ -14,14 +16,21 @@ var moving := false
 var target_position := Vector2(-1, -1)
 var current_direction := Vector2.ZERO
 
-var found_note := false
 var note: Note
+
+var found_note:= false: set = set_found_note
+func set_found_note(value: bool) -> void:
+	if found_note == true:
+		walk_timer.start()
+	found_note = value
 
 func _ready() -> void:
 	walk_timer.timeout.connect(_on_walk_timer_timeout)
 	eyes.note_found.connect(_on_eyes_note_found)
 
 func _process(_delta: float) -> void:
+	if !is_instance_valid(note):
+		found_note = false
 	var animation := "idle"
 	if !global_position.is_equal_approx(target_position) && !target_position.is_equal_approx(Vector2(-1, -1)):
 		animation = "walk"
@@ -94,6 +103,7 @@ func _on_walk_timer_timeout() -> void:
 
 func _on_eyes_note_found(p_note: Note) -> void:
 	note = p_note
+	note_found.emit(note)
 	await note.stopped_moving
 	found_note = true
 	var target_cell := grid.convert_position_to_cell(note.global_position)

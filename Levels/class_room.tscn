@@ -92,3 +92,7 @@ shape = SubResource("WorldBoundaryShape2D_u4oht")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(568, 0)
 shape = SubResource("WorldBoundaryShape2D_c25yy")
+
+[node name="ResetTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
