@@ -58,12 +58,29 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	move()
+	if found_note:
+		move_without_pause()
+	else:
+		move()
+
+func move_without_pause() -> void:
+	walk_timer.paused = true
+	moving = true
+	global_position = global_position.move_toward(target_position, 1)
+
+	if global_position.is_equal_approx(target_position):
+		walk_path.pop_front()
+		if !walk_path.is_empty():
+			var new_direction := global_position.direction_to(walk_path[0])
+			current_direction = new_direction
+			target_position = walk_path[0]
+	if walk_path.is_empty():
+		moving = false
+		walk_timer.paused = false
 
 func move() -> void:
 	if walk_path.is_empty():
-		if !found_note:
-			walk_path = get_walk_path()
+		walk_path = get_walk_path()
 		if walk_path.size() > 1:
 			walk_path.pop_front()
 		if !walk_path.is_empty():
@@ -113,8 +130,8 @@ func discover_note(p_note: Note) -> void:
 	note = p_note
 	if is_instance_valid(note):
 		await note.stopped_moving
-		found_note = true
 		move_to_position(note.global_position)
+		found_note = true
 
 func move_to_position(goal_position: Vector2) -> void:
 	var target_cell := grid.convert_position_to_cell(goal_position)
