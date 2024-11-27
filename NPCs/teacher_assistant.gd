@@ -94,8 +94,8 @@ func _on_walk_timer_timeout() -> void:
 
 func _on_eyes_note_found(p_note: Note) -> void:
 	note = p_note
-	found_note = true
 	await note.stopped_moving
+	found_note = true
 	var target_cell := grid.convert_position_to_cell(note.global_position)
 	var left_of_note := Vector2i(target_cell.x - 1, target_cell.y)
 	var right_of_note := Vector2i(target_cell.x + 1, target_cell.y)
