@@ -5,7 +5,7 @@ class_name Teacher
 @onready var move_timer: Timer = $MoveTimer
 @onready var turn_around_timer: Timer = $TurnAroundTimer
 @onready var look_timer: Timer = $LookTimer
-@onready var eyes: Area2D = $Eyes
+@onready var eyes: Eyes = $Eyes
 
 
 var direction := Vector2.RIGHT
@@ -15,6 +15,8 @@ var facing_desks := false
 var looking_right := false
 var turn_smoothing := 5.0
 
+var found_note := false
+
 func _ready() -> void:
 	move_timer.timeout.connect(_on_move_timer_timeout)
 	look_timer.timeout.connect(_on_look_timer_timeout)
@@ -22,24 +24,26 @@ func _ready() -> void:
 	turn_around_timer.start(randf_range(2.0, 5.0))
 	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
 	eyes.rotate(PI)
+	eyes.note_found.connect(_on_eyes_note_found)
 
 func _process(_delta: float) -> void:
 	animated_sprite_2d.flip_h = direction == Vector2.LEFT
-	#if found_note:
-		#if animated_sprite_2d.animation != "discover_letter":
-			#animated_sprite_2d.play("discover_letter")
-	#else:
-	if looking_right:
-		animated_sprite_2d.play("look_right")
-	elif moving:
-		animated_sprite_2d.play("walk_right")
+	if found_note:
+		if animated_sprite_2d.animation != "discover_letter":
+			animated_sprite_2d.play("discover_letter")
 	else:
-		if animated_sprite_2d.animation != "look_up" && animated_sprite_2d.animation != "idle":
-			animated_sprite_2d.play("look_up")
+		if looking_right:
+			animated_sprite_2d.play("look_right")
+		elif moving:
+			animated_sprite_2d.play("walk_right")
+		else:
+			if animated_sprite_2d.animation != "look_up" && animated_sprite_2d.animation != "idle":
+				animated_sprite_2d.play("look_up")
 
 func _physics_process(delta: float) -> void:
-	#if found_note:
-		#return
+	if found_note:
+		return
+
 	if moving:
 		var collider := move_and_collide(direction)
 		if is_instance_valid(collider):
@@ -95,3 +99,7 @@ func _on_turn_around_timer_timeout() -> void:
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite_2d.animation == "look_up":
 		animated_sprite_2d.play("idle")
+
+func _on_eyes_note_found(_note: Note) -> void:
+	found_note = true
+	animated_sprite_2d.play("discover_letter")

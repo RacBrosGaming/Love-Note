@@ -1,6 +1,8 @@
 extends Area2D
 class_name Note
 
+signal stopped_moving
+
 var starting_position: Vector2
 var desk_size: Vector2i
 var directions := {
@@ -14,9 +16,15 @@ var current_desk: Desk
 var hovered_desk: Desk
 var last_position := Vector2(-1, -1)
 var nearby_desks: Dictionary#[Vector2i, Desk]
-var moving := false
+var moving:= false: set = set_moving
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
+
+func set_moving(value: bool) -> void:
+	moving = value
+	if moving == false:
+		stopped_moving.emit()
+
 
 func with_data(p_starting_position: Vector2, p_desk_size: Vector2i) -> Note:
 	starting_position = p_starting_position

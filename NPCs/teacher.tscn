@@ -131,7 +131,7 @@ script = ExtResource("1_hblwe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_r6mjn")
-animation = &"look_up"
+animation = &"look_down"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

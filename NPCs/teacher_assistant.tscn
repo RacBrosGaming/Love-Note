@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b3iy832u4660f"]
+[gd_scene load_steps=36 format=3 uid="uid://b3iy832u4660f"]
 
 [ext_resource type="Texture2D" uid="uid://cv11ve43s03o" path="res://Assets/Teacher/teacher_assistant_walk_down.png" id="1_icfs4"]
 [ext_resource type="Script" path="res://NPCs/teacher_assistant.gd" id="1_rq2fs"]
@@ -6,6 +6,22 @@
 [ext_resource type="Texture2D" uid="uid://cigyfqlhcm243" path="res://Assets/Teacher/teacher_assistant_walk_right.png" id="3_j2ug5"]
 [ext_resource type="Texture2D" uid="uid://du2gy8cwx3he2" path="res://Assets/Components/vision_cone_round.png" id="5_4s506"]
 [ext_resource type="PackedScene" uid="uid://dd5j1mi7xbhwh" path="res://Components/eyes.tscn" id="6_r5xhd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l5gb"]
+atlas = ExtResource("3_j2ug5")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qnld"]
+atlas = ExtResource("3_j2ug5")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5ht7"]
+atlas = ExtResource("3_j2ug5")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bldp"]
+atlas = ExtResource("3_j2ug5")
+region = Rect2(512, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ogy8"]
 atlas = ExtResource("1_icfs4")
@@ -101,6 +117,28 @@ region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cpvfd"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l5gb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qnld")
+}],
+"loop": false,
+"name": &"found_note_left",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h5ht7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1bldp")
+}],
+"loop": false,
+"name": &"found_note_right",
+"speed": 2.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0ogy8")
@@ -221,10 +259,8 @@ script = ExtResource("1_rq2fs")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_cpvfd")
-animation = &"idle_up"
+animation = &"found_note_left"
 autoplay = "idle_down"
-frame = 1
-frame_progress = 0.566812
 
 [node name="WalkTimer" type="Timer" parent="."]
 wait_time = 2.0

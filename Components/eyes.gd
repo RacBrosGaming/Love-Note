@@ -1,5 +1,6 @@
 @tool
 extends Area2D
+class_name Eyes
 
 signal note_found(note: Note)
 

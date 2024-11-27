@@ -70,22 +70,28 @@ func find_goal_path() -> Array[Vector2i]:
 		a_star_debug.set_cell(cell, 0, Vector2.ZERO)
 	return path
 
-func find_npc_path(start: Vector2i, end: Vector2i) -> Array[Vector2]:
+func find_npc_path(start: Vector2, end: Vector2i) -> Array[Vector2]:
 	walkable_grid.clear()
 	var global_path: Array[Vector2]
-	var starting_cell := walkable_grid.local_to_map(walkable_grid.to_local(start))
+	var starting_cell := convert_position_to_cell(start)
 	if npc_a_star_grid.is_in_bounds(starting_cell.x, starting_cell.y):
-		var path := npc_a_star_grid.get_id_path(walkable_grid.local_to_map(walkable_grid.to_local(start)), end)
+		var path := npc_a_star_grid.get_id_path(starting_cell, end)
 		for cell in path:
 			walkable_grid.set_cell(cell, 0, Vector2.RIGHT)
-			var global_cell_position := walkable_grid.to_global(walkable_grid.map_to_local(cell))
+			var global_cell_position := convert_cell_to_position(cell)
 			global_path.append(global_cell_position)
 	else:
 		var top_right := Vector2(npc_a_star_grid.region.size.x - 1, 1)
 		walkable_grid.set_cell(top_right, 0, Vector2.RIGHT)
-		var top_right_global_position := walkable_grid.to_global(walkable_grid.map_to_local(top_right))
+		var top_right_global_position := convert_cell_to_position(top_right)
 		global_path.append(top_right_global_position)
 	return global_path
+
+func convert_position_to_cell(target_position: Vector2) -> Vector2i:
+	return walkable_grid.local_to_map(walkable_grid.to_local(target_position))
+
+func convert_cell_to_position(target_cell: Vector2i) -> Vector2:
+	return walkable_grid.to_global(walkable_grid.map_to_local(target_cell))
 
 func debug_npc_path() -> void:
 	for column in npc_a_star_grid.region.size.x:
