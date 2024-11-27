@@ -7,6 +7,7 @@
 size = Vector2(18, 14)
 
 [node name="Note" type="Area2D"]
+z_index = 1
 monitoring = false
 script = ExtResource("1_mlrsy")
 

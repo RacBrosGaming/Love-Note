@@ -3,6 +3,8 @@ class_name Note
 
 signal stopped_moving
 
+@onready var sprite_2d: Sprite2D = $Sprite2D
+
 var starting_position: Vector2
 var desk_size: Vector2i
 var directions := {
@@ -25,7 +27,6 @@ func set_moving(value: bool) -> void:
 	if moving == false:
 		stopped_moving.emit()
 
-
 func with_data(p_starting_position: Vector2, p_desk_size: Vector2i) -> Note:
 	starting_position = p_starting_position
 	desk_size = p_desk_size
@@ -45,6 +46,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		move()
 
+func _process(_delta: float) -> void:
+	var facing_position := Vector2.ZERO
+	match current_direction:
+		Vector2i.LEFT:
+			facing_position = Vector2(-32, 0)
+		Vector2i.RIGHT:
+			facing_position = Vector2(32, 0)
+		Vector2i.UP:
+			facing_position = Vector2(0, -32)
+		Vector2i.DOWN:
+			facing_position = Vector2(0, 32)
+		_:
+			facing_position = Vector2.ZERO
+	sprite_2d.position = facing_position
+
 func _physics_process(_delta: float) -> void:
 	if (!moving && !last_position.is_equal_approx(position)) || nearby_desks.is_empty():
 		ray_cast_2d.enabled = true
@@ -60,6 +76,8 @@ func move() -> void:
 	if !moving && is_instance_valid(hovered_desk):
 		var tween := create_tween()
 		tween.tween_property(self, "global_position", hovered_desk.global_position, 1)
+		var sprite_tween := create_tween()
+		sprite_tween.tween_property(sprite_2d, "position", Vector2.ZERO, 1)
 		moving = true
 		current_desk = hovered_desk
 		await tween.finished
