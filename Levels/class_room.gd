@@ -26,6 +26,7 @@ func _call_teacher(target_position: Vector2) -> void:
 	teacher_assistant.move_to_position(target_position)
 
 func _on_note_found(note: Note) -> void:
+	note.paused = true
 	teacher.discover_note(note)
 	teacher_assistant.discover_note(note)
 	await teacher_assistant.stopped_moving
