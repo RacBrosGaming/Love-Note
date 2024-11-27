@@ -79,9 +79,11 @@ func move() -> void:
 		var sprite_tween := create_tween()
 		sprite_tween.tween_property(sprite_2d, "position", Vector2.ZERO, 1)
 		moving = true
+		current_desk.note = null
 		current_desk = hovered_desk
 		await tween.finished
 		reset_nearby_desks()
+		current_desk.note = self
 		moving = false
 
 func check_neaby_desks() -> void:

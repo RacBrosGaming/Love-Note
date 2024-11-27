@@ -11,25 +11,35 @@ signal desk_hovered(desk: Desk)
 @export var kids: Array[Texture2D] = []
 @export var goal_sprite: Texture2D
 
-const KID_IDLE_FRAME := 0
-const KID_LEFT_FRAME := 2
-const KID_RIGHT_FRAME := 3
-const KID_UP_FRAME := 4
-const KID_DOWN_FRAME := 5
-const KID_FRAMES := 6
-const KID_DIRECTION := {
-	Vector2i.ZERO: KID_IDLE_FRAME,
-	Vector2i.LEFT: KID_LEFT_FRAME,
-	Vector2i.RIGHT: KID_RIGHT_FRAME,
-	Vector2i.UP: KID_UP_FRAME,
-	Vector2i.DOWN: KID_DOWN_FRAME,
+@export var  kid_idle_frame := 0
+@export var  kid_left_frame := 2
+@export var  kid_right_frame := 3
+@export var  kid_up_frame := 4
+@export var  kid_down_frame := 5
+@export var  kid_frames := 6
+
+@onready var kid_direction := {
+	Vector2i.ZERO: kid_idle_frame,
+	Vector2i.LEFT: kid_left_frame,
+	Vector2i.RIGHT: kid_right_frame,
+	Vector2i.UP: kid_up_frame,
+	Vector2i.DOWN: kid_down_frame,
 }
 
+var has_note: bool: set = set_has_note
+var note: Note: set = set_note
 var active: bool: set = set_active
 var hovered: bool: set = set_hover
 var direction: Vector2i: set = set_direction
 var pending_hover := false
 var goal: bool: set = set_goal
+
+func set_note(value: Note) -> void:
+	note = value
+	set_has_note(is_instance_valid(value))
+
+func set_has_note(value: bool) -> void:
+	has_note = value
 
 func set_active(value: bool) -> void:
 	active = value
@@ -50,12 +60,12 @@ func set_direction(value: Vector2i) -> void:
 		play_idle()
 	else:
 		animation_player.stop()
-	sprite_2d.frame = KID_DIRECTION[direction]
+	sprite_2d.frame = kid_direction[direction]
 
 func _ready() -> void:
 	if !kids.is_empty():
 		sprite_2d.texture = kids[randi_range(0, kids.size() - 1)]
-		sprite_2d.hframes = KID_FRAMES
+		sprite_2d.hframes = kid_frames
 	input_event.connect(_on_input_event)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)

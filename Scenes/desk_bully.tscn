@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3 uid="uid://dstfh7u2o7dj"]
+
+[ext_resource type="PackedScene" uid="uid://dnhrpo8g4oeh1" path="res://Scenes/desk.tscn" id="1_1y0ee"]
+[ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="2_6ptw8"]
+[ext_resource type="Script" path="res://Scenes/desk_bully.gd" id="2_ahy8o"]
+[ext_resource type="Texture2D" uid="uid://dvxy7cxv2ouu1" path="res://Assets/Desk/spritesheet_bully_1.png" id="3_a4mkw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_34p3m"]
+resource_local_to_scene = true
+shader = ExtResource("2_6ptw8")
+shader_parameter/enabled = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 2.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = false
+shader_parameter/number_of_images = Vector2(1, 1)
+
+[sub_resource type="Animation" id="Animation_wf4wy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_yis32"]
+resource_name = "idle"
+length = 0.66
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_ejl6i"]
+resource_name = "taunt"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dbgo1"]
+_data = {
+"RESET": SubResource("Animation_wf4wy"),
+"idle": SubResource("Animation_yis32"),
+"taunt": SubResource("Animation_ejl6i")
+}
+
+[node name="DeskBully" instance=ExtResource("1_1y0ee")]
+script = ExtResource("2_ahy8o")
+kids = Array[Texture2D]([ExtResource("3_a4mkw")])
+goal_sprite = null
+kid_frames = 8
+
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_34p3m")
+texture = ExtResource("3_a4mkw")
+hframes = 8
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_dbgo1")
+}

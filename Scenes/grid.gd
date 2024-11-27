@@ -9,7 +9,14 @@ var walking_tile_size := desk_size / 2
 
 const NOTE_SCENE = preload("res://Scenes/note.tscn")
 const DESK_SCENE = preload("res://Scenes/desk.tscn")
+const DESK_BULLY_SCENE = preload("res://Scenes/desk_bully.tscn")
 const EMPTY_DESK_SCENE = preload("res://Scenes/empty_desk.tscn")
+
+@onready var desk_scenes := [
+	DESK_SCENE,
+	DESK_BULLY_SCENE,
+	EMPTY_DESK_SCENE
+]
 
 @onready var desks: TileMapLayerScene = $Desks
 @onready var a_star_debug: TileMapLayer = $AStarDebug
@@ -20,6 +27,8 @@ var npc_a_star_grid: AStarGrid2D
 var note: Note
 var start_position: Vector2i
 var end_position: Vector2i
+var bully_count := 0
+var total_bullies_allowed := 1
 
 func _ready() -> void:
 	setup_grids()
@@ -146,14 +155,15 @@ func reroll_empty_desks() -> void:
 func add_desk_to_grid(desk_scene: PackedScene, desk_position: Vector2i) -> void:
 	var desk := desk_scene.instantiate() as Node2D
 	desks.set_cell_scene(desk_position, desk)
-	a_star_grid.set_point_solid(desk_position, desk_scene != DESK_SCENE)
+	a_star_grid.set_point_solid(desk_position, desk_scene == EMPTY_DESK_SCENE)
 	npc_a_star_grid.set_point_solid(desk_position * 2, true)
 
 func get_random_desk() -> PackedScene:
-	var rand: int = randi_range(0, 2)
+	var i: int = randi_range(0, desk_scenes.size() - 1)
 	var desk: PackedScene
-	if rand > 0:
-		desk = DESK_SCENE
-	else:
-		desk = EMPTY_DESK_SCENE
+	desk = desk_scenes[i]
+	if desk == DESK_BULLY_SCENE:
+		bully_count += 1
+	if bully_count >= total_bullies_allowed:
+		desk_scenes.erase(DESK_BULLY_SCENE)
 	return desk

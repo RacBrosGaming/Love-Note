@@ -3,24 +3,27 @@ extends Node2D
 @onready var teacher: Teacher = $Teacher
 @onready var teacher_assistant: TeacherAssistant = $TeacherAssistant
 @onready var grid_position: Marker2D = $GridPosition
+@onready var grid: Grid = $GridPosition/Grid
 @onready var reset_timer: Timer = $ResetTimer
 
 const GRID = preload("res://Scenes/grid.tscn")
 
 var grid_transform: Transform2D
 
-#@onready var grid: Node2D = $Grid
-#
-#var note_position: Vector2
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	teacher.note_found.connect(_on_note_found)
 	teacher_assistant.note_found.connect(_on_note_found)
+	connect_bully_to_teacher_assistant()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func connect_bully_to_teacher_assistant() -> void:
+	for scene: Node2D in grid.desks.scenes.values():
+		if scene is DeskBully:
+			var desk_bully := scene as DeskBully
+			if is_instance_valid(desk_bully):
+				desk_bully.call_teacher.connect(_call_teacher)
+
+func _call_teacher(target_position: Vector2) -> void:
+	teacher_assistant.move_to_position(target_position)
 
 func _on_note_found(note: Note) -> void:
 	teacher.discover_note(note)
@@ -32,6 +35,7 @@ func _on_note_found(note: Note) -> void:
 		var children := grid_position.get_children()
 		for child in children:
 			child.queue_free()
-		var grid := GRID.instantiate()
+		grid = GRID.instantiate()
 		grid_position.add_child(grid)
 		teacher_assistant.grid = grid
+		connect_bully_to_teacher_assistant()

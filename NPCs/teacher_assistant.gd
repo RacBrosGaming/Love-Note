@@ -114,15 +114,18 @@ func discover_note(p_note: Note) -> void:
 	if is_instance_valid(note):
 		await note.stopped_moving
 		found_note = true
-		var target_cell := grid.convert_position_to_cell(note.global_position)
-		var left_of_note := Vector2i(target_cell.x - 1, target_cell.y)
-		var right_of_note := Vector2i(target_cell.x + 1, target_cell.y)
-		var left_path := get_walk_path(left_of_note)
-		var right_path := get_walk_path(right_of_note)
-		var left_size := left_path.size()
-		var right_size := right_path.size()
-		if !left_path.is_empty() && left_size < right_size:
-			walk_path = left_path
-		else:
-			walk_path = right_path
-		moving = true
+		move_to_position(note.global_position)
+
+func move_to_position(goal_position: Vector2) -> void:
+	var target_cell := grid.convert_position_to_cell(goal_position)
+	var left_of_position := Vector2i(target_cell.x - 1, target_cell.y)
+	var right_of_position := Vector2i(target_cell.x + 1, target_cell.y)
+	var left_path := get_walk_path(left_of_position)
+	var right_path := get_walk_path(right_of_position)
+	var left_size := left_path.size()
+	var right_size := right_path.size()
+	if !left_path.is_empty() && left_size < right_size:
+		walk_path = left_path
+	else:
+		walk_path = right_path
+	moving = true
