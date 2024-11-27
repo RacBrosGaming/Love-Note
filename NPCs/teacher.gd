@@ -108,7 +108,10 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		animated_sprite_2d.play("idle")
 
 func _on_eyes_note_found(p_note: Note) -> void:
+	note_found.emit(p_note)
+	discover_note(p_note)
+
+func discover_note(p_note: Note) -> void:
 	note = p_note
-	note_found.emit(note)
 	found_note = true
 	animated_sprite_2d.play("discover_letter")

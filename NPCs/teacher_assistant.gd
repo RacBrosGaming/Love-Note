@@ -2,6 +2,7 @@ extends Node2D
 class_name TeacherAssistant
 
 signal note_found(note: Note)
+signal stopped_moving
 
 const SPEED = 50.0
 
@@ -12,12 +13,15 @@ const SPEED = 50.0
 @onready var eyes: Eyes = $Eyes
 
 var walk_path: Array[Vector2]
-var moving := false
 var target_position := Vector2(-1, -1)
 var current_direction := Vector2.ZERO
+var moving:= false: set = set_moving
+func set_moving(value: bool) -> void:
+	moving = value
+	if moving == false:
+		stopped_moving.emit()
 
 var note: Note
-
 var found_note:= false: set = set_found_note
 func set_found_note(value: bool) -> void:
 	if found_note == true:
@@ -102,19 +106,23 @@ func _on_walk_timer_timeout() -> void:
 		moving = true
 
 func _on_eyes_note_found(p_note: Note) -> void:
+	note_found.emit(p_note)
+	discover_note(p_note)
+
+func discover_note(p_note: Note) -> void:
 	note = p_note
-	note_found.emit(note)
-	await note.stopped_moving
-	found_note = true
-	var target_cell := grid.convert_position_to_cell(note.global_position)
-	var left_of_note := Vector2i(target_cell.x - 1, target_cell.y)
-	var right_of_note := Vector2i(target_cell.x + 1, target_cell.y)
-	var left_path := get_walk_path(left_of_note)
-	var right_path := get_walk_path(right_of_note)
-	var left_size := left_path.size()
-	var right_size := right_path.size()
-	if !left_path.is_empty() && left_size < right_size:
-		walk_path = left_path
-	else:
-		walk_path = right_path
-	moving = true
+	if is_instance_valid(note):
+		await note.stopped_moving
+		found_note = true
+		var target_cell := grid.convert_position_to_cell(note.global_position)
+		var left_of_note := Vector2i(target_cell.x - 1, target_cell.y)
+		var right_of_note := Vector2i(target_cell.x + 1, target_cell.y)
+		var left_path := get_walk_path(left_of_note)
+		var right_path := get_walk_path(right_of_note)
+		var left_size := left_path.size()
+		var right_size := right_path.size()
+		if !left_path.is_empty() && left_size < right_size:
+			walk_path = left_path
+		else:
+			walk_path = right_path
+		moving = true

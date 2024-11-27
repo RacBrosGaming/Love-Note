@@ -22,7 +22,10 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	pass
 
-func _on_note_found(_note: Note) -> void:
+func _on_note_found(note: Note) -> void:
+	teacher.discover_note(note)
+	teacher_assistant.discover_note(note)
+	await teacher_assistant.stopped_moving
 	reset_timer.start()
 	await reset_timer.timeout
 	if is_instance_valid(grid_position):
