@@ -29,7 +29,7 @@ func _on_note_found(note: Note) -> void:
 	note.paused = true
 	teacher.discover_note(note)
 	teacher_assistant.discover_note(note)
-	await teacher_assistant.stopped_moving
+	await teacher_assistant.arrived_at_note
 	reset_timer.start()
 	await reset_timer.timeout
 	if is_instance_valid(grid_position):

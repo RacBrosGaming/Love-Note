@@ -70,7 +70,6 @@ func _physics_process(_delta: float) -> void:
 		if !is_instance_valid(current_desk):
 			current_desk = get_nearby_desk(Vector2i.ZERO)
 			current_desk.direction = current_direction
-		print(paused, current_desk)
 		last_position = position
 		ray_cast_2d.enabled = false
 

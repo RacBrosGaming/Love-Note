@@ -3,6 +3,7 @@ class_name TeacherAssistant
 
 signal note_found(note: Note)
 signal stopped_moving
+signal arrived_at_note
 
 const SPEED = 50.0
 
@@ -77,6 +78,7 @@ func move_without_pause() -> void:
 	if walk_path.is_empty():
 		moving = false
 		walk_timer.paused = false
+		arrived_at_note.emit()
 
 func move() -> void:
 	if walk_path.is_empty():
@@ -129,7 +131,8 @@ func _on_eyes_note_found(p_note: Note) -> void:
 func discover_note(p_note: Note) -> void:
 	note = p_note
 	if is_instance_valid(note):
-		await note.stopped_moving
+		if note.moving == true:
+			await note.stopped_moving
 		move_to_position(note.global_position)
 		found_note = true
 
@@ -146,3 +149,4 @@ func move_to_position(goal_position: Vector2) -> void:
 	else:
 		walk_path = right_path
 	moving = true
+	print(found_note, walk_path)
