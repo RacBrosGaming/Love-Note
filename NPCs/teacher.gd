@@ -42,6 +42,9 @@ func _process(_delta: float) -> void:
 	if !is_instance_valid(note):
 		found_note = false
 		walked_to_note = false
+		look_timer.paused = false
+		turn_around_timer.paused = false
+		move_timer.paused = false
 	animated_sprite_2d.flip_h = direction == Vector2.LEFT
 	if looking_right && !found_note:
 		animated_sprite_2d.play("look_right")
@@ -54,20 +57,18 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if found_note:
 		move_without_pause()
-	else:
-		move(delta)
+	move(delta)
 
 func move_without_pause() -> void:
 	var target_position := Vector2(320, global_position.y)
 	global_position = global_position.move_toward(target_position, 1)
 	if global_position.is_equal_approx(target_position):
 		moving = false
-		look_timer.paused = false
-		turn_around_timer.paused = false
+		facing_desks = false
 		walked_to_note = true
 
 func move(delta: float) -> void:
-	if moving:
+	if !found_note && moving:
 		var collider := move_and_collide(direction)
 		if is_instance_valid(collider):
 			direction = -direction
@@ -132,6 +133,9 @@ func discover_note(p_note: Note) -> void:
 	found_note = true
 	look_timer.paused = true
 	turn_around_timer.paused = true
+	move_timer.paused = true
 	moving = true
 	looking_right = false
-	#animated_sprite_2d.play("discover_letter")
+	facing_desks = true
+	var target_position := Vector2(320, global_position.y)
+	direction = global_position.direction_to(target_position)
