@@ -14,7 +14,6 @@ const EMPTY_DESK_SCENE = preload("res://Scenes/empty_desk.tscn")
 
 @onready var desk_scenes := [
 	DESK_SCENE,
-	DESK_BULLY_SCENE,
 	EMPTY_DESK_SCENE
 ]
 
@@ -27,8 +26,6 @@ var npc_a_star_grid: AStarGrid2D
 var note: Note
 var start_position: Vector2i
 var end_position: Vector2i
-var bully_count := 0
-var total_bullies_allowed := 1
 
 func _ready() -> void:
 	setup_grids()
@@ -38,6 +35,7 @@ func _ready() -> void:
 		spawn_note_destination()
 		while find_goal_path().is_empty():
 			reroll_empty_desks()
+		add_builly_desk()
 		var desk := desks.get_cell_scene(end_position) as Desk
 		if is_instance_valid(desk):
 			desk.goal = true
@@ -152,6 +150,19 @@ func reroll_empty_desks() -> void:
 	for empty_cell in empty_cells:
 		add_desk_to_grid(get_random_desk(), empty_cell)
 
+func add_builly_desk() -> void:
+	var desk_cells: Array[Vector2i]
+	for i in desk_count.x:
+		for j in desk_count.y:
+			var cell := Vector2i(i, j)
+			var tile := desks.get_cell_scene(cell)
+			if tile is Desk:
+				desk_cells.append(cell)
+	desk_cells.erase(end_position)
+	desk_cells.erase(start_position)
+	var desk_cell := desk_cells[randi_range(0, desk_cells.size() - 1)]
+	add_desk_to_grid(DESK_BULLY_SCENE, desk_cell)
+
 func add_desk_to_grid(desk_scene: PackedScene, desk_position: Vector2i) -> void:
 	var desk := desk_scene.instantiate() as Node2D
 	desks.set_cell_scene(desk_position, desk)
@@ -162,8 +173,4 @@ func get_random_desk() -> PackedScene:
 	var i: int = randi_range(0, desk_scenes.size() - 1)
 	var desk: PackedScene
 	desk = desk_scenes[i]
-	if desk == DESK_BULLY_SCENE:
-		bully_count += 1
-	if bully_count >= total_bullies_allowed:
-		desk_scenes.erase(DESK_BULLY_SCENE)
 	return desk
