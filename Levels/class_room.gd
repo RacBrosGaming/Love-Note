@@ -7,7 +7,7 @@ extends Node2D
 @onready var reset_timer: Timer = $ResetTimer
 @onready var heart_container: HeartContainer = $HeartContainer
 
-const GAME_OVER = preload("res://Levels/game_over.tscn")
+const GAME_OVER = "res://Levels/game_over.tscn"
 const GRID = preload("res://Scenes/grid.tscn")
 
 @export var max_lives := 3
@@ -60,7 +60,7 @@ func _on_note_found(note: Note) -> void:
 			grid_position.add_child(grid)
 			teacher_assistant.grid = grid
 	else:
-		get_tree().change_scene_to_packed(GAME_OVER)
+		get_tree().change_scene_to_file(GAME_OVER)
 
 func _on_reached_goal() -> void:
-	get_tree().change_scene_to_packed(GAME_OVER)
+	get_tree().change_scene_to_file(GAME_OVER)

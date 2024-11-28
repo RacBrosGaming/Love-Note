@@ -263,7 +263,7 @@ animation = &"found_note_left"
 autoplay = "idle_down"
 
 [node name="WalkTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 0.5
 one_shot = true
 autostart = true
 

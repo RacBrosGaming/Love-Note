@@ -33,7 +33,7 @@ func _ready() -> void:
 	move_timer.timeout.connect(_on_move_timer_timeout)
 	look_timer.timeout.connect(_on_look_timer_timeout)
 	turn_around_timer.timeout.connect(_on_turn_around_timer_timeout)
-	turn_around_timer.start(randf_range(2.0, 5.0))
+	turn_around_timer.start(randf_range(2.0, 4.0))
 	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
 	eyes.rotate(PI)
 	eyes.note_found.connect(_on_eyes_note_found)
@@ -105,17 +105,17 @@ func clockwise_lerp_angle(from: float, to: float, weight: float) -> float:
 func _on_move_timer_timeout() -> void:
 	moving = false
 	facing_desks = false
-	turn_around_timer.start(randf_range(2.0, 5.0))
+	turn_around_timer.start(randf_range(2.0, 4.0))
 
 func _on_look_timer_timeout() -> void:
 	looking_right = false
 	facing_desks = true
 	moving = true
-	move_timer.start(randf_range(2.0, 5.0))
+	move_timer.start(randf_range(3.0, 6.0))
 
 func _on_turn_around_timer_timeout() -> void:
 	looking_right = true
-	look_timer.start(randf_range(1.0, 2.0))
+	look_timer.start(randf_range(1.0, 1.5))
 	if randi_range(0, 1) == 0:
 		direction = -direction
 	lerp_direction = direction
