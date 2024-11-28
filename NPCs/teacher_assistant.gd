@@ -156,4 +156,3 @@ func move_to_position(goal_position: Vector2) -> void:
 	else:
 		walk_path = right_path
 	moving = true
-	print(found_note, walk_path)

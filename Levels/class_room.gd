@@ -17,13 +17,13 @@ func set_current_lives(value: int) -> void:
 	heart_container.update_hearts(current_lives)
 
 func _ready() -> void:
+	if !is_instance_valid(grid.note):
+		grid.setup_grid.connect(_on_setup_grid)
+	else:
+		_on_setup_grid()
 	teacher.note_found.connect(_on_note_found)
 	teacher_assistant.note_found.connect(_on_note_found)
 	heart_container.max_hearts = max_lives
-	setup()
-
-func setup() -> void:
-	connect_bully_to_teacher_assistant()
 
 func connect_bully_to_teacher_assistant() -> void:
 	for scene: Node2D in grid.desks.scenes.values():
@@ -34,6 +34,10 @@ func connect_bully_to_teacher_assistant() -> void:
 
 func _call_teacher(target_position: Vector2) -> void:
 	teacher_assistant.move_to_position(target_position)
+
+func _on_setup_grid() -> void:
+	connect_bully_to_teacher_assistant()
+	grid.note.reached_goal.connect(_on_reached_goal)
 
 func _on_note_found(note: Note) -> void:
 	note.found = true
@@ -52,8 +56,11 @@ func _on_note_found(note: Note) -> void:
 			for child in children:
 				child.queue_free()
 			grid = GRID.instantiate()
+			grid.setup_grid.connect(_on_setup_grid)
 			grid_position.add_child(grid)
 			teacher_assistant.grid = grid
-			setup()
 	else:
 		get_tree().change_scene_to_packed(GAME_OVER)
+
+func _on_reached_goal() -> void:
+	print("Congrats!")

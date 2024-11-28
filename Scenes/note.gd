@@ -2,6 +2,7 @@ extends Area2D
 class_name Note
 
 signal stopped_moving
+signal reached_goal
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
@@ -85,9 +86,9 @@ func move() -> void:
 			current_desk.note = null
 		current_desk = hovered_desk
 		await tween.finished
-		reset_nearby_desks()
 		if is_instance_valid(current_desk):
 			current_desk.note = self
+		reset_nearby_desks()
 		moving = false
 
 func check_neaby_desks() -> void:
@@ -99,6 +100,7 @@ func check_neaby_desks() -> void:
 			nearby_desks[direction_vector] = desk
 			desk.desk_selected.connect(_on_desk_selected)
 			desk.desk_hovered.connect(_on_desk_hovered)
+			desk.reached_goal.connect(_on_reached_goal)
 			desk.active = true
 			desk.direction = -direction_vector
 
@@ -116,6 +118,7 @@ func reset_nearby_desks() -> void:
 		desk.active = false
 		desk.desk_selected.disconnect(_on_desk_selected)
 		desk.desk_hovered.disconnect(_on_desk_hovered)
+		desk.reached_goal.disconnect(_on_reached_goal)
 		desk.hovered = false
 		desk.direction = Vector2i.ZERO
 	nearby_desks.clear()
@@ -143,3 +146,7 @@ func _on_desk_selected(desk: Desk) -> void:
 	if !found && !paused && !moving:
 		hover_desk(desk)
 		move()
+
+func _on_reached_goal() -> void:
+	reached_goal.emit()
+	paused = true

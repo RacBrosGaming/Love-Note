@@ -3,6 +3,7 @@ class_name Desk
 
 signal desk_selected(desk: Desk)
 signal desk_hovered(desk: Desk)
+signal reached_goal
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var shader: ShaderMaterial = sprite_2d.material
@@ -36,10 +37,12 @@ var goal: bool: set = set_goal
 
 func set_note(value: Note) -> void:
 	note = value
-	set_has_note(is_instance_valid(value))
+	set_has_note(is_instance_valid(note))
 
 func set_has_note(value: bool) -> void:
 	has_note = value
+	if has_note && goal:
+		reached_goal.emit()
 
 func set_active(value: bool) -> void:
 	active = value
@@ -75,6 +78,9 @@ func _process(_delta: float) -> void:
 	if pending_hover && active:
 		desk_hovered.emit(self)
 		pending_hover = false
+	#if goal:
+		#reached_goal.emit()
+		#has_note = false
 
 func _on_mouse_entered() -> void:
 	desk_hovered.emit(self)

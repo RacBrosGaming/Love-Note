@@ -2,6 +2,8 @@
 extends Node2D
 class_name Grid
 
+signal setup_grid
+
 @export var desk_count := Vector2i(6, 3)
 @export var desk_size := Vector2i(96, 80)
 var walking_area := desk_count * 2
@@ -40,6 +42,7 @@ func _ready() -> void:
 		if is_instance_valid(desk):
 			desk.goal = true
 		#debug_npc_path()
+		setup_grid.emit()
 
 func setup_grids() -> void:
 	desks.clear()
