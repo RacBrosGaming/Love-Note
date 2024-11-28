@@ -138,4 +138,5 @@ func discover_note(p_note: Note) -> void:
 	looking_right = false
 	facing_desks = true
 	var target_position := Vector2(320, global_position.y)
-	direction = global_position.direction_to(target_position)
+	if !global_position.is_equal_approx(target_position):
+		direction = global_position.direction_to(target_position)
