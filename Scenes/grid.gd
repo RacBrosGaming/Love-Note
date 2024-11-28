@@ -117,7 +117,7 @@ func spawn_desks() -> void:
 			add_desk_to_grid(get_random_desk(), Vector2i(i, j))
 
 func spawn_note() -> void:
-	var column := randi_range(0, desk_count.x - 1)
+	var column := 0
 	var row := randi_range(0, desk_count.y - 1)
 	var spawn_position := Vector2i(column, row)
 	note = NOTE_SCENE.instantiate() as Note
@@ -131,7 +131,7 @@ func spawn_note_destination() -> void:
 	var furthest_distance: float
 	
 	for i in range(0, 10):
-		var column := randi_range(0, desk_count.x - 1)
+		var column := desk_count.x - 1
 		var row := randi_range(0, desk_count.y - 1)
 		var spawn_position := Vector2i(column, row)
 		var distance_to_spawn := start_position.distance_to(spawn_position)
