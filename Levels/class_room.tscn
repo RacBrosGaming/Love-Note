@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=15 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="PackedScene" uid="uid://bycek0e5qii0i" path="res://Scenes/grid.tscn" id="2_ctuag"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="3_picyj"]
 [ext_resource type="PackedScene" uid="uid://uyj6biijy682" path="res://NPCs/teacher.tscn" id="4_mgn65"]
 [ext_resource type="PackedScene" uid="uid://b3iy832u4660f" path="res://NPCs/teacher_assistant.tscn" id="6_72k1s"]
+[ext_resource type="PackedScene" uid="uid://b6x1wu3g0wk4l" path="res://GUI/heart_container.tscn" id="7_3vu0l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7qu55"]
 atlas = ExtResource("3_picyj")
@@ -64,7 +65,7 @@ gizmo_extents = 32.0
 metadata/_edit_lock_ = true
 
 [node name="Teacher" parent="." instance=ExtResource("4_mgn65")]
-position = Vector2(184, 56)
+position = Vector2(192, 56)
 
 [node name="TeacherAssistant" parent="." node_paths=PackedStringArray("grid") instance=ExtResource("6_72k1s")]
 position = Vector2(608, 72)
@@ -96,3 +97,9 @@ shape = SubResource("WorldBoundaryShape2D_c25yy")
 [node name="ResetTimer" type="Timer" parent="."]
 wait_time = 4.0
 one_shot = true
+
+[node name="HeartContainer" parent="." instance=ExtResource("7_3vu0l")]
+offset_left = 257.0
+offset_top = 24.0
+offset_right = 389.0
+offset_bottom = 48.0

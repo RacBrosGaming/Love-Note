@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Teacher
 
 signal note_found(note: Note)
+signal arrived_at_note
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var move_timer: Timer = $MoveTimer
@@ -22,6 +23,12 @@ var found_note:= false: set = set_found_note
 func set_found_note(value: bool) -> void:
 	found_note = value
 
+var walked_to_note := false: set = set_walked_to_note
+func set_walked_to_note(value: bool) -> void:
+	walked_to_note = value
+	if walked_to_note == true:
+		arrived_at_note.emit()
+
 func _ready() -> void:
 	move_timer.timeout.connect(_on_move_timer_timeout)
 	look_timer.timeout.connect(_on_look_timer_timeout)
@@ -34,23 +41,32 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if !is_instance_valid(note):
 		found_note = false
+		walked_to_note = false
 	animated_sprite_2d.flip_h = direction == Vector2.LEFT
-	if found_note:
-		if animated_sprite_2d.animation != "discover_letter":
-			animated_sprite_2d.play("discover_letter")
+	if looking_right && !found_note:
+		animated_sprite_2d.play("look_right")
+	elif moving:
+		animated_sprite_2d.play("walk_right")
 	else:
-		if looking_right:
-			animated_sprite_2d.play("look_right")
-		elif moving:
-			animated_sprite_2d.play("walk_right")
-		else:
-			if animated_sprite_2d.animation != "look_up" && animated_sprite_2d.animation != "idle":
-				animated_sprite_2d.play("look_up")
+		if animated_sprite_2d.animation != "look_up" && animated_sprite_2d.animation != "idle":
+			animated_sprite_2d.play("look_up")
 
 func _physics_process(delta: float) -> void:
 	if found_note:
-		return
+		move_without_pause()
+	else:
+		move(delta)
 
+func move_without_pause() -> void:
+	var target_position := Vector2(320, global_position.y)
+	global_position = global_position.move_toward(target_position, 1)
+	if global_position.is_equal_approx(target_position):
+		moving = false
+		look_timer.paused = false
+		turn_around_timer.paused = false
+		walked_to_note = true
+
+func move(delta: float) -> void:
 	if moving:
 		var collider := move_and_collide(direction)
 		if is_instance_valid(collider):
@@ -114,4 +130,8 @@ func _on_eyes_note_found(p_note: Note) -> void:
 func discover_note(p_note: Note) -> void:
 	note = p_note
 	found_note = true
-	animated_sprite_2d.play("discover_letter")
+	look_timer.paused = true
+	turn_around_timer.paused = true
+	moving = true
+	looking_right = false
+	#animated_sprite_2d.play("discover_letter")

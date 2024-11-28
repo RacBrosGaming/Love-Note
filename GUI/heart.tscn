@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcouof11fkpko"]
+
+[ext_resource type="Script" path="res://GUI/heart.gd" id="1_877ae"]
+[ext_resource type="Texture2D" uid="uid://dqa101bi7sl6f" path="res://Assets/Note/chalk_hearts.png" id="1_ldjip"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ytdx"]
+
+[node name="Heart" type="Panel"]
+custom_minimum_size = Vector2(21, 24)
+offset_right = 20.0
+offset_bottom = 24.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7ytdx")
+script = ExtResource("1_877ae")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -19)
+texture = ExtResource("1_ldjip")
+centered = false
+hframes = 12
+frame = 1

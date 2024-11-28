@@ -16,18 +16,24 @@ const SPEED = 50.0
 var walk_path: Array[Vector2]
 var target_position := Vector2(-1, -1)
 var current_direction := Vector2.ZERO
-var moving:= false: set = set_moving
+var moving := false: set = set_moving
 func set_moving(value: bool) -> void:
 	moving = value
 	if moving == false:
 		stopped_moving.emit()
 
 var note: Note
-var found_note:= false: set = set_found_note
+var found_note := false: set = set_found_note
 func set_found_note(value: bool) -> void:
 	if found_note == true:
 		walk_timer.start()
 	found_note = value
+
+var walked_to_note := false: set = set_walked_to_note
+func set_walked_to_note(value: bool) -> void:
+	walked_to_note = value
+	if walked_to_note == true:
+		arrived_at_note.emit()
 
 func _ready() -> void:
 	walk_timer.timeout.connect(_on_walk_timer_timeout)
@@ -36,6 +42,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if !is_instance_valid(note):
 		found_note = false
+		walked_to_note = false
 	var animation := "idle"
 	if !global_position.is_equal_approx(target_position) && !target_position.is_equal_approx(Vector2(-1, -1)):
 		animation = "walk"
@@ -78,7 +85,7 @@ func move_without_pause() -> void:
 	if walk_path.is_empty():
 		moving = false
 		walk_timer.paused = false
-		arrived_at_note.emit()
+		walked_to_note = true
 
 func move() -> void:
 	if walk_path.is_empty():
