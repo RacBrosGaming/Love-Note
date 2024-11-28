@@ -36,7 +36,7 @@ func _call_teacher(target_position: Vector2) -> void:
 	teacher_assistant.move_to_position(target_position)
 
 func _on_note_found(note: Note) -> void:
-	note.paused = true
+	note.found = true
 	teacher.discover_note(note)
 	teacher_assistant.discover_note(note)
 	if !teacher.walked_to_note:

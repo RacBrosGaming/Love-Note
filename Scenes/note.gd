@@ -20,6 +20,7 @@ var last_position := Vector2(-1, -1)
 var nearby_desks: Dictionary#[Vector2i, Desk]
 var moving:= false: set = set_moving
 var paused := false
+var found := false
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
@@ -38,7 +39,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	for direction: String in directions.keys():
-		if !paused && !moving && event.is_action_pressed(direction):
+		if !found && !paused && !moving && event.is_action_pressed(direction):
 			var direction_vector: Vector2i = directions[direction]
 			if nearby_desks.has(direction_vector):
 				current_direction = direction_vector
@@ -63,7 +64,7 @@ func _process(_delta: float) -> void:
 	sprite_2d.position = facing_position
 
 func _physics_process(_delta: float) -> void:
-	if !paused && (!moving && !last_position.is_equal_approx(position)) || nearby_desks.is_empty():
+	if !found && !paused && (!moving && !last_position.is_equal_approx(position)) || nearby_desks.is_empty():
 		ray_cast_2d.enabled = true
 		check_neaby_desks()
 		current_direction = Vector2i.ZERO
@@ -74,7 +75,7 @@ func _physics_process(_delta: float) -> void:
 		ray_cast_2d.enabled = false
 
 func move() -> void:
-	if !paused && !moving && is_instance_valid(hovered_desk):
+	if !found && !paused && !moving && is_instance_valid(hovered_desk):
 		var tween := create_tween()
 		tween.tween_property(self, "global_position", hovered_desk.global_position, 1)
 		var sprite_tween := create_tween()
@@ -135,10 +136,10 @@ func find_nearby_desk(desk: Desk) -> Vector2i:
 	return found_desk
 
 func _on_desk_hovered(desk: Desk) -> void:
-	if !paused && !moving:
+	if !found && !paused && !moving:
 		hover_desk(desk)
 
 func _on_desk_selected(desk: Desk) -> void:
-	if !paused && !moving:
+	if !found && !paused && !moving:
 		hover_desk(desk)
 		move()
