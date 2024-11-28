@@ -22,6 +22,8 @@ var nearby_desks: Dictionary#[Vector2i, Desk]
 var moving:= false: set = set_moving
 var paused := false
 var found := false
+var start_reached := false
+var end_reached := false
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
@@ -100,7 +102,8 @@ func check_neaby_desks() -> void:
 			nearby_desks[direction_vector] = desk
 			desk.desk_selected.connect(_on_desk_selected)
 			desk.desk_hovered.connect(_on_desk_hovered)
-			desk.reached_goal.connect(_on_reached_goal)
+			desk.start_reached.connect(_on_start_reached)
+			desk.end_reached.connect(_on_end_reached)
 			desk.active = true
 			desk.direction = -direction_vector
 
@@ -118,7 +121,8 @@ func reset_nearby_desks() -> void:
 		desk.active = false
 		desk.desk_selected.disconnect(_on_desk_selected)
 		desk.desk_hovered.disconnect(_on_desk_hovered)
-		desk.reached_goal.disconnect(_on_reached_goal)
+		desk.start_reached.disconnect(_on_start_reached)
+		desk.end_reached.disconnect(_on_end_reached)
 		desk.hovered = false
 		desk.direction = Vector2i.ZERO
 	nearby_desks.clear()
@@ -147,6 +151,11 @@ func _on_desk_selected(desk: Desk) -> void:
 		hover_desk(desk)
 		move()
 
-func _on_reached_goal() -> void:
-	reached_goal.emit()
-	paused = true
+func _on_start_reached() -> void:
+	if end_reached:
+		start_reached = true
+		reached_goal.emit()
+		paused = true
+
+func _on_end_reached() -> void:
+	end_reached = true

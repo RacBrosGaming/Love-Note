@@ -60,7 +60,9 @@ func _on_note_found(note: Note) -> void:
 			grid_position.add_child(grid)
 			teacher_assistant.grid = grid
 	else:
-		get_tree().change_scene_to_file(GAME_OVER)
+		if is_instance_valid(get_tree()):
+			get_tree().change_scene_to_file(GAME_OVER)
 
 func _on_reached_goal() -> void:
-	get_tree().change_scene_to_file(GAME_OVER)
+	if is_instance_valid(get_tree()):
+		get_tree().change_scene_to_file(GAME_OVER)

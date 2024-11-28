@@ -3,14 +3,16 @@ class_name Desk
 
 signal desk_selected(desk: Desk)
 signal desk_hovered(desk: Desk)
-signal reached_goal
+signal end_reached
+signal start_reached
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var shader: ShaderMaterial = sprite_2d.material
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @export var kids: Array[Texture2D] = []
-@export var goal_sprite: Texture2D
+@export var start_sprite: Texture2D
+@export var end_sprite: Texture2D
 
 @export var  kid_idle_frame := 0
 @export var  kid_left_frame := 2
@@ -33,7 +35,8 @@ var active: bool: set = set_active
 var hovered: bool: set = set_hover
 var direction: Vector2i: set = set_direction
 var pending_hover := false
-var goal: bool: set = set_goal
+var is_start: bool: set = set_start
+var is_end: bool: set = set_end
 
 func set_note(value: Note) -> void:
 	note = value
@@ -41,8 +44,10 @@ func set_note(value: Note) -> void:
 
 func set_has_note(value: bool) -> void:
 	has_note = value
-	if has_note && goal:
-		reached_goal.emit()
+	if has_note && is_start:
+		start_reached.emit()
+	if has_note && is_end:
+		end_reached.emit()
 
 func set_active(value: bool) -> void:
 	active = value
@@ -52,10 +57,15 @@ func set_hover(value: bool) -> void:
 	hovered = value
 	super_highlight(hovered)
 
-func set_goal(value: bool) -> void:
-	goal = value
-	if goal && goal_sprite:
-		sprite_2d.texture = goal_sprite
+func set_end(value: bool) -> void:
+	is_end = value
+	if is_end && end_sprite:
+		sprite_2d.texture = end_sprite
+
+func set_start(value: bool) -> void:
+	is_start = value
+	if is_start && start_sprite:
+		sprite_2d.texture = start_sprite
 
 func set_direction(value: Vector2i) -> void:
 	direction = value

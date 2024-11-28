@@ -38,9 +38,12 @@ func _ready() -> void:
 		while find_goal_path().is_empty():
 			reroll_empty_desks()
 		add_builly_desk()
-		var desk := desks.get_cell_scene(end_position) as Desk
-		if is_instance_valid(desk):
-			desk.goal = true
+		var end_desk := desks.get_cell_scene(end_position) as Desk
+		if is_instance_valid(end_desk):
+			end_desk.is_end = true
+		var start_desk := desks.get_cell_scene(start_position) as Desk
+		if is_instance_valid(start_desk):
+			start_desk.is_start = true
 		#debug_npc_path()
 		setup_grid.emit()
 
