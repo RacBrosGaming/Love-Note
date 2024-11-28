@@ -3,6 +3,8 @@ class_name HeartContainer
 
 const HEART_SCENE = preload("res://GUI/heart.tscn")
 
+@onready var erase_timer: Timer = $EraseTimer
+
 var max_hearts := 0: set = set_max_hearts
 func set_max_hearts(value: int) -> void:
 	max_hearts = value
@@ -11,9 +13,15 @@ func set_max_hearts(value: int) -> void:
 		add_child(heart)
 
 func update_hearts(current_hearts: int) -> void:
-	var hearts := get_children()
-	for i in range(hearts.size()):
-		hearts[i].erased = false
+	erase_timer.start()
+	await erase_timer.timeout
+	var children := get_children()
+	var hearts: Array[Heart]
+	for i in range(children.size()):
+		var heart := children[i] as Heart
+		if is_instance_valid(heart):
+			heart.erased = false
+			hearts.append(heart)
 	var hearts_to_erase := clampi(max_hearts - current_hearts, 0, max_hearts)
 	for i in range(hearts_to_erase):
 		if i % 2 == 0:
