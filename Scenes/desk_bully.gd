@@ -4,7 +4,6 @@ class_name DeskBully
 signal call_teacher(target_position: Vector2)
 
 @onready var pause_timer: Timer = $PauseTimer
-@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
 	super._ready()
@@ -15,9 +14,9 @@ func set_has_note(value: bool) -> void:
 	if has_note:
 		animation_player.play("taunt")
 		note.paused = true
+		await note.stopped_moving
+		note.visible_to_teacher = true
 		pause_timer.start()
-		monitorable = false
-		collision_shape_2d.disabled = true
 		call_teacher.emit(note.global_position)
 
 func set_direction(value: Vector2i) -> void:
@@ -31,7 +30,6 @@ func set_direction(value: Vector2i) -> void:
 
 func _on_pause_timer_timeout() -> void:
 	if is_instance_valid(note):
-		monitorable = true
-		collision_shape_2d.disabled = false
+		note.visible_to_teacher = false
 		play_idle()
 		note.paused = false

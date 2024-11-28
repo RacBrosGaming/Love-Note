@@ -15,6 +15,5 @@ texture = ExtResource("2_s1lql")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = false
-collision_mask = 5
 collide_with_areas = true
 collide_with_bodies = false

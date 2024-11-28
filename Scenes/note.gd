@@ -20,17 +20,31 @@ var hovered_desk: Desk
 var last_position := Vector2(-1, -1)
 var nearby_desks: Dictionary#[Vector2i, Desk]
 var moving:= false: set = set_moving
+var visible_to_teacher := false: set = set_visible_to_teacher
 var paused := false
 var found := false
 var start_reached := false
 var end_reached := false
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 func set_moving(value: bool) -> void:
 	moving = value
 	if moving == false:
+		set_visible_to_teacher(false)
 		stopped_moving.emit()
+	else:
+		set_visible_to_teacher(true)
+
+func set_visible_to_teacher(value: bool) -> void:
+	visible_to_teacher = value
+	if visible_to_teacher == false:
+		monitorable = false
+		collision_shape_2d.disabled = true
+	else:
+		monitorable = true
+		collision_shape_2d.disabled = false
 
 func with_data(p_starting_position: Vector2, p_desk_size: Vector2i) -> Note:
 	starting_position = p_starting_position
