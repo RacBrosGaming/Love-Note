@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfm8erjc3dj7d"]
+[gd_scene load_steps=5 format=3 uid="uid://bfm8erjc3dj7d"]
 
 [ext_resource type="Script" path="res://Scenes/note.gd" id="1_mlrsy"]
 [ext_resource type="Texture2D" uid="uid://25qig024ciab" path="res://Assets/Note/love_note.png" id="2_onl5i"]
+[ext_resource type="PackedScene" uid="uid://ddvith3qehet" path="res://GUI/love_letter.tscn" id="3_0r3ip"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mjav6"]
 size = Vector2(18, 14)
@@ -23,3 +24,18 @@ collide_with_bodies = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_mjav6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LoveLetter" parent="CanvasLayer" instance=ExtResource("3_0r3ip")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -127.0
+offset_top = -93.0
+offset_right = 127.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2

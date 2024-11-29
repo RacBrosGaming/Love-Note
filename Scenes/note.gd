@@ -5,6 +5,7 @@ signal stopped_moving
 signal reached_goal
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var love_letter: LoveLetter = $CanvasLayer/LoveLetter
 
 var starting_position: Vector2
 var desk_size: Vector2i
@@ -19,7 +20,7 @@ var current_desk: Desk
 var hovered_desk: Desk
 var last_position := Vector2(-1, -1)
 var nearby_desks: Dictionary#[Vector2i, Desk]
-var moving:= false: set = set_moving
+var moving := false: set = set_moving
 var visible_to_teacher := false: set = set_visible_to_teacher
 var paused := false
 var found := false
@@ -52,7 +53,14 @@ func with_data(p_starting_position: Vector2, p_desk_size: Vector2i) -> Note:
 	return self
 
 func _ready() -> void:
+	visible = false
+	paused = true
+	set_visible_to_teacher(false)
 	position = starting_position
+	love_letter.write(global_position)
+	await  love_letter.finished_writing
+	visible = true
+	paused = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	for direction: String in directions.keys():
