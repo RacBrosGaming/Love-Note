@@ -1,14 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://ddvith3qehet"]
+[gd_scene load_steps=10 format=3 uid="uid://ddvith3qehet"]
 
 [ext_resource type="Theme" uid="uid://cdnakyvh2ng41" path="res://Resources/theme.tres" id="1_ku0lp"]
 [ext_resource type="Script" path="res://GUI/love_letter.gd" id="2_5t8ua"]
 [ext_resource type="Texture2D" uid="uid://25qig024ciab" path="res://Assets/Note/love_note.png" id="2_iyjpc"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_satf4"]
-atlas = ExtResource("2_iyjpc")
-region = Rect2(23, 25, 18, 14)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2n1it"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_o1s26"]
 
@@ -28,8 +22,11 @@ unicode = 110
 [sub_resource type="Shortcut" id="Shortcut_kg2w4"]
 events = [SubResource("InputEventKey_opea3")]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_satf4"]
+atlas = ExtResource("2_iyjpc")
+region = Rect2(23, 25, 18, 14)
+
 [node name="LoveLetter" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 254.0
@@ -37,19 +34,22 @@ offset_bottom = 186.0
 theme = ExtResource("1_ku0lp")
 script = ExtResource("2_5t8ua")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_right = 24.0
-offset_bottom = 16.0
+[node name="WordContainer" type="Control" parent="."]
+anchors_preset = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="WordContainer"]
+layout_mode = 0
+offset_right = 254.0
+offset_bottom = 186.0
+
+[node name="MarginContainer" type="MarginContainer" parent="WordContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 16
 
-[node name="LetterWords" type="Label" parent="PanelContainer/MarginContainer"]
+[node name="LetterWords" type="Label" parent="WordContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(206, 138)
 layout_mode = 2
@@ -57,6 +57,32 @@ text = "Dear Poppy,
 Do you like me?
 Yes [ ] No [ ]
 "
+
+[node name="YesCheckBox" type="CheckBox" parent="WordContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 79.0
+offset_top = 121.0
+offset_right = 119.0
+offset_bottom = 161.0
+focus_neighbor_right = NodePath("../NoCheckBox")
+focus_next = NodePath("../NoCheckBox")
+focus_previous = NodePath("../NoCheckBox")
+button_group = SubResource("ButtonGroup_o1s26")
+shortcut = SubResource("Shortcut_cyb4c")
+
+[node name="NoCheckBox" type="CheckBox" parent="WordContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 161.0
+offset_top = 121.0
+offset_right = 201.0
+offset_bottom = 161.0
+focus_neighbor_left = NodePath("../YesCheckBox")
+focus_next = NodePath("../YesCheckBox")
+focus_previous = NodePath("../YesCheckBox")
+button_group = SubResource("ButtonGroup_o1s26")
+shortcut = SubResource("Shortcut_kg2w4")
 
 [node name="LetterBack" type="TextureRect" parent="."]
 visible = false
@@ -66,30 +92,12 @@ offset_bottom = 14.0
 scale = Vector2(15, 15)
 texture = SubResource("AtlasTexture_satf4")
 
-[node name="YesCheckBox" type="CheckBox" parent="."]
-modulate = Color(0, 0.564706, 0, 1)
-layout_mode = 0
-offset_left = 79.0
-offset_top = 121.0
-offset_right = 119.0
-offset_bottom = 161.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_2n1it")
-button_group = SubResource("ButtonGroup_o1s26")
-shortcut = SubResource("Shortcut_cyb4c")
-
-[node name="NoCheckBox" type="CheckBox" parent="."]
-modulate = Color(0.784314, 0, 0, 1)
-layout_mode = 0
-offset_left = 161.0
-offset_top = 121.0
-offset_right = 201.0
-offset_bottom = 161.0
-button_group = SubResource("ButtonGroup_o1s26")
-shortcut = SubResource("Shortcut_kg2w4")
-
 [node name="FlipTimer" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="toggled" from="YesCheckBox" to="." method="_on_yes_check_box_toggled"]
-[connection signal="toggled" from="NoCheckBox" to="." method="_on_no_check_box_toggled"]
+[node name="SendToDeskTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="toggled" from="WordContainer/YesCheckBox" to="." method="_on_yes_check_box_toggled"]
+[connection signal="toggled" from="WordContainer/NoCheckBox" to="." method="_on_no_check_box_toggled"]
 [connection signal="timeout" from="FlipTimer" to="." method="_on_flip_timer_timeout"]

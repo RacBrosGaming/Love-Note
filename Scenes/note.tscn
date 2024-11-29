@@ -28,6 +28,7 @@ shape = SubResource("RectangleShape2D_mjav6")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="LoveLetter" parent="CanvasLayer" instance=ExtResource("3_0r3ip")]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

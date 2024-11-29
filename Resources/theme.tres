@@ -1,11 +1,16 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cdnakyvh2ng41"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://cdnakyvh2ng41"]
 
 [ext_resource type="Texture2D" uid="uid://cr5fuev4220fn" path="res://Assets/Note/check.png" id="1_2a2u7"]
 [ext_resource type="Texture2D" uid="uid://2m36nqjjh7au" path="res://Assets/Note/note_paper.png" id="2_ixwfv"]
 [ext_resource type="Texture2D" uid="uid://be848qiriwlda" path="res://Assets/Note/un-check.png" id="2_tnc4f"]
 [ext_resource type="FontFile" uid="uid://0mde2ipd8tsw" path="res://Assets/Fonts/Schoolbell-Regular.ttf" id="3_lrkyo"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lsget"]
+[sub_resource type="ImageTexture" id="ImageTexture_2mfr6"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_wn4kv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kqnxr"]
+texture = ExtResource("2_tnc4f")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6gao6"]
 texture = ExtResource("2_ixwfv")
@@ -19,9 +24,11 @@ axis_stretch_vertical = 1
 default_font = ExtResource("3_lrkyo")
 default_font_size = 32
 CheckBox/icons/checked = ExtResource("1_2a2u7")
+CheckBox/icons/checked_disabled = ExtResource("1_2a2u7")
 CheckBox/icons/radio_checked = ExtResource("1_2a2u7")
-CheckBox/icons/radio_unchecked = ExtResource("2_tnc4f")
-CheckBox/icons/unchecked = ExtResource("2_tnc4f")
-CheckBox/styles/focus = SubResource("StyleBoxEmpty_lsget")
+CheckBox/icons/radio_checked_disabled = ExtResource("1_2a2u7")
+CheckBox/icons/radio_unchecked = SubResource("ImageTexture_2mfr6")
+CheckBox/icons/unchecked = SubResource("ImageTexture_wn4kv")
+CheckBox/styles/focus = SubResource("StyleBoxTexture_kqnxr")
 Label/colors/font_color = Color(0, 0, 0, 1)
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_6gao6")

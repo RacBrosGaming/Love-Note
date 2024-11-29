@@ -64,5 +64,7 @@ func _on_note_found(note: Note) -> void:
 			get_tree().change_scene_to_file(GAME_OVER)
 
 func _on_reached_goal() -> void:
+	reset_timer.start()
+	await reset_timer.timeout
 	if is_instance_valid(get_tree()):
 		get_tree().change_scene_to_file(GAME_OVER)

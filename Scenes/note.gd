@@ -53,13 +53,13 @@ func with_data(p_starting_position: Vector2, p_desk_size: Vector2i) -> Note:
 	return self
 
 func _ready() -> void:
-	visible = false
+	hide()
 	paused = true
 	set_visible_to_teacher(false)
 	position = starting_position
 	love_letter.write(global_position)
 	await  love_letter.finished_writing
-	visible = true
+	show()
 	paused = false
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -176,8 +176,15 @@ func _on_desk_selected(desk: Desk) -> void:
 func _on_start_reached() -> void:
 	if end_reached:
 		start_reached = true
+		love_letter.show()
 		reached_goal.emit()
 		paused = true
 
 func _on_end_reached() -> void:
 	end_reached = true
+	hide()
+	paused = true
+	love_letter.present_option(global_position)
+	var answer: bool = await love_letter.chose_answer
+	show()
+	paused = false
