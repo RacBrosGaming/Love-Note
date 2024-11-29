@@ -13,7 +13,7 @@ config_version=5
 config/name="Love Note"
 run/main_scene="res://Levels/class_room.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://icon.png"
 
 [debug]
 
@@ -27,6 +27,7 @@ gdscript/warnings/unsafe_call_argument=1
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=3
 window/stretch/mode="canvas_items"
 
 [input]
