@@ -17,7 +17,7 @@ signal chose_answer(said_yes: bool)
 
 var note_position: Vector2
 var time_to_show := 2.0 
-var time_to_write := 5.0
+var time_to_write := 4.0
 
 func write(target_position: Vector2) -> void:
 	note_position = target_position
