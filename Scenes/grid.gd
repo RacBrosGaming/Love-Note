@@ -28,6 +28,8 @@ var npc_a_star_grid: AStarGrid2D
 var note: Note
 var start_position: Vector2i
 var end_position: Vector2i
+var max_empty_desks := 3
+var current_empty_desks := 0
 
 func _ready() -> void:
 	setup_grids()
@@ -180,6 +182,10 @@ func get_random_desk() -> PackedScene:
 	var i: int = randi_range(0, desk_scenes.size() - 1)
 	var desk: PackedScene
 	desk = desk_scenes[i]
+	if desk == EMPTY_DESK_SCENE:
+		current_empty_desks += 1
+	if current_empty_desks > max_empty_desks:
+		desk = DESK_SCENE
 	return desk
 
 func randomize_students() -> void:
