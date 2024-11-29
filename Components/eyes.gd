@@ -16,6 +16,8 @@ var note: Note
 var look_for_note := false
 var found_note := false
 var last_note_position := Vector2.ZERO
+var note_count_to_trigger := 15
+var note_count := 0
 
 func _ready() -> void:
 	vision_cone_sprite_2d.texture = vision_cone_sprite
@@ -48,11 +50,16 @@ func note_visible(note_position: Vector2) -> bool:
 			found = collider.visible_to_teacher
 	return found
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if look_for_note && is_instance_valid(note):
 		last_note_position = note.global_position
 		found_note = note_visible(note.global_position)
 		if found_note:
-			vision_cone_sprite_2d.modulate = vision_cone_found
-			note_found.emit(note)
-			look_for_note = false
+			note_count += 1
+			if note_count >= note_count_to_trigger:
+				vision_cone_sprite_2d.modulate = vision_cone_found
+				note_found.emit(note)
+				look_for_note = false
+				note_count = 0
+		else:
+			note_count = 0
