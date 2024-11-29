@@ -268,5 +268,6 @@ autostart = true
 vision_cone_sprite = ExtResource("6_4rfc1")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Eyes"]
+visible = false
 rotation = -1.57079
 polygon = PackedVector2Array(-16.0001, -64, -40.0001, -47.9999, -56, -32, -64, 0, -55.9999, 32.0001, -39.9999, 48.0001, -15.9999, 64, 0, 0)
