@@ -1,10 +1,10 @@
-[gd_scene load_steps=36 format=3 uid="uid://b3iy832u4660f"]
+[gd_scene load_steps=35 format=3 uid="uid://b3iy832u4660f"]
 
 [ext_resource type="Texture2D" uid="uid://cv11ve43s03o" path="res://Assets/Teacher/teacher_assistant_walk_down.png" id="1_icfs4"]
 [ext_resource type="Script" path="res://NPCs/teacher_assistant.gd" id="1_rq2fs"]
 [ext_resource type="Texture2D" uid="uid://8eb6wl7ca7tt" path="res://Assets/Teacher/teacher_assistant_walk_up.png" id="2_l0oxo"]
 [ext_resource type="Texture2D" uid="uid://cigyfqlhcm243" path="res://Assets/Teacher/teacher_assistant_walk_right.png" id="3_j2ug5"]
-[ext_resource type="Texture2D" uid="uid://du2gy8cwx3he2" path="res://Assets/Components/vision_cone_round.png" id="5_4s506"]
+[ext_resource type="Texture2D" uid="uid://b17h0yty2vds1" path="res://Assets/Components/vision_cone_half_round.png" id="6_4rfc1"]
 [ext_resource type="PackedScene" uid="uid://dd5j1mi7xbhwh" path="res://Components/eyes.tscn" id="6_r5xhd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1l5gb"]
@@ -249,9 +249,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_y3kv2"]
-radius = 64.0
-
 [node name="TeacherAssistant" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_rq2fs")
@@ -259,7 +256,7 @@ script = ExtResource("1_rq2fs")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_cpvfd")
-animation = &"found_note_left"
+animation = &"idle_down"
 autoplay = "idle_down"
 
 [node name="WalkTimer" type="Timer" parent="."]
@@ -268,8 +265,8 @@ one_shot = true
 autostart = true
 
 [node name="Eyes" parent="." instance=ExtResource("6_r5xhd")]
-vision_cone_sprite = ExtResource("5_4s506")
+vision_cone_sprite = ExtResource("6_4rfc1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Eyes"]
-visible = false
-shape = SubResource("CircleShape2D_y3kv2")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Eyes"]
+rotation = -1.57079
+polygon = PackedVector2Array(-16.0001, -64, -40.0001, -47.9999, -56, -32, -64, 0, -55.9999, 32.0001, -39.9999, 48.0001, -15.9999, 64, 0, 0)

@@ -13,6 +13,7 @@ const SPEED = 50.0
 @onready var walk_timer: Timer = $WalkTimer
 @onready var eyes: Eyes = $Eyes
 
+var turn_smoothing := 5.0
 var walk_path: Array[Vector2]
 var target_position := Vector2(-1, -1)
 var current_direction := Vector2.ZERO
@@ -39,7 +40,7 @@ func _ready() -> void:
 	walk_timer.timeout.connect(_on_walk_timer_timeout)
 	eyes.note_found.connect(_on_eyes_note_found)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if !is_instance_valid(note):
 		found_note = false
 		walked_to_note = false
@@ -63,7 +64,21 @@ func _process(_delta: float) -> void:
 			animated_sprite_2d.play(animation + "_up")
 		Vector2.DOWN, _:
 			animated_sprite_2d.play(animation + "_down")
+	rotate_eyes(delta, current_direction)
 
+func rotate_eyes(delta: float, direction: Vector2) -> void:
+	var from := eyes.rotation
+	var directions := {
+		Vector2.UP: PI,
+		Vector2.DOWN: 0.0,
+		Vector2.LEFT: PI / 2,
+		Vector2.RIGHT: (3 * PI) / 2
+	}
+	var to := 0.0
+	if directions.has(direction):
+		to = directions[direction]
+	var weight := turn_smoothing * delta
+	eyes.rotation = lerp_angle(from, to, weight)
 
 func _physics_process(_delta: float) -> void:
 	if found_note:
