@@ -52,13 +52,13 @@ normal = Vector2(-1, 0)
 y_sort_enabled = true
 script = ExtResource("1_o8rf2")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 z_index = -10
 offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("2_s2hma")
 
-[node name="TextureRect" type="TextureRect" parent="TextureRect"]
+[node name="LeftChalkBoard" type="TextureRect" parent="Background"]
 layout_mode = 0
 offset_left = 94.0
 offset_top = 14.0
