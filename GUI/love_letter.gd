@@ -32,10 +32,10 @@ func write(target_position: Vector2) -> void:
 
 func present_option(target_position: Vector2) -> void:
 	note_position = target_position
+	await show_letter(note_position)
 	no_check_box.show()
 	yes_check_box.show()
 	yes_check_box.grab_focus()
-	show_letter(note_position)
 
 func _on_yes_check_box_toggled(toggled_on: bool) -> void:
 	if toggled_on:
