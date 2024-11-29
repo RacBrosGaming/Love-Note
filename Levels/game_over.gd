@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 var CLASS_ROOM := "res://Levels/class_room.tscn"
 

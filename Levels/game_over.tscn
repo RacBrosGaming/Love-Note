@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://dcannur2vw2s3"]
+[gd_scene load_steps=17 format=3 uid="uid://dcannur2vw2s3"]
 
 [ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="1_2ye1m"]
 [ext_resource type="Script" path="res://Levels/game_over.gd" id="1_3lit4"]
 [ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="2_k5al1"]
 [ext_resource type="Texture2D" uid="uid://b07uuea0a43no" path="res://Assets/Teacher/spritesheet_teacher.png" id="3_lbcl3"]
 [ext_resource type="Texture2D" uid="uid://cv11ve43s03o" path="res://Assets/Teacher/teacher_assistant_walk_down.png" id="4_kw5lq"]
+[ext_resource type="Theme" uid="uid://cdnakyvh2ng41" path="res://Resources/theme.tres" id="6_p455c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erswq"]
 atlas = ExtResource("2_k5al1")
@@ -79,10 +80,18 @@ animations = [{
 "speed": 2.0
 }]
 
-[node name="GameOver" type="Node"]
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6_p455c")
 script = ExtResource("1_3lit4")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -108,6 +117,7 @@ autoplay = "default"
 frame_progress = 0.665458
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -124,13 +134,13 @@ alignment = 1
 [node name="RestartButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "RESTART"
+text = "Restart"
 metadata/_edit_lock_ = true
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "QUIT"
+text = "Quit"
 
 [connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
