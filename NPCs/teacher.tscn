@@ -146,8 +146,5 @@ polygon = PackedVector2Array(0, 0, -184, 232, -112, 280, 0, 296, 112, 280, 184, 
 [node name="MoveTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="TurnAroundTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="LookTimer" type="Timer" parent="."]
+[node name="WaitTimer" type="Timer" parent="."]
 one_shot = true

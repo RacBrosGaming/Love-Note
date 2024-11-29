@@ -6,8 +6,7 @@ signal arrived_at_note
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var move_timer: Timer = $MoveTimer
-@onready var turn_around_timer: Timer = $TurnAroundTimer
-@onready var look_timer: Timer = $LookTimer
+@onready var wait_timer: Timer = $WaitTimer
 @onready var eyes: Eyes = $Eyes
 
 var direction := Vector2.RIGHT
@@ -16,6 +15,10 @@ var moving := false
 var facing_desks := false
 var looking_right := false
 var turn_smoothing := 5.0
+var wait_time_min := 2.0
+var wait_time_max := 2.5
+var move_time_min := 3.0
+var move_time_max := 5.0
 
 var note: Note
 
@@ -31,9 +34,7 @@ func set_walked_to_note(value: bool) -> void:
 
 func _ready() -> void:
 	move_timer.timeout.connect(_on_move_timer_timeout)
-	look_timer.timeout.connect(_on_look_timer_timeout)
-	turn_around_timer.timeout.connect(_on_turn_around_timer_timeout)
-	turn_around_timer.start(randf_range(2.0, 4.0))
+	move_timer.start(randf_range(move_time_min, move_time_max))
 	animated_sprite_2d.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
 	eyes.rotate(PI)
 	eyes.note_found.connect(_on_eyes_note_found)
@@ -42,8 +43,7 @@ func _process(_delta: float) -> void:
 	if !is_instance_valid(note):
 		found_note = false
 		walked_to_note = false
-		look_timer.paused = false
-		turn_around_timer.paused = false
+		wait_timer.paused = false
 		move_timer.paused = false
 	animated_sprite_2d.flip_h = direction == Vector2.LEFT
 	if looking_right && !found_note:
@@ -72,53 +72,57 @@ func move(delta: float) -> void:
 		var collider := move_and_collide(direction)
 		if is_instance_valid(collider):
 			direction = -direction
-	var from := eyes.rotation
-	var to := 0.0
-	var weight := turn_smoothing * delta
+	var eye_direction := direction
 	if facing_desks:
-		if lerp_direction == Vector2.RIGHT:
-			eyes.rotation = clockwise_lerp_angle(from, to, weight)
-		else:
-			eyes.rotation = counter_clockwise_lerp_angle(from, to, weight)
-	elif looking_right:
-		var right := (3 * PI) / 2
-		var left := PI / 2
-		if lerp_direction == Vector2.RIGHT:
-			eyes.rotation = clockwise_lerp_angle(from, right, weight)
-		else:
-			eyes.rotation = counter_clockwise_lerp_angle(from, left, weight)
-	else:
-		to = PI
-		if direction == Vector2.LEFT:
-			eyes.rotation = clockwise_lerp_angle(from, to, weight)
-		else:
-			eyes.rotation = counter_clockwise_lerp_angle(from, to, weight)
+		eye_direction = Vector2.DOWN
+	elif !looking_right:
+		eye_direction = Vector2.UP
+	rotate_eyes(delta, eye_direction)
 
-func counter_clockwise_lerp_angle(from: float, to: float, weight: float) -> float:
-	var distance := fposmod(to - from, -TAU)
-	return from + distance * weight
-
-func clockwise_lerp_angle(from: float, to: float, weight: float) -> float:
-	var distance := fposmod(to - from, TAU)
-	return from + distance * weight
+func rotate_eyes(delta: float, direction: Vector2) -> void:
+	var from := eyes.rotation
+	var directions := {
+		Vector2.UP: PI,
+		Vector2.DOWN: 0.0,
+		Vector2.LEFT: PI / 2,
+		Vector2.RIGHT: (3 * PI) / 2
+	}
+	var to := 0.0
+	if directions.has(direction):
+		to = directions[direction]
+	var weight := turn_smoothing * delta
+	eyes.rotation = lerp_angle(from, to, weight)
 
 func _on_move_timer_timeout() -> void:
+	# face right and away from desks
 	moving = false
 	facing_desks = false
-	turn_around_timer.start(randf_range(2.0, 4.0))
-
-func _on_look_timer_timeout() -> void:
-	looking_right = false
-	facing_desks = true
-	moving = true
-	move_timer.start(randf_range(3.0, 6.0))
-
-func _on_turn_around_timer_timeout() -> void:
 	looking_right = true
-	look_timer.start(randf_range(1.0, 1.5))
+	wait_timer.start(randf_range(wait_time_min, wait_time_max))
+	await wait_timer.timeout
+	
+	# face desks and start walking
+	facing_desks = true
+	looking_right = false
+	moving = true
+	wait_timer.start(randf_range(move_time_min, move_time_max))
+	await wait_timer.timeout
+
+	# face right and away from desks
+	moving = false
+	facing_desks = false
+	looking_right = true
+	wait_timer.start(randf_range(wait_time_min, wait_time_max))
+	await wait_timer.timeout
+	
+	# stop looking right and face chalkboards and setup new direction
+	looking_right = false
+	facing_desks = false
 	if randi_range(0, 1) == 0:
 		direction = -direction
-	lerp_direction = direction
+	
+	# start process all over
+	move_timer.start(randf_range(move_time_min, move_time_max))
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite_2d.animation == "look_up":
@@ -131,8 +135,7 @@ func _on_eyes_note_found(p_note: Note) -> void:
 func discover_note(p_note: Note) -> void:
 	note = p_note
 	found_note = true
-	look_timer.paused = true
-	turn_around_timer.paused = true
+	wait_timer.paused = true
 	move_timer.paused = true
 	moving = true
 	looking_right = false
