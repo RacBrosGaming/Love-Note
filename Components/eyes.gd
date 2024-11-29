@@ -39,11 +39,14 @@ func _on_eyes_exited(area: Area2D) -> void:
 
 func note_visible(note_position: Vector2) -> bool:
 	var collider: Note
+	var found := false
 	ray_cast_2d.target_position = note_position - ray_cast_2d.global_position
 	ray_cast_2d.force_raycast_update()
 	if ray_cast_2d.is_colliding():
 		collider = ray_cast_2d.get_collider() as Note
-	return is_instance_valid(collider)
+		if is_instance_valid(collider):
+			found = collider.visible_to_teacher
+	return found
 
 func _process(_delta: float) -> void:
 	if look_for_note && is_instance_valid(note):
