@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=16 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="PackedScene" uid="uid://bycek0e5qii0i" path="res://Scenes/grid.tscn" id="2_ctuag"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://uyj6biijy682" path="res://NPCs/teacher.tscn" id="4_mgn65"]
 [ext_resource type="PackedScene" uid="uid://b3iy832u4660f" path="res://NPCs/teacher_assistant.tscn" id="6_72k1s"]
 [ext_resource type="PackedScene" uid="uid://b6x1wu3g0wk4l" path="res://GUI/heart_container.tscn" id="7_3vu0l"]
+[ext_resource type="PackedScene" uid="uid://c14gqscl1iw6w" path="res://Components/game_timer.tscn" id="8_3345v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7qu55"]
 atlas = ExtResource("3_picyj")
@@ -103,3 +104,9 @@ offset_left = 257.0
 offset_top = 24.0
 offset_right = 389.0
 offset_bottom = 48.0
+
+[node name="GameTimer" parent="." instance=ExtResource("8_3345v")]
+offset_left = 421.0
+offset_top = 21.0
+offset_right = 421.0
+offset_bottom = 21.0
