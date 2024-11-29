@@ -192,7 +192,6 @@ func randomize_students() -> void:
 				desk_cells.append(cell)
 	desk_cells.erase(end_position)
 	desk_cells.erase(start_position)
-	var student_added := {}
 	
 	for i in range(desk_cells.size()):
 		var tile := desks.get_cell_scene(desk_cells[i])
