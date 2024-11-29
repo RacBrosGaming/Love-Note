@@ -3,6 +3,7 @@ class_name Note
 
 signal stopped_moving
 signal reached_goal
+signal opening_letter(open: bool)
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var love_letter: LoveLetter = $CanvasLayer/LoveLetter
@@ -48,10 +49,12 @@ func _ready() -> void:
 	paused = true
 	visible_to_teacher = false
 	position = starting_position
+	opening_letter.emit(true)
 	love_letter.write(global_position)
 	await  love_letter.finished_writing
 	show()
 	paused = false
+	opening_letter.emit(false)
 
 func _unhandled_input(event: InputEvent) -> void:
 	for direction: String in directions.keys():
@@ -169,14 +172,18 @@ func _on_start_reached() -> void:
 		start_reached = true
 		paused = true
 		hide()
+		opening_letter.emit(true)
 		await love_letter.show_letter(global_position)
+		opening_letter.emit(false)
 		reached_goal.emit()
 
 func _on_end_reached() -> void:
 	end_reached = true
 	hide()
 	paused = true
+	opening_letter.emit(true)
 	love_letter.present_option(global_position)
 	var answer: bool = await love_letter.chose_answer
 	show()
 	paused = false
+	opening_letter.emit(false)

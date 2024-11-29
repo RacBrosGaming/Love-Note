@@ -12,6 +12,7 @@ script = ExtResource("2_yj3o1")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 180.0
 one_shot = true
+autostart = true
 
 [node name="TimerLabel" type="Label" parent="."]
 custom_minimum_size = Vector2(132, 24)

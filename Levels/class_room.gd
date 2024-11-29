@@ -11,6 +11,8 @@ extends Node2D
 const GAME_OVER = "res://Levels/game_over.tscn"
 const GRID = preload("res://Scenes/grid.tscn")
 
+var note_found := false
+
 @export var max_lives := 3
 var current_lives := max_lives: set = set_current_lives
 func set_current_lives(value: int) -> void:
@@ -25,7 +27,7 @@ func _ready() -> void:
 	teacher.note_found.connect(_on_note_found)
 	teacher_assistant.note_found.connect(_on_note_found)
 	heart_container.max_hearts = max_lives
-	game_timer.start()
+	game_timer.pause(true)
 	game_timer.timeout.connect(_on_game_timer_timeout)
 
 func connect_bully_to_teacher_assistant() -> void:
@@ -41,8 +43,12 @@ func _call_teacher(target_position: Vector2) -> void:
 func _on_setup_grid() -> void:
 	connect_bully_to_teacher_assistant()
 	grid.note.reached_goal.connect(_on_reached_goal)
+	grid.note.opening_letter.connect(_on_opening_letter)
 
 func _on_note_found(note: Note) -> void:
+	if note_found:
+		return
+	note_found = true
 	game_timer.pause(true)
 	note.found = true
 	teacher.discover_note(note)
@@ -64,6 +70,7 @@ func _on_note_found(note: Note) -> void:
 			grid_position.add_child(grid)
 			teacher_assistant.grid = grid
 			game_timer.pause(false)
+			note_found = false
 	else:
 		if is_instance_valid(get_tree()):
 			get_tree().change_scene_to_file(GAME_OVER)
@@ -78,3 +85,6 @@ func _on_reached_goal() -> void:
 func _on_game_timer_timeout() -> void:
 	if is_instance_valid(get_tree()):
 		get_tree().change_scene_to_file(GAME_OVER)
+
+func _on_opening_letter(open: bool) -> void:
+	game_timer.pause(open)
