@@ -51,7 +51,7 @@ func _ready() -> void:
 	position = starting_position
 	opening_letter.emit(true)
 	love_letter.write(global_position)
-	await  love_letter.finished_writing
+	await love_letter.finished_writing
 	show()
 	paused = false
 	opening_letter.emit(false)

@@ -16,8 +16,8 @@ signal chose_answer(said_yes: bool)
 @onready var letter_back_starting_scale := letter_back.scale
 
 var note_position: Vector2
-var time_to_show := 2.0 
-var time_to_write := 4.0
+var time_to_show := 1.0 
+var time_to_write := 3.0
 
 func write(target_position: Vector2) -> void:
 	note_position = target_position

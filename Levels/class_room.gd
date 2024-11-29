@@ -69,7 +69,6 @@ func _on_note_found(note: Note) -> void:
 			grid.setup_grid.connect(_on_setup_grid)
 			grid_position.add_child(grid)
 			teacher_assistant.grid = grid
-			game_timer.pause(false)
 			note_found = false
 	else:
 		if is_instance_valid(get_tree()):
