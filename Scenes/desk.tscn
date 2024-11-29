@@ -1,10 +1,21 @@
-[gd_scene load_steps=11 format=3 uid="uid://dnhrpo8g4oeh1"]
+[gd_scene load_steps=22 format=3 uid="uid://dnhrpo8g4oeh1"]
 
 [ext_resource type="Script" path="res://Scenes/desk.gd" id="1_1pnw8"]
 [ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="1_ht8tx"]
+[ext_resource type="Texture2D" uid="uid://davxm2vjoptv1" path="res://Assets/Desk/spritesheet_student_barry.png" id="3_5lihg"]
 [ext_resource type="Texture2D" uid="uid://dnl3cwlonbsb6" path="res://Assets/Desk/spritesheet_end.png" id="4_ebyqy"]
-[ext_resource type="Texture2D" uid="uid://bq6j164bctrp4" path="res://Assets/Desk/spritesheet_kid_1.png" id="4_v2hdf"]
+[ext_resource type="Texture2D" uid="uid://bq6j164bctrp4" path="res://Assets/Desk/spritesheet_student.png" id="4_v2hdf"]
 [ext_resource type="Texture2D" uid="uid://drp8u10sldds1" path="res://Assets/Desk/spritesheet_start.png" id="4_vmbyw"]
+[ext_resource type="Texture2D" uid="uid://bfdq4pa1ankg3" path="res://Assets/Desk/spritesheet_student_earl.png" id="4_yvp7o"]
+[ext_resource type="Texture2D" uid="uid://bwmtu64wfrsq8" path="res://Assets/Desk/spritesheet_student_hannah.png" id="5_gp0cf"]
+[ext_resource type="Texture2D" uid="uid://bqrqvs3rr2keh" path="res://Assets/Desk/spritesheet_student_jake.png" id="6_c3sd1"]
+[ext_resource type="Texture2D" uid="uid://byrualyqvuh4f" path="res://Assets/Desk/spritesheet_student_jim.png" id="7_kay05"]
+[ext_resource type="Texture2D" uid="uid://bdr04n11sxyip" path="res://Assets/Desk/spritesheet_student_kathy.png" id="8_8lrj7"]
+[ext_resource type="Texture2D" uid="uid://djcb8jmsb8vud" path="res://Assets/Desk/spritesheet_student_maggy.png" id="9_1rn3g"]
+[ext_resource type="Texture2D" uid="uid://cblsp44qp3l3g" path="res://Assets/Desk/spritesheet_student_mickey.png" id="10_1lslt"]
+[ext_resource type="Texture2D" uid="uid://wf6j1781rpxq" path="res://Assets/Desk/spritesheet_student_sal.png" id="11_oikde"]
+[ext_resource type="Texture2D" uid="uid://dfpgomf18h71c" path="res://Assets/Desk/spritesheet_student_stacy.png" id="12_slg3m"]
+[ext_resource type="Texture2D" uid="uid://bu5nauj4ktngo" path="res://Assets/Desk/spritesheet_student_steven.png" id="13_pr826"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qoy8t"]
 resource_local_to_scene = true
@@ -66,7 +77,7 @@ collision_layer = 4
 collision_mask = 0
 monitoring = false
 script = ExtResource("1_1pnw8")
-kids = Array[Texture2D]([ExtResource("4_v2hdf")])
+kids = Array[Texture2D]([ExtResource("4_v2hdf"), ExtResource("3_5lihg"), ExtResource("4_yvp7o"), ExtResource("5_gp0cf"), ExtResource("6_c3sd1"), ExtResource("7_kay05"), ExtResource("8_8lrj7"), ExtResource("9_1rn3g"), ExtResource("10_1lslt"), ExtResource("11_oikde"), ExtResource("12_slg3m"), ExtResource("13_pr826")])
 start_sprite = ExtResource("4_vmbyw")
 end_sprite = ExtResource("4_ebyqy")
 

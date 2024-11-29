@@ -29,6 +29,7 @@ signal start_reached
 	Vector2i.DOWN: kid_down_frame,
 }
 
+var current_sprite: Texture2D: set = set_current_sprite
 var has_note: bool: set = set_has_note
 var note: Note: set = set_note
 var active: bool: set = set_active
@@ -37,6 +38,11 @@ var direction: Vector2i: set = set_direction
 var pending_hover := false
 var is_start: bool: set = set_start
 var is_end: bool: set = set_end
+
+func set_current_sprite(value: Texture2D) -> void:
+	current_sprite = value
+	sprite_2d.texture = current_sprite
+	sprite_2d.hframes = kid_frames
 
 func set_note(value: Note) -> void:
 	note = value
@@ -77,8 +83,7 @@ func set_direction(value: Vector2i) -> void:
 
 func _ready() -> void:
 	if !kids.is_empty():
-		sprite_2d.texture = kids[randi_range(0, kids.size() - 1)]
-		sprite_2d.hframes = kid_frames
+		current_sprite = kids[randi_range(0, kids.size() - 1)]
 	input_event.connect(_on_input_event)
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)

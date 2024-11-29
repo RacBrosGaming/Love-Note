@@ -44,6 +44,7 @@ func _ready() -> void:
 		var start_desk := desks.get_cell_scene(start_position) as Desk
 		if is_instance_valid(start_desk):
 			start_desk.is_start = true
+		randomize_students()
 		#debug_npc_path()
 		setup_grid.emit()
 
@@ -180,3 +181,23 @@ func get_random_desk() -> PackedScene:
 	var desk: PackedScene
 	desk = desk_scenes[i]
 	return desk
+
+func randomize_students() -> void:
+	var desk_cells: Array[Vector2i]
+	for i in desk_count.x:
+		for j in desk_count.y:
+			var cell := Vector2i(i, j)
+			var tile := desks.get_cell_scene(cell)
+			if tile is Desk && !tile is DeskBully:
+				desk_cells.append(cell)
+	desk_cells.erase(end_position)
+	desk_cells.erase(start_position)
+	var student_added := {}
+	
+	for i in range(desk_cells.size()):
+		var tile := desks.get_cell_scene(desk_cells[i])
+		var desk := tile as Desk
+		var kid_choice := i
+		if kid_choice >= desk.kids.size():
+			kid_choice -= desk.kids.size()
+		desk.current_sprite = desk.kids[kid_choice]

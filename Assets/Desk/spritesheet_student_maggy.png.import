@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq6j164bctrp4"
-path="res://.godot/imported/spritesheet_kid_1.png-80e2fb3d94ca9139119b01824db67d5e.ctex"
+uid="uid://djcb8jmsb8vud"
+path="res://.godot/imported/spritesheet_student_maggy.png-81a695e7d56b5a6240e669b489cd8025.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Desk/spritesheet_kid_1.png"
-dest_files=["res://.godot/imported/spritesheet_kid_1.png-80e2fb3d94ca9139119b01824db67d5e.ctex"]
+source_file="res://Assets/Desk/spritesheet_student_maggy.png"
+dest_files=["res://.godot/imported/spritesheet_student_maggy.png-81a695e7d56b5a6240e669b489cd8025.ctex"]
 
 [params]
 
