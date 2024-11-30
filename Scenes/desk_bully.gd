@@ -12,12 +12,15 @@ func _ready() -> void:
 func set_has_note(value: bool) -> void:
 	has_note = value
 	if has_note:
-		animation_player.play("taunt")
+		taunt()
 		note.paused = true
 		await note.stopped_moving
 		note.visible_to_teacher = true
 		pause_timer.start()
 		call_teacher.emit(note.global_position)
+
+func taunt() -> void:
+	animation_player.play("taunt")
 
 func set_direction(value: Vector2i) -> void:
 	direction = value

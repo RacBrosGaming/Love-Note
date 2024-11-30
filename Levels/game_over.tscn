@@ -1,11 +1,16 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcannur2vw2s3"]
+[gd_scene load_steps=22 format=3 uid="uid://dcannur2vw2s3"]
 
 [ext_resource type="Script" path="res://Levels/game_over.gd" id="1_3lit4"]
 [ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="2_k5al1"]
 [ext_resource type="PackedScene" uid="uid://dvptb00q0enbw" path="res://GUI/background.tscn" id="3_2t21x"]
 [ext_resource type="Texture2D" uid="uid://b07uuea0a43no" path="res://Assets/Teacher/spritesheet_teacher.png" id="3_lbcl3"]
+[ext_resource type="Resource" uid="uid://dypg1x4pihea8" path="res://Resources/game_stats.tres" id="3_wdru0"]
 [ext_resource type="Texture2D" uid="uid://cv11ve43s03o" path="res://Assets/Teacher/teacher_assistant_walk_down.png" id="4_kw5lq"]
 [ext_resource type="Theme" uid="uid://cdnakyvh2ng41" path="res://Resources/theme.tres" id="6_p455c"]
+[ext_resource type="PackedScene" uid="uid://dnhrpo8g4oeh1" path="res://Scenes/desk.tscn" id="7_t0d1m"]
+[ext_resource type="Texture2D" uid="uid://drp8u10sldds1" path="res://Assets/Desk/spritesheet_start.png" id="8_em5ij"]
+[ext_resource type="Texture2D" uid="uid://dnl3cwlonbsb6" path="res://Assets/Desk/spritesheet_end.png" id="9_ndq57"]
+[ext_resource type="PackedScene" uid="uid://dstfh7u2o7dj" path="res://Scenes/desk_bully.tscn" id="10_mu8fv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erswq"]
 atlas = ExtResource("2_k5al1")
@@ -89,6 +94,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("6_p455c")
 script = ExtResource("1_3lit4")
+game_stats = ExtResource("3_wdru0")
 
 [node name="Background" parent="." instance=ExtResource("3_2t21x")]
 layout_mode = 0
@@ -141,6 +147,22 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Quit"
+
+[node name="StartDesk" parent="." instance=ExtResource("7_t0d1m")]
+position = Vector2(136, 264)
+kids = Array[Texture2D]([ExtResource("8_em5ij")])
+start_sprite = null
+end_sprite = null
+
+[node name="EndDesk" parent="." instance=ExtResource("7_t0d1m")]
+position = Vector2(196, 264)
+kids = Array[Texture2D]([ExtResource("9_ndq57")])
+start_sprite = null
+end_sprite = null
+answer_sprite = null
+
+[node name="DeskBully" parent="." instance=ExtResource("10_mu8fv")]
+position = Vector2(440, 264)
 
 [connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

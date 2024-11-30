@@ -74,6 +74,7 @@ func _on_wait_for_results() -> void:
 	grid.start_desk.wait_for_results()
 
 func _on_reached_goal(answer: bool) -> void:
+	game_stats.answer = answer
 	game_timer.pause(true)
 	grid.start_desk.set_result(answer)
 	reset_timer.start()

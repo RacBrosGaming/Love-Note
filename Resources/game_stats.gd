@@ -5,7 +5,9 @@ signal lives_updated(current_lives: int)
 signal time_updated(time_remaining: float)
 
 @export var max_lives := 3
-@export var total_time := 180.0
+@export var total_time := 90.0
+
+var answer := false
 
 var current_lives := max_lives: set = set_current_lives
 func set_current_lives(value: int) -> void:
