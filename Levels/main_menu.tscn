@@ -1,5 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://c2pxcd658n8x8"]
+[gd_scene load_steps=27 format=3 uid="uid://c2pxcd658n8x8"]
 
+[ext_resource type="Theme" uid="uid://cdnakyvh2ng41" path="res://Resources/theme.tres" id="1_fklqu"]
 [ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="2_culqm"]
 [ext_resource type="Resource" uid="uid://dypg1x4pihea8" path="res://Resources/game_stats.tres" id="2_j2k0f"]
 [ext_resource type="Script" path="res://Levels/main_menu.gd" id="2_veh0c"]
@@ -100,6 +101,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_fklqu")
 script = ExtResource("2_veh0c")
 game_stats = ExtResource("2_j2k0f")
 
