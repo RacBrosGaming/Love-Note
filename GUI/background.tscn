@@ -39,7 +39,6 @@ offset_left = 421.0
 offset_top = 21.0
 offset_right = 553.0
 offset_bottom = 54.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "04: 44"
 horizontal_alignment = 1

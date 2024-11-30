@@ -1,6 +1,6 @@
 extends Control
 
-const CLASS_ROOM := "res://Levels/class_room.tscn"
+const MAIN_MENU := "res://Levels/main_menu.tscn"
 
 @export var game_stats: GameStats
 
@@ -30,7 +30,7 @@ func _ready() -> void:
 			quit_button.disabled = true
 
 func _on_restart_button_pressed() -> void:
-	get_tree().change_scene_to_file(CLASS_ROOM)
+	get_tree().change_scene_to_file(MAIN_MENU)
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()

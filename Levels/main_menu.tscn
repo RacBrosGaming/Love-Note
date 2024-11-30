@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c2pxcd658n8x8"]
+[gd_scene load_steps=25 format=3 uid="uid://c2pxcd658n8x8"]
 
 [ext_resource type="Theme" uid="uid://cdnakyvh2ng41" path="res://Resources/theme.tres" id="1_piyta"]
 [ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="2_culqm"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://drp8u10sldds1" path="res://Assets/Desk/spritesheet_start.png" id="9_c73gy"]
 [ext_resource type="Texture2D" uid="uid://dnl3cwlonbsb6" path="res://Assets/Desk/spritesheet_end.png" id="10_k1d6j"]
 [ext_resource type="PackedScene" uid="uid://dstfh7u2o7dj" path="res://Scenes/desk_bully.tscn" id="11_43vsw"]
+[ext_resource type="Texture2D" uid="uid://wcraimgi2jcs" path="res://Assets/Components/curved_arrow.png" id="13_ajmyt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erswq"]
 atlas = ExtResource("6_wk72p")
@@ -85,6 +86,10 @@ animations = [{
 "name": &"default",
 "speed": 2.0
 }]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0n78k"]
+line_spacing = -4.0
+font_size = 24
 
 [node name="MainMenu" type="Control"]
 y_sort_enabled = true
@@ -240,5 +245,46 @@ answer_sprite = null
 
 [node name="BullyDesk" parent="." instance=ExtResource("11_43vsw")]
 position = Vector2(376, 320)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 240.0
+offset_right = 459.0
+offset_bottom = 284.0
+rotation = 0.523599
+text = "Avoid"
+
+[node name="Sprite2D" type="Sprite2D" parent="Label"]
+position = Vector2(70.641, 42.3538)
+rotation = -0.523599
+texture = ExtResource("13_ajmyt")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 97.0
+offset_right = 634.0
+offset_bottom = 159.0
+text = "Pass Note Here"
+label_settings = SubResource("LabelSettings_0n78k")
+
+[node name="Sprite2D" type="Sprite2D" parent="Label2"]
+position = Vector2(120, 48)
+texture = ExtResource("13_ajmyt")
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 181.0
+offset_right = 174.0
+offset_bottom = 243.0
+text = "Return Note Here"
+label_settings = SubResource("LabelSettings_0n78k")
+
+[node name="Sprite2D" type="Sprite2D" parent="Label3"]
+position = Vector2(32, 48)
+texture = ExtResource("13_ajmyt")
+flip_h = true
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
