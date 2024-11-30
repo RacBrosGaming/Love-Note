@@ -5,4 +5,4 @@
 [resource]
 script = ExtResource("1_nemve")
 max_lives = 3
-total_time = 180
+total_time = 90.0

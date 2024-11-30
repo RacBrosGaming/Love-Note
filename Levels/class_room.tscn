@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=17 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
 [ext_resource type="Resource" uid="uid://dypg1x4pihea8" path="res://Resources/game_stats.tres" id="2_1gtjc"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://uyj6biijy682" path="res://NPCs/teacher.tscn" id="4_mgn65"]
 [ext_resource type="PackedScene" uid="uid://b3iy832u4660f" path="res://NPCs/teacher_assistant.tscn" id="6_72k1s"]
 [ext_resource type="PackedScene" uid="uid://c14gqscl1iw6w" path="res://Components/game_timer.tscn" id="8_3345v"]
+[ext_resource type="AudioStream" uid="uid://bst76vwvtjrl4" path="res://Assets/Classroom/classroom.ogg" id="9_el77i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7qu55"]
 atlas = ExtResource("3_picyj")
@@ -106,3 +107,7 @@ wait_time = 4.0
 one_shot = true
 
 [node name="GameTimer" parent="." instance=ExtResource("8_3345v")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_el77i")
+autoplay = true
