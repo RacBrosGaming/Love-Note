@@ -79,7 +79,7 @@ func move(delta: float) -> void:
 		eye_direction = Vector2.UP
 	rotate_eyes(delta, eye_direction)
 
-func rotate_eyes(delta: float, direction: Vector2) -> void:
+func rotate_eyes(delta: float, target_direction: Vector2) -> void:
 	var from := eyes.rotation
 	var directions := {
 		Vector2.UP: PI,
@@ -88,8 +88,8 @@ func rotate_eyes(delta: float, direction: Vector2) -> void:
 		Vector2.RIGHT: (3 * PI) / 2
 	}
 	var to := 0.0
-	if directions.has(direction):
-		to = directions[direction]
+	if directions.has(target_direction):
+		to = directions[target_direction]
 	var weight := turn_smoothing * delta
 	eyes.rotation = lerp_angle(from, to, weight)
 
