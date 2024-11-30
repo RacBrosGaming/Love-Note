@@ -2,6 +2,7 @@ extends Area2D
 class_name Note
 
 signal stopped_moving
+signal wait_for_results
 signal reached_goal(answer: bool)
 signal opening_letter(open: bool)
 
@@ -173,6 +174,7 @@ func _on_start_reached() -> void:
 		start_reached = true
 		paused = true
 		hide()
+		wait_for_results.emit()
 		opening_letter.emit(true)
 		await love_letter.show_letter(global_position)
 		opening_letter.emit(false)

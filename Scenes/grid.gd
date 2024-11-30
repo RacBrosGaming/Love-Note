@@ -27,7 +27,9 @@ var a_star_grid: AStarGrid2D
 var npc_a_star_grid: AStarGrid2D
 var note: Note
 var start_position: Vector2i
+var start_desk: Desk
 var end_position: Vector2i
+var end_desk: Desk
 var max_empty_desks := 3
 var current_empty_desks := 0
 
@@ -40,10 +42,10 @@ func _ready() -> void:
 		while find_goal_path().is_empty():
 			reroll_empty_desks()
 		add_builly_desk()
-		var end_desk := desks.get_cell_scene(end_position) as Desk
+		end_desk = desks.get_cell_scene(end_position) as Desk
 		if is_instance_valid(end_desk):
 			end_desk.is_end = true
-		var start_desk := desks.get_cell_scene(start_position) as Desk
+		start_desk = desks.get_cell_scene(start_position) as Desk
 		if is_instance_valid(start_desk):
 			start_desk.is_start = true
 		randomize_students()

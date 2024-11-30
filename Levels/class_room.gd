@@ -37,6 +37,7 @@ func _call_teacher(target_position: Vector2) -> void:
 
 func _on_setup_grid() -> void:
 	connect_bully_to_teacher_assistant()
+	grid.note.wait_for_results.connect(_on_wait_for_results)
 	grid.note.reached_goal.connect(_on_reached_goal)
 	grid.note.opening_letter.connect(_on_opening_letter)
 
@@ -69,8 +70,12 @@ func _on_note_found(note: Note) -> void:
 		if is_instance_valid(get_tree()):
 			get_tree().change_scene_to_file(GAME_OVER)
 
+func _on_wait_for_results() -> void:
+	grid.start_desk.wait_for_results()
+
 func _on_reached_goal(answer: bool) -> void:
 	game_timer.pause(true)
+	grid.start_desk.set_result(answer)
 	reset_timer.start()
 	await reset_timer.timeout
 	if is_instance_valid(get_tree()):

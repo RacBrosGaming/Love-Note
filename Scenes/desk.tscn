@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dnhrpo8g4oeh1"]
+[gd_scene load_steps=26 format=3 uid="uid://dnhrpo8g4oeh1"]
 
 [ext_resource type="Script" path="res://Scenes/desk.gd" id="1_1pnw8"]
 [ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="1_ht8tx"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://wf6j1781rpxq" path="res://Assets/Desk/spritesheet_student_sal.png" id="11_oikde"]
 [ext_resource type="Texture2D" uid="uid://dfpgomf18h71c" path="res://Assets/Desk/spritesheet_student_stacy.png" id="12_slg3m"]
 [ext_resource type="Texture2D" uid="uid://bu5nauj4ktngo" path="res://Assets/Desk/spritesheet_student_steven.png" id="13_pr826"]
+[ext_resource type="Texture2D" uid="uid://dueihaneyf26" path="res://Assets/Desk/spritesheet_start_answer.png" id="16_16mxf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qoy8t"]
 resource_local_to_scene = true
@@ -65,9 +66,65 @@ tracks/0/keys = {
 "values": [0, 1]
 }
 
+[sub_resource type="Animation" id="Animation_ti617"]
+resource_name = "answer_yes"
+length = 0.6
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_xuy6f"]
+resource_name = "answer_no"
+length = 0.6
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_3uqe3"]
+resource_name = "answer_wait"
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fxf82"]
 _data = {
 "RESET": SubResource("Animation_lp3xw"),
+"answer_no": SubResource("Animation_xuy6f"),
+"answer_wait": SubResource("Animation_3uqe3"),
+"answer_yes": SubResource("Animation_ti617"),
 "idle": SubResource("Animation_u2rxg")
 }
 
@@ -80,6 +137,7 @@ script = ExtResource("1_1pnw8")
 kids = Array[Texture2D]([ExtResource("4_v2hdf"), ExtResource("3_5lihg"), ExtResource("4_yvp7o"), ExtResource("5_gp0cf"), ExtResource("6_c3sd1"), ExtResource("7_kay05"), ExtResource("8_8lrj7"), ExtResource("9_1rn3g"), ExtResource("10_1lslt"), ExtResource("11_oikde"), ExtResource("12_slg3m"), ExtResource("13_pr826")])
 start_sprite = ExtResource("4_vmbyw")
 end_sprite = ExtResource("4_ebyqy")
+answer_sprite = ExtResource("16_16mxf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_qoy8t")

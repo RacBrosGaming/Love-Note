@@ -13,6 +13,7 @@ signal start_reached
 @export var kids: Array[Texture2D] = []
 @export var start_sprite: Texture2D
 @export var end_sprite: Texture2D
+@export var answer_sprite :Texture
 
 @export var  kid_idle_frame := 0
 @export var  kid_left_frame := 2
@@ -93,9 +94,6 @@ func _process(_delta: float) -> void:
 	if pending_hover && active:
 		desk_hovered.emit(self)
 		pending_hover = false
-	#if goal:
-		#reached_goal.emit()
-		#has_note = false
 
 func _on_mouse_entered() -> void:
 	desk_hovered.emit(self)
@@ -109,7 +107,8 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		desk_selected.emit(self)
 
 func play_idle() -> void:
-	animation_player.play("idle", -1, randf_range(0.5, 1.5))
+	if !animation_player.current_animation == "answer_wait":
+		animation_player.play("idle", -1, randf_range(0.5, 1.5))
 
 func highlight(enabled: bool) -> void:
 	shader.set_shader_parameter("enabled", enabled)
@@ -119,3 +118,14 @@ func super_highlight(enabled: bool) -> void:
 		shader.set_shader_parameter("color", Color.HOT_PINK)
 	else:
 		shader.set_shader_parameter("color", Color.WHITE)
+
+func wait_for_results() -> void:
+	kid_frames = 5
+	current_sprite = answer_sprite
+	animation_player.play("answer_wait")
+
+func set_result(answer: bool) -> void:
+	if answer:
+		animation_player.play("answer_yes")
+	else:
+		animation_player.play("answer_no")
