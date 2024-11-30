@@ -2,7 +2,7 @@ extends Area2D
 class_name Note
 
 signal stopped_moving
-signal reached_goal
+signal reached_goal(answer: bool)
 signal opening_letter(open: bool)
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -27,6 +27,7 @@ var paused := false
 var found := false
 var start_reached := false
 var end_reached := false
+var answer := false
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
@@ -175,15 +176,16 @@ func _on_start_reached() -> void:
 		opening_letter.emit(true)
 		await love_letter.show_letter(global_position)
 		opening_letter.emit(false)
-		reached_goal.emit()
+		reached_goal.emit(answer)
 
 func _on_end_reached() -> void:
-	end_reached = true
-	hide()
-	paused = true
-	opening_letter.emit(true)
-	love_letter.present_option(global_position)
-	var answer: bool = await love_letter.chose_answer
-	show()
-	paused = false
-	opening_letter.emit(false)
+	if !end_reached:
+		end_reached = true
+		hide()
+		paused = true
+		opening_letter.emit(true)
+		love_letter.present_option(global_position)
+		answer = await love_letter.chose_answer
+		show()
+		paused = false
+		opening_letter.emit(false)

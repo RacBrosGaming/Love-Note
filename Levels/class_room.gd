@@ -69,7 +69,7 @@ func _on_note_found(note: Note) -> void:
 		if is_instance_valid(get_tree()):
 			get_tree().change_scene_to_file(GAME_OVER)
 
-func _on_reached_goal() -> void:
+func _on_reached_goal(answer: bool) -> void:
 	game_timer.pause(true)
 	reset_timer.start()
 	await reset_timer.timeout
