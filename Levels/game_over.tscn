@@ -161,7 +161,7 @@ start_sprite = null
 end_sprite = null
 answer_sprite = null
 
-[node name="DeskBully" parent="." instance=ExtResource("10_mu8fv")]
+[node name="BullyDesk" parent="." instance=ExtResource("10_mu8fv")]
 position = Vector2(440, 264)
 
 [connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

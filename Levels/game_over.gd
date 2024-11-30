@@ -7,7 +7,7 @@ const CLASS_ROOM := "res://Levels/class_room.tscn"
 @onready var quit_button: Button = %QuitButton
 @onready var start_desk: Desk = $StartDesk
 @onready var end_desk: Desk = $EndDesk
-@onready var desk_bully: DeskBully = $DeskBully
+@onready var bully_desk: DeskBully = $BullyDesk
 
 func _ready() -> void:
 	if game_stats.answer:
@@ -15,12 +15,12 @@ func _ready() -> void:
 		end_desk.direction = Vector2.LEFT
 	else:
 		var end_desk_position := end_desk.global_position
-		var bully_position := desk_bully.global_position
+		var bully_position := bully_desk.global_position
 		end_desk.global_position = bully_position
-		desk_bully.global_position = end_desk_position
+		bully_desk.global_position = end_desk_position
 		start_desk.wait_for_results()
 		start_desk.set_result(game_stats.answer)
-	desk_bully.taunt()
+	bully_desk.taunt()
 	match OS.get_name():
 		"Windows","macOS", "Linux":
 			quit_button.disabled = false
