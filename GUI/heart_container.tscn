@@ -1,11 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6x1wu3g0wk4l"]
+[gd_scene load_steps=3 format=3 uid="uid://b6x1wu3g0wk4l"]
 
 [ext_resource type="Script" path="res://GUI/heart_container.gd" id="1_j44xt"]
+[ext_resource type="Resource" uid="uid://dypg1x4pihea8" path="res://Resources/game_stats.tres" id="2_l2phh"]
 
 [node name="HeartContainer" type="HBoxContainer"]
+custom_minimum_size = Vector2(132, 24)
 theme_override_constants/separation = 0
 alignment = 1
 script = ExtResource("1_j44xt")
+game_stats = ExtResource("2_l2phh")
 
 [node name="EraseTimer" type="Timer" parent="."]
 one_shot = true

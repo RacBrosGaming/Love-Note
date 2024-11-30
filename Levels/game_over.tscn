@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://dcannur2vw2s3"]
 
-[ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="1_2ye1m"]
 [ext_resource type="Script" path="res://Levels/game_over.gd" id="1_3lit4"]
 [ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="2_k5al1"]
+[ext_resource type="PackedScene" uid="uid://dvptb00q0enbw" path="res://GUI/background.tscn" id="3_2t21x"]
 [ext_resource type="Texture2D" uid="uid://b07uuea0a43no" path="res://Assets/Teacher/spritesheet_teacher.png" id="3_lbcl3"]
 [ext_resource type="Texture2D" uid="uid://cv11ve43s03o" path="res://Assets/Teacher/teacher_assistant_walk_down.png" id="4_kw5lq"]
 [ext_resource type="Theme" uid="uid://cdnakyvh2ng41" path="res://Resources/theme.tres" id="6_p455c"]
@@ -90,14 +90,13 @@ grow_vertical = 2
 theme = ExtResource("6_p455c")
 script = ExtResource("1_3lit4")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_2ye1m")
+[node name="Background" parent="." instance=ExtResource("3_2t21x")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="TeacherDesk" type="AnimatedSprite2D" parent="."]
 position = Vector2(320, 144)

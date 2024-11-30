@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://dvptb00q0enbw"]
+
+[ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="1_0ean6"]
+[ext_resource type="Script" path="res://GUI/background.gd" id="2_2g78r"]
+[ext_resource type="Texture2D" uid="uid://b1y6f157t751o" path="res://Assets/Classroom/chalkboard_writing.png" id="2_hwsmt"]
+[ext_resource type="Resource" uid="uid://dypg1x4pihea8" path="res://Resources/game_stats.tres" id="3_g6ejx"]
+[ext_resource type="PackedScene" uid="uid://b6x1wu3g0wk4l" path="res://GUI/heart_container.tscn" id="3_v3iyk"]
+
+[node name="Background" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_0ean6")
+script = ExtResource("2_2g78r")
+game_stats = ExtResource("3_g6ejx")
+
+[node name="LeftChalkBoard" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 94.0
+offset_top = 14.0
+offset_right = 224.0
+offset_bottom = 52.0
+texture = ExtResource("2_hwsmt")
+expand_mode = 1
+
+[node name="HeartContainer" parent="." instance=ExtResource("3_v3iyk")]
+layout_mode = 0
+offset_left = 257.0
+offset_top = 24.0
+offset_right = 389.0
+offset_bottom = 48.0
+
+[node name="GameTime" type="Label" parent="."]
+custom_minimum_size = Vector2(132, 33)
+layout_mode = 0
+offset_left = 421.0
+offset_top = 21.0
+offset_right = 553.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "04: 44"
+horizontal_alignment = 1

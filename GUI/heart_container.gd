@@ -3,7 +3,14 @@ class_name HeartContainer
 
 const HEART_SCENE = preload("res://GUI/heart.tscn")
 
+@export var game_stats: GameStats
+
 @onready var erase_timer: Timer = $EraseTimer
+
+func _ready() -> void:
+	max_hearts = game_stats.max_lives
+	update_hearts(game_stats.current_lives, false)
+	game_stats.lives_updated.connect(_on_lives_updated)
 
 var max_hearts := 0: set = set_max_hearts
 func set_max_hearts(value: int) -> void:
@@ -12,9 +19,13 @@ func set_max_hearts(value: int) -> void:
 		var heart := HEART_SCENE.instantiate()
 		add_child(heart)
 
-func update_hearts(current_hearts: int) -> void:
-	erase_timer.start()
-	await erase_timer.timeout
+func _on_lives_updated(current_hearts: int) -> void:
+	update_hearts(current_hearts)
+
+func update_hearts(current_hearts: int, wait: bool = false) -> void:
+	if wait:
+		erase_timer.start()
+		await erase_timer.timeout
 	var children := get_children()
 	var hearts: Array[Heart]
 	for i in range(children.size()):

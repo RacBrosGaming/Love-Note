@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GameStats" load_steps=2 format=3 uid="uid://dypg1x4pihea8"]
+
+[ext_resource type="Script" path="res://Resources/game_stats.gd" id="1_nemve"]
+
+[resource]
+script = ExtResource("1_nemve")
+max_lives = 3
+total_time = 180

@@ -1,13 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://bxby0dmjb6vx4"]
+[gd_scene load_steps=16 format=3 uid="uid://bxby0dmjb6vx4"]
 
 [ext_resource type="Script" path="res://Levels/class_room.gd" id="1_o8rf2"]
+[ext_resource type="Resource" uid="uid://dypg1x4pihea8" path="res://Resources/game_stats.tres" id="2_1gtjc"]
 [ext_resource type="PackedScene" uid="uid://bycek0e5qii0i" path="res://Scenes/grid.tscn" id="2_ctuag"]
-[ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="2_s2hma"]
-[ext_resource type="Texture2D" uid="uid://b1y6f157t751o" path="res://Assets/Classroom/chalkboard_writing.png" id="3_eqxpi"]
+[ext_resource type="PackedScene" uid="uid://dvptb00q0enbw" path="res://GUI/background.tscn" id="3_2ogv7"]
 [ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="3_picyj"]
 [ext_resource type="PackedScene" uid="uid://uyj6biijy682" path="res://NPCs/teacher.tscn" id="4_mgn65"]
 [ext_resource type="PackedScene" uid="uid://b3iy832u4660f" path="res://NPCs/teacher_assistant.tscn" id="6_72k1s"]
-[ext_resource type="PackedScene" uid="uid://b6x1wu3g0wk4l" path="res://GUI/heart_container.tscn" id="7_3vu0l"]
 [ext_resource type="PackedScene" uid="uid://c14gqscl1iw6w" path="res://Components/game_timer.tscn" id="8_3345v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7qu55"]
@@ -51,21 +50,17 @@ normal = Vector2(-1, 0)
 [node name="ClassRoom" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_o8rf2")
+game_stats = ExtResource("2_1gtjc")
 
-[node name="Background" type="TextureRect" parent="."]
-z_index = -10
+[node name="Background" parent="." instance=ExtResource("3_2ogv7")]
+z_index = -5
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_right = 640.0
 offset_bottom = 360.0
-texture = ExtResource("2_s2hma")
-
-[node name="LeftChalkBoard" type="TextureRect" parent="Background"]
-layout_mode = 0
-offset_left = 94.0
-offset_top = 14.0
-offset_right = 224.0
-offset_bottom = 52.0
-texture = ExtResource("3_eqxpi")
-expand_mode = 1
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="GridPosition" type="Marker2D" parent="."]
 y_sort_enabled = true
@@ -109,14 +104,4 @@ shape = SubResource("WorldBoundaryShape2D_c25yy")
 wait_time = 4.0
 one_shot = true
 
-[node name="HeartContainer" parent="." instance=ExtResource("7_3vu0l")]
-offset_left = 257.0
-offset_top = 24.0
-offset_right = 389.0
-offset_bottom = 48.0
-
 [node name="GameTimer" parent="." instance=ExtResource("8_3345v")]
-offset_left = 421.0
-offset_top = 21.0
-offset_right = 421.0
-offset_bottom = 21.0
