@@ -8,6 +8,7 @@ extends Node2D
 @onready var grid: Grid = $GridPosition/Grid
 @onready var reset_timer: Timer = $ResetTimer
 @onready var game_timer: GameTimer = $GameTimer
+@onready var sfx: AudioStreamPlayer = $SFX
 
 const GAME_OVER = "res://Levels/game_over.tscn"
 const GRID = preload("res://Scenes/grid.tscn")
@@ -45,6 +46,7 @@ func _on_note_found(note: Note) -> void:
 	if note_found:
 		return
 	note_found = true
+	sfx.play()
 	game_timer.pause(true)
 	note.found = true
 	teacher.discover_note(note)

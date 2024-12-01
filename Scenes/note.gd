@@ -6,8 +6,13 @@ signal wait_for_results
 signal reached_goal(answer: bool)
 signal opening_letter(open: bool)
 
+const ANSWER_NO_STREAM = preload("res://Assets/Desk/answer_no.ogg")
+const ANSWER_YES_STREAM = preload("res://Assets/Desk/answer_yes.ogg")
+const PAPER_PASSING = preload("res://Assets/Note/paper_passing.ogg")
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var love_letter: LoveLetter = $CanvasLayer/LoveLetter
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var starting_position: Vector2
 var desk_size: Vector2i
@@ -97,6 +102,8 @@ func _physics_process(_delta: float) -> void:
 
 func move() -> void:
 	if !found && !paused && !moving && is_instance_valid(hovered_desk):
+		audio_stream_player.stream = PAPER_PASSING
+		audio_stream_player.play()
 		var tween := create_tween()
 		tween.tween_property(self, "global_position", hovered_desk.global_position, 1)
 		var sprite_tween := create_tween()
@@ -177,6 +184,11 @@ func _on_start_reached() -> void:
 		wait_for_results.emit()
 		opening_letter.emit(true)
 		await love_letter.show_letter(global_position)
+		if answer:
+			audio_stream_player.stream = ANSWER_YES_STREAM
+		else:
+			audio_stream_player.stream = ANSWER_NO_STREAM
+		audio_stream_player.play()
 		opening_letter.emit(false)
 		reached_goal.emit(answer)
 

@@ -4,6 +4,7 @@ class_name DeskBully
 signal call_teacher(target_position: Vector2)
 
 @onready var pause_timer: Timer = $PauseTimer
+@onready var tattle_stream: AudioStreamPlayer = $TattleStream
 
 func _ready() -> void:
 	super._ready()
@@ -19,8 +20,10 @@ func set_has_note(value: bool) -> void:
 		pause_timer.start()
 		call_teacher.emit(note.global_position)
 
-func taunt() -> void:
+func taunt(with_sound: bool = true) -> void:
 	animation_player.play("taunt")
+	if with_sound:
+		tattle_stream.play()
 
 func set_direction(value: Vector2i) -> void:
 	direction = value

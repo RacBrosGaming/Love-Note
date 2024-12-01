@@ -100,6 +100,8 @@ one_shot = true
 [node name="SendToDeskTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
 [connection signal="toggled" from="WordContainer/YesCheckBox" to="." method="_on_yes_check_box_toggled"]
 [connection signal="toggled" from="WordContainer/NoCheckBox" to="." method="_on_no_check_box_toggled"]
 [connection signal="timeout" from="FlipTimer" to="." method="_on_flip_timer_timeout"]

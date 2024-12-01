@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dstfh7u2o7dj"]
+[gd_scene load_steps=11 format=3 uid="uid://dstfh7u2o7dj"]
 
 [ext_resource type="PackedScene" uid="uid://dnhrpo8g4oeh1" path="res://Scenes/desk.tscn" id="1_1y0ee"]
 [ext_resource type="Shader" path="res://Scenes/desk.gdshader" id="2_6ptw8"]
 [ext_resource type="Script" path="res://Scenes/desk_bully.gd" id="2_ahy8o"]
 [ext_resource type="Texture2D" uid="uid://dvxy7cxv2ouu1" path="res://Assets/Desk/spritesheet_bully_1.png" id="3_a4mkw"]
+[ext_resource type="AudioStream" uid="uid://b7hjun2yheiq3" path="res://Assets/Desk/bully_tattle.ogg" id="5_xp43t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_34p3m"]
 resource_local_to_scene = true
@@ -76,7 +77,6 @@ _data = {
 [node name="DeskBully" instance=ExtResource("1_1y0ee")]
 script = ExtResource("2_ahy8o")
 kids = Array[Texture2D]([ExtResource("3_a4mkw")])
-goal_sprite = null
 kid_frames = 8
 
 [node name="Sprite2D" parent="." index="0"]
@@ -92,3 +92,6 @@ libraries = {
 [node name="PauseTimer" type="Timer" parent="." index="3"]
 wait_time = 3.0
 one_shot = true
+
+[node name="TattleStream" type="AudioStreamPlayer" parent="." index="4"]
+stream = ExtResource("5_xp43t")

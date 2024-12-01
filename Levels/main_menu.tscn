@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dnl3cwlonbsb6" path="res://Assets/Desk/spritesheet_end.png" id="10_k1d6j"]
 [ext_resource type="PackedScene" uid="uid://dstfh7u2o7dj" path="res://Scenes/desk_bully.tscn" id="11_43vsw"]
 [ext_resource type="Texture2D" uid="uid://wcraimgi2jcs" path="res://Assets/Components/curved_arrow.png" id="13_ajmyt"]
-[ext_resource type="AudioStream" uid="uid://h5dl52fn2xg0" path="res://Assets/Classroom/gong.ogg" id="14_dcfos"]
+[ext_resource type="AudioStream" uid="uid://b1g5i2f8w1mjf" path="res://Assets/Classroom/school_bell.ogg" id="15_auij7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erswq"]
 atlas = ExtResource("6_wk72p")
@@ -296,6 +296,6 @@ color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(0, 0, 0, 24, 24, 24, 24, 0)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("14_dcfos")
+stream = ExtResource("15_auij7")
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]

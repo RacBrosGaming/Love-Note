@@ -9,6 +9,7 @@ size = Vector2(18, 14)
 
 [node name="Note" type="Area2D"]
 z_index = 1
+collision_layer = 8
 monitoring = false
 script = ExtResource("1_mlrsy")
 
@@ -40,3 +41,5 @@ offset_right = 127.0
 offset_bottom = 93.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

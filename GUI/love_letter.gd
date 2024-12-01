@@ -4,6 +4,9 @@ class_name LoveLetter
 signal finished_writing
 signal chose_answer(said_yes: bool)
 
+const PAPER_CRINKLING = preload("res://Assets/Note/paper_crinkling.ogg")
+const PAPER_WRITING = preload("res://Assets/Note/paper_writing.ogg")
+
 @onready var word_container: Control = $WordContainer
 @onready var letter_words: Label = %LetterWords
 @onready var letter_back: TextureRect = $LetterBack
@@ -11,7 +14,7 @@ signal chose_answer(said_yes: bool)
 @onready var no_check_box: CheckBox = %NoCheckBox
 @onready var flip_timer: Timer = $FlipTimer
 @onready var send_to_desk_timer: Timer = $SendToDeskTimer
-
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 @onready var starting_position := global_position
 @onready var letter_back_starting_scale := letter_back.scale
 
@@ -20,17 +23,25 @@ var time_to_show := 1.0
 var time_to_write := 3.0
 
 func write(target_position: Vector2) -> void:
+	audio_stream_player.stream = PAPER_CRINKLING
+	audio_stream_player.play()
 	note_position = target_position
 	no_check_box.visible = false
 	yes_check_box.visible = false
 	letter_words.visible_ratio = 0
 	await show_letter(note_position)
+	audio_stream_player.stop()
+	audio_stream_player.stream = PAPER_WRITING
+	audio_stream_player.play()
 	var word_tween := create_tween()
 	word_tween.tween_property(letter_words, "visible_ratio", 1, time_to_write)
 	await word_tween.finished
+	audio_stream_player.stop()
 	flip_timer.start()
 
 func present_option(target_position: Vector2) -> void:
+	audio_stream_player.stream = PAPER_CRINKLING
+	audio_stream_player.play()
 	note_position = target_position
 	await show_letter(note_position)
 	no_check_box.show()
@@ -69,6 +80,8 @@ func show_letter(from_position: Vector2) -> void:
 	letter_back.show()
 	global_position = from_position
 	letter_back.scale = Vector2(1, 1)
+	audio_stream_player.stream = PAPER_CRINKLING
+	audio_stream_player.play()
 	show()
 	var position_tween := create_tween()
 	position_tween.tween_property(self, "global_position", starting_position, time_to_show)
@@ -81,6 +94,8 @@ func show_letter(from_position: Vector2) -> void:
 func send_letter_to_desk() -> void:
 	send_to_desk_timer.start()
 	await send_to_desk_timer.timeout
+	audio_stream_player.stream = PAPER_CRINKLING
+	audio_stream_player.play()
 	word_container.hide()
 	letter_back.show()
 	var position_tween := create_tween()

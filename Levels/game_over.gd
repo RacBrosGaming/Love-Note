@@ -20,7 +20,7 @@ func _ready() -> void:
 		bully_desk.global_position = end_desk_position
 		start_desk.wait_for_results()
 		start_desk.set_result(game_stats.answer)
-	bully_desk.taunt()
+	bully_desk.taunt(false)
 	match OS.get_name():
 		"Windows","macOS", "Linux":
 			quit_button.disabled = false
