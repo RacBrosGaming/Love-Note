@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://drp8u10sldds1" path="res://Assets/Desk/spritesheet_start.png" id="8_em5ij"]
 [ext_resource type="Texture2D" uid="uid://dnl3cwlonbsb6" path="res://Assets/Desk/spritesheet_end.png" id="9_ndq57"]
 [ext_resource type="PackedScene" uid="uid://dstfh7u2o7dj" path="res://Scenes/desk_bully.tscn" id="10_mu8fv"]
-[ext_resource type="AudioStream" uid="uid://r4uoyiad75b1" path="res://Assets/Classroom/main_menu.ogg" id="12_43cj7"]
+[ext_resource type="AudioStream" uid="uid://pfapopgg8xse" path="res://Assets/Classroom/the_bopple_bounce.ogg" id="12_q5dmw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erswq"]
 atlas = ExtResource("2_k5al1")
@@ -166,7 +166,7 @@ answer_sprite = null
 position = Vector2(440, 264)
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("12_43cj7")
+stream = ExtResource("12_q5dmw")
 autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
