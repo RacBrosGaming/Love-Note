@@ -56,6 +56,8 @@ func _on_yes_check_box_toggled(toggled_on: bool) -> void:
 		yes_check_box.release_focus()
 		yes_check_box.hide()
 		yes_check_box.show()
+		audio_stream_player.stream = PAPER_WRITING
+		audio_stream_player.play()
 		await send_letter_to_desk()
 		chose_answer.emit(true)
 
@@ -67,6 +69,8 @@ func _on_no_check_box_toggled(toggled_on: bool) -> void:
 		no_check_box.release_focus()
 		no_check_box.hide()
 		no_check_box.show()
+		audio_stream_player.stream = PAPER_WRITING
+		audio_stream_player.play()
 		await send_letter_to_desk()
 		chose_answer.emit(false)
 

@@ -7,7 +7,7 @@ const CLASS_ROOM := "res://Levels/class_room.tscn"
 @onready var bully_desk: DeskBully = $BullyDesk
 @onready var play_button: Button = %PlayButton
 @onready var bell: Polygon2D = $Bell
-@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var sfx: AudioStreamPlayer = $SFX
 
 var bell_activate_count := 5
 var bell_click_count := 0
@@ -31,4 +31,4 @@ func _on_gui_input(event: InputEvent) -> void:
 			game_stats.current_lives = game_stats.max_lives
 			game_stats.total_time = 180
 			game_stats.time_remaining = game_stats.total_time
-			audio_stream_player.play()
+			sfx.play()

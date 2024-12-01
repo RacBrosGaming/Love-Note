@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c2pxcd658n8x8"]
+[gd_scene load_steps=28 format=3 uid="uid://c2pxcd658n8x8"]
 
 [ext_resource type="Theme" uid="uid://cdnakyvh2ng41" path="res://Resources/theme.tres" id="1_fklqu"]
 [ext_resource type="Texture2D" uid="uid://bwjfxpml8l2yu" path="res://Assets/Classroom/classroom.png" id="2_culqm"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dstfh7u2o7dj" path="res://Scenes/desk_bully.tscn" id="11_43vsw"]
 [ext_resource type="Texture2D" uid="uid://wcraimgi2jcs" path="res://Assets/Components/curved_arrow.png" id="13_ajmyt"]
 [ext_resource type="AudioStream" uid="uid://b1g5i2f8w1mjf" path="res://Assets/Classroom/school_bell.ogg" id="15_auij7"]
+[ext_resource type="AudioStream" uid="uid://r4uoyiad75b1" path="res://Assets/Classroom/main_menu.ogg" id="15_fqc4l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erswq"]
 atlas = ExtResource("6_wk72p")
@@ -295,7 +296,11 @@ position = Vector2(46, 0)
 color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(0, 0, 0, 24, 24, 24, 24, 0)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_fqc4l")
+autoplay = true
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_auij7")
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]

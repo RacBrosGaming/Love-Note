@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dcannur2vw2s3"]
+[gd_scene load_steps=23 format=3 uid="uid://dcannur2vw2s3"]
 
 [ext_resource type="Script" path="res://Levels/game_over.gd" id="1_3lit4"]
 [ext_resource type="Texture2D" uid="uid://h46fx5mu0u63" path="res://Assets/Teacher/spritesheet_teacher_desk.png" id="2_k5al1"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://drp8u10sldds1" path="res://Assets/Desk/spritesheet_start.png" id="8_em5ij"]
 [ext_resource type="Texture2D" uid="uid://dnl3cwlonbsb6" path="res://Assets/Desk/spritesheet_end.png" id="9_ndq57"]
 [ext_resource type="PackedScene" uid="uid://dstfh7u2o7dj" path="res://Scenes/desk_bully.tscn" id="10_mu8fv"]
+[ext_resource type="AudioStream" uid="uid://r4uoyiad75b1" path="res://Assets/Classroom/main_menu.ogg" id="12_43cj7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erswq"]
 atlas = ExtResource("2_k5al1")
@@ -163,6 +164,10 @@ answer_sprite = null
 
 [node name="BullyDesk" parent="." instance=ExtResource("10_mu8fv")]
 position = Vector2(440, 264)
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_43cj7")
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
